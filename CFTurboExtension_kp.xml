@@ -8,7 +8,7 @@
         <tasks>
             <task name="CFTurbo Design" caption="CFTurbo Design" icon="task" version="1">
                 <callbacks>
-                    <onupdate>update_main_dimensions</onupdate>
+                    <!--onupdate>update_main_dimensions</onupdate!-->
 				</callbacks>
 				<contextmenus>
 					<entry icon="consumer_system" name="Import CFTurbo batch file..." priority="1.0" type="ContextMenuEntry" version="1">

@@ -65,6 +65,9 @@ def edit(task):
                 fileRef = RegisterFile(FilePath=filePath.Value)
                 AssociateFileWithContainer(fileRef, container)
 
+    # function that takes values from a file .cft-batch
+    update_main_dimensions(task)
+
 
 def get_xml_root():
     tree = ET.parse(FILE)
@@ -86,6 +89,7 @@ def get_impeller_main_dimensions(impeller_design_node):
     main_dimensions_node = impeller_design_node.find('MainDimensions')
     main_dimensions_sub_node = main_dimensions_node.find('MainDimensionsElement')
 
+    # in future for dict keys use attribute names instead tags since they are unique, and the tags can intersect
     for child in main_dimensions_sub_node:
         main_dimensions[child.tag] = child.text
     return main_dimensions
