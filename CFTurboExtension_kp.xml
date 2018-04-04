@@ -1,0 +1,63 @@
+<extension version="1" name="CFTurboExtension_kp" icon="images\plm_ural.png">
+    <guid shortid="CFTurbo">69f95f34-a323-4d7b-9324-00d6c9ebec27</guid>
+    <script src="main_kp.py" />
+    <interface context="Project">
+        <images>images</images>
+    </interface>
+    <workflow name="wf3" context="Project" version="1">
+        <tasks>
+            <task name="CFTurbo Design" caption="CFTurbo Design" icon="task" version="1">
+                <callbacks>
+                    <onupdate>update_main_dimensions</onupdate>
+				</callbacks>
+				<contextmenus>
+					<entry icon="consumer_system" name="Import CFTurbo batch file..." priority="1.0" type="ContextMenuEntry" version="1">
+						<callbacks>
+							<onclick>edit</onclick>
+						</callbacks>
+					</entry>
+				</contextmenus>
+                <outputs>
+                    <output format="" type="TurboGeometry"/>
+                </outputs>
+                <propertygroup name="CFTurbo batch file" caption="CFTurbo batch input file" display="caption">
+                    <property name="InputFileName" caption="Input File Name" control="text" default="No file chosen!" readonly="True">
+						<callbacks>
+							<!--onadd>onAdd</onadd!-->
+							<IsValid>InFileValid</IsValid>
+						</callbacks>
+                    </property>
+                </propertygroup>
+                <propertygroup name="MainDimensions" caption="Main dimensions of Impeller" display="caption">
+					<property name="TipClearance" caption="Tip clearance" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<!--isvisible></isvisible!-->
+						</callbacks>
+					</property>
+					<property name="HubDiameter" caption="Hub diameter" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="SuctionDiameter" caption="Suction diameter" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="ImpellerDiameter" caption="Impeller diameter" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="ImpellerOutletWidth" caption="Impeller outlet width" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+				</propertygroup>
+            </task>
+        </tasks>
+        <taskgroups>
+            <taskgroup name="CFTurbo" caption="CFTurbo_kp" icon="taskgroup" 
+            category="ACT Custom Workflows" abbreviation="CFT" version="1">
+                <includeTask name="CFTurbo Design" caption="CFTurbo Design"/>
+            </taskgroup>
+        </taskgroups>
+    </workflow>
+</extension>
