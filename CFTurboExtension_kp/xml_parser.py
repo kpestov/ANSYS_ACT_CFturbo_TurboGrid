@@ -28,14 +28,10 @@ def get_impeller_main_dimensions(impeller_design_node):
     main_dimensions_node = impeller_design_node.find('MainDimensions')
     main_dimensions_sub_node = main_dimensions_node.find('MainDimensionsElement')
 
-    hub_diameter = main_dimensions_sub_node.find('dN').text
-    return hub_diameter
-
     # в качестве ключей нужно делать не теги, а названия атрибутов. Так как они уникальные, а теги могут пересекаться
-
-    # for child in main_dimensions_sub_node:
-    #     main_dimensions[child.tag] = child.text
-    # return main_dimensions
+    for child in main_dimensions_sub_node:
+        main_dimensions[child.tag] = child.text
+    return main_dimensions
 
 
 xml_root = get_xml_root()

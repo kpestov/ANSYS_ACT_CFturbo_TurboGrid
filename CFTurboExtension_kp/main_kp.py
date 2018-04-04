@@ -1,6 +1,5 @@
 import clr
 import xml.etree.ElementTree as ET
-
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
 from Ansys.UI.Toolkit import *
@@ -83,20 +82,31 @@ def get_design_impeller_node(root):
 
 
 def get_impeller_main_dimensions(impeller_design_node):
+    main_dimensions = {}
     main_dimensions_node = impeller_design_node.find('MainDimensions')
     main_dimensions_sub_node = main_dimensions_node.find('MainDimensionsElement')
-    hub_diameter_test = main_dimensions_sub_node.find('dN').text
-    return hub_diameter_test
+
+    for child in main_dimensions_sub_node:
+        main_dimensions[child.tag] = child.text
+    return main_dimensions
+
+
+def update_main_dimensions(task):
+    group = task.Properties["MainDimensions"]
+
+    tip_clearance = group.Properties["TipClearance"]
+    hub_diameter = group.Properties["HubDiameter"]
+    suction_diameter = group.Properties["SuctionDiameter"]
+    impeller_diameter = group.Properties["ImpellerDiameter"]
+    impeller_outlet_width = group.Properties["ImpellerOutletWidth"]
+
+    tip_clearance.Value = impeller_main_dimensions['xTip']
+    hub_diameter.Value = impeller_main_dimensions['dN']
+    suction_diameter.Value = impeller_main_dimensions['dS']
+    impeller_diameter.Value = impeller_main_dimensions['d2']
+    impeller_outlet_width.Value = impeller_main_dimensions['b2']
 
 
 xml_root = get_xml_root()
 design_impeller_node = get_design_impeller_node(xml_root)
 impeller_main_dimensions = get_impeller_main_dimensions(design_impeller_node)
-
-
-def update_main_dimensions(task):
-    group = task.Properties["MainDimensions"]
-    hub_diameter = group.Properties["HubDiameter"]
-    hub_diameter.Value = impeller_main_dimensions
-    return hub_diameter.Value
-
