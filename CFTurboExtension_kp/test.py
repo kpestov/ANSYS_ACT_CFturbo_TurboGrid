@@ -1,3 +1,0 @@
-from xml_parser import impeller_main_dimensions
-
-print(impeller_main_dimensions)
