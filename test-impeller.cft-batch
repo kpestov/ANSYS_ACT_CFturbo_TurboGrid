@@ -1,0 +1,401 @@
+<?xml version="1.0" standalone="yes"?>
+<CFturboFile Version="10">
+	<CFturboBatchProject InputFile="C:\Users\vdk\Desktop\HMS\test-impeller.cft">
+		<Updates>
+			<CFturboProject Type="Object">
+				<CFturboDesign_RadialImpeller Type="Object" Name="&lt;Impeller_1&gt;" Info="TeAM SolidSQUAD-SSQ (3/4/4294967295)" Index="0" Desc="CFturbo component">
+					<MainDimensions Type="Object" Desc="Main dimensions">
+						<MainDimensionsElement Type="Object" Name="Version 1." Desc="Main dimensions list element">
+							<xTip Type="Float" Desc="Tip clearance">0</xTip>
+							<dN Type="Float" Desc="Hub diameter dH">0.034</dN>
+							<dS Type="Float" Desc="Suction diameter dS">0.1239</dS>
+							<d2 Type="Float" Desc="Impeller diameter d2">0.209</d2>
+							<b2 Type="Float" Desc="Impeller outlet width b2">0.0219</b2>
+						</MainDimensionsElement>
+					</MainDimensions>
+					<Meridian Type="Object" Desc="Meridian">
+						<TgrMer_RImp Type="Object" Desc="Meridional contour">
+							<Bezier4MerLE Type="Object" Name="GeoLeadingEdge" Desc="Leading edge (Main blade)">
+								<Points Type="Points" Count="5" Desc="Control point coordinates for curve as 4th order Bezier">
+									<Point Type="Point" Index="0">
+										<x Type="Float">0.052763142</x>
+										<y Type="Float">0.049351758</y>
+									</Point>
+									<Point Type="Point" Index="1">
+										<x Type="Float">0.039385635</x>
+										<y Type="Float">0.051040624</y>
+									</Point>
+									<Point Type="Point" Index="2">
+										<x Type="Float">0.026008129</x>
+										<y Type="Float">0.052729491</y>
+									</Point>
+									<Point Type="Point" Index="3">
+										<x Type="Float">0.021548961</x>
+										<y Type="Float">0.057796091</y>
+									</Point>
+									<Point Type="Point" Index="4">
+										<x Type="Float">0.017089792</x>
+										<y Type="Float">0.06286269</y>
+									</Point>
+								</Points>
+								<Rel1 Type="Point" Desc="Relative coordinates of control point 1">
+									<x Type="Float">0.5</x>
+									<y Type="Float">0.5</y>
+								</Rel1>
+								<Rel2 Type="Point" Desc="Relative coordinates of control point 2">
+									<x Type="Float">0.75</x>
+									<y Type="Float">0.25</y>
+								</Rel2>
+								<Rel3 Type="Point" Desc="Relative coordinates of control point 3">
+									<x Type="Float">0.5</x>
+									<y Type="Float">0.5</y>
+								</Rel3>
+								<u-Hub Type="Float" Desc="Leading edge position on hub">0.55140397</u-Hub>
+								<u-Shroud Type="Float" Desc="Leading edge position on shroud">0.25</u-Shroud>
+							</Bezier4MerLE>
+							<TCCurveMer_RImp Type="Object" Name="GeoHub" Desc="Control the shape of the hub contour (see manual ('Meridional contour'))">
+								<TReadWriteArray_Bezier4Mer Type="Object" Desc="List of contour elements">
+									<Bezier4Mer Type="Object" Index="0" Desc="Element_0">
+										<Points Type="Points" Count="5" Desc="Control point coordinates for curve as 4th order Bezier">
+											<Point Type="Point" Index="0">
+												<x Type="Float">0</x>
+												<y Type="Float">0.017</y>
+											</Point>
+											<Point Type="Point" Index="1">
+												<x Type="Float">0.038252944</x>
+												<y Type="Float">0.017</y>
+											</Point>
+											<Point Type="Point" Index="2">
+												<x Type="Float">0.051003926</x>
+												<y Type="Float">0.017</y>
+											</Point>
+											<Point Type="Point" Index="3">
+												<x Type="Float">0.058288903</x>
+												<y Type="Float">0.0695</y>
+											</Point>
+											<Point Type="Point" Index="4">
+												<x Type="Float">0.063145554</x>
+												<y Type="Float">0.1045</y>
+											</Point>
+										</Points>
+										<Rel1 Type="Point" Desc="Relative coordinates of control point 1">
+											<x Type="Float">0.75</x>
+											<y Type="Float">0.75</y>
+										</Rel1>
+										<Rel2 Type="Point" Desc="Relative coordinates of control point 2">
+											<x Type="Float">0.80771998</x>
+											<y Type="Float">0</y>
+										</Rel2>
+										<Rel3 Type="Point" Desc="Relative coordinates of control point 3">
+											<x Type="Float">0.6</x>
+											<y Type="Float">0.6</y>
+										</Rel3>
+									</Bezier4Mer>
+								</TReadWriteArray_Bezier4Mer>
+							</TCCurveMer_RImp>
+							<TCCurveMer_RImp Type="Object" Name="GeoShroud" Desc="Control the shape of the shroud contour (see manual ('Meridional contour'))">
+								<TReadWriteArray_Bezier4Mer Type="Object" Desc="List of contour elements">
+									<Bezier4Mer Type="Object" Index="0" Desc="Element_0">
+										<Points Type="Points" Count="5" Desc="Control point coordinates for curve as 4th order Bezier">
+											<Point Type="Point" Index="0">
+												<x Type="Float">0</x>
+												<y Type="Float">0.06195</y>
+											</Point>
+											<Point Type="Point" Index="1">
+												<x Type="Float">0.02438347</x>
+												<y Type="Float">0.06195</y>
+											</Point>
+											<Point Type="Point" Index="2">
+												<x Type="Float">0.032511294</x>
+												<y Type="Float">0.06195</y>
+											</Point>
+											<Point Type="Point" Index="3">
+												<x Type="Float">0.03775185</x>
+												<y Type="Float">0.08748</y>
+											</Point>
+											<Point Type="Point" Index="4">
+												<x Type="Float">0.041245554</x>
+												<y Type="Float">0.1045</y>
+											</Point>
+										</Points>
+										<Rel1 Type="Point" Desc="Relative coordinates of control point 1">
+											<x Type="Float">0.75</x>
+											<y Type="Float">0.75</y>
+										</Rel1>
+										<Rel2 Type="Point" Desc="Relative coordinates of control point 2">
+											<x Type="Float">0.78823753</x>
+											<y Type="Float">0</y>
+										</Rel2>
+										<Rel3 Type="Point" Desc="Relative coordinates of control point 3">
+											<x Type="Float">0.6</x>
+											<y Type="Float">0.6</y>
+										</Rel3>
+									</Bezier4Mer>
+								</TReadWriteArray_Bezier4Mer>
+							</TCCurveMer_RImp>
+						</TgrMer_RImp>
+					</Meridian>
+					<BladeProperties Type="Object" Desc="Blade properties">
+						<nBl Type="Integer" Desc="Number of blades">6</nBl>
+						<Count Type="Integer" Desc="Number of spans">5</Count>
+						<inc_RQ Type="Array" Count="2" Desc="Incidence - flow ratio Q_shockless / Q_BEP">
+							<Value Type="Float" Index="0">1</Value>
+							<Value Type="Float" Index="1">1</Value>
+						</inc_RQ>
+						<TReadWriteArray_TBladeProps Type="Object" Name="BladeValues" Desc="Properties of the blades">
+							<TBladeProps Type="Object" Index="0" Desc="Properties of Main blade">
+								<s1 Type="Array" Count="2" Desc="Blade thickness - on leading edge">
+									<Value Type="Float" Index="0">0.003</Value>
+									<Value Type="Float" Index="1">0.003</Value>
+								</s1>
+								<s2 Type="Array" Count="2" Desc="Blade thickness - on trailing edge">
+									<Value Type="Float" Index="0">0.0035</Value>
+									<Value Type="Float" Index="1">0.0035</Value>
+								</s2>
+							</TBladeProps>
+						</TReadWriteArray_TBladeProps>
+					</BladeProperties>
+					<SkeletonLines Type="Object" Desc="Blade mean lines">
+						<CCFreeForm Type="Object" Desc="Meanline Container">
+							<TReadWriteArray_Bezier3SL Type="Object" Name="MainBlades" Desc="Mean line (m-t) represented by Bezier curve">
+								<Bezier3SL Type="Object" Index="0" Desc="Element_0">
+									<Points Type="Points" Count="4" Desc="Bezier point coordinates">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">0</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.65391669</x>
+											<y Type="Float">0.23859638</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">1.3207005</x>
+											<y Type="Float">0.51050719</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">1.9617501</x>
+											<y Type="Float">0.76576079</y>
+										</Point>
+									</Points>
+									<Rel1 Type="Float" Desc="relative position &quot;m&quot;">0.31158083</Rel1>
+									<Rel2 Type="Float" Desc="relative position &quot;m&quot;">0.66666667</Rel2>
+								</Bezier3SL>
+								<Bezier3SL Type="Object" Index="1" Desc="Element_1">
+									<Points Type="Points" Count="4" Desc="Bezier point coordinates">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">0</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.65391669</x>
+											<y Type="Float">0.22535967</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">1.3252323</x>
+											<y Type="Float">0.50689827</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">1.9617501</x>
+											<y Type="Float">0.7603474</y>
+										</Point>
+									</Points>
+									<Rel1 Type="Float" Desc="relative position &quot;m&quot;">0.29639039</Rel1>
+									<Rel2 Type="Float" Desc="relative position &quot;m&quot;">0.66666667</Rel2>
+								</Bezier3SL>
+								<Bezier3SL Type="Object" Index="2" Desc="Element_2">
+									<Points Type="Points" Count="4" Desc="Bezier point coordinates">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">0</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.65391669</x>
+											<y Type="Float">0.21228599</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">1.3326112</x>
+											<y Type="Float">0.50102203</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">1.9617501</x>
+											<y Type="Float">0.75153304</y>
+										</Point>
+									</Points>
+									<Rel1 Type="Float" Desc="relative position &quot;m&quot;">0.2824706</Rel1>
+									<Rel2 Type="Float" Desc="relative position &quot;m&quot;">0.66666667</Rel2>
+								</Bezier3SL>
+								<Bezier3SL Type="Object" Index="3" Desc="Element_3">
+									<Points Type="Points" Count="4" Desc="Bezier point coordinates">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">0</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.65391669</x>
+											<y Type="Float">0.19936406</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">1.3582981</x>
+											<y Type="Float">0.48056592</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">1.9617501</x>
+											<y Type="Float">0.72084888</y>
+										</Point>
+									</Points>
+									<Rel1 Type="Float" Desc="relative position &quot;m&quot;">0.27656845</Rel1>
+									<Rel2 Type="Float" Desc="relative position &quot;m&quot;">0.66666667</Rel2>
+								</Bezier3SL>
+								<Bezier3SL Type="Object" Index="4" Desc="Element_4">
+									<Points Type="Points" Count="4" Desc="Bezier point coordinates">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">0</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.65391669</x>
+											<y Type="Float">0.18658303</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">1.4152117</x>
+											<y Type="Float">0.43524216</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">1.9617501</x>
+											<y Type="Float">0.65286324</y>
+										</Point>
+									</Points>
+									<Rel1 Type="Float" Desc="relative position &quot;m&quot;">0.28579191</Rel1>
+									<Rel2 Type="Float" Desc="relative position &quot;m&quot;">0.66666667</Rel2>
+								</Bezier3SL>
+							</TReadWriteArray_Bezier3SL>
+						</CCFreeForm>
+					</SkeletonLines>
+					<BladeProfiles Type="Object" Desc="Blade profiles">
+						<TReadWriteArray_BezFillProf Type="Object" Name="MainBlades" Desc="main blade thickness distribution along spans">
+							<BezFillProf Type="Object" Index="0" Desc="Element_0">
+								<BezierNProf Type="Object" Name="PS" Desc="Pressure side bezier curve">
+									<Points Type="Points" Count="6" Desc="Bezier control points">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">0.0015</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.2</x>
+											<y Type="Float">0.00155</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">0.4</x>
+											<y Type="Float">0.0016</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">0.6</x>
+											<y Type="Float">0.00165</y>
+										</Point>
+										<Point Type="Point" Index="4">
+											<x Type="Float">0.8</x>
+											<y Type="Float">0.0017</y>
+										</Point>
+										<Point Type="Point" Index="5">
+											<x Type="Float">1</x>
+											<y Type="Float">0.00175</y>
+										</Point>
+									</Points>
+								</BezierNProf>
+								<BezierNProf Type="Object" Name="SS" Desc="Suction side bezier curve">
+									<Points Type="Points" Count="6" Desc="Bezier control points">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">-0.0015</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.2</x>
+											<y Type="Float">-0.00155</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">0.4</x>
+											<y Type="Float">-0.0016</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">0.6</x>
+											<y Type="Float">-0.00165</y>
+										</Point>
+										<Point Type="Point" Index="4">
+											<x Type="Float">0.8</x>
+											<y Type="Float">-0.0017</y>
+										</Point>
+										<Point Type="Point" Index="5">
+											<x Type="Float">1</x>
+											<y Type="Float">-0.00175</y>
+										</Point>
+									</Points>
+								</BezierNProf>
+							</BezFillProf>
+							<BezFillProf Type="Object" Index="4" Desc="Element_4">
+								<BezierNProf Type="Object" Name="PS" Desc="Pressure side bezier curve">
+									<Points Type="Points" Count="6" Desc="Bezier control points">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">0.0015</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.2</x>
+											<y Type="Float">0.00155</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">0.4</x>
+											<y Type="Float">0.0016</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">0.6</x>
+											<y Type="Float">0.00165</y>
+										</Point>
+										<Point Type="Point" Index="4">
+											<x Type="Float">0.8</x>
+											<y Type="Float">0.0017</y>
+										</Point>
+										<Point Type="Point" Index="5">
+											<x Type="Float">1</x>
+											<y Type="Float">0.00175</y>
+										</Point>
+									</Points>
+								</BezierNProf>
+								<BezierNProf Type="Object" Name="SS" Desc="Suction side bezier curve">
+									<Points Type="Points" Count="6" Desc="Bezier control points">
+										<Point Type="Point" Index="0">
+											<x Type="Float">0</x>
+											<y Type="Float">-0.0015</y>
+										</Point>
+										<Point Type="Point" Index="1">
+											<x Type="Float">0.2</x>
+											<y Type="Float">-0.00155</y>
+										</Point>
+										<Point Type="Point" Index="2">
+											<x Type="Float">0.4</x>
+											<y Type="Float">-0.0016</y>
+										</Point>
+										<Point Type="Point" Index="3">
+											<x Type="Float">0.6</x>
+											<y Type="Float">-0.00165</y>
+										</Point>
+										<Point Type="Point" Index="4">
+											<x Type="Float">0.8</x>
+											<y Type="Float">-0.0017</y>
+										</Point>
+										<Point Type="Point" Index="5">
+											<x Type="Float">1</x>
+											<y Type="Float">-0.00175</y>
+										</Point>
+									</Points>
+								</BezierNProf>
+							</BezFillProf>
+						</TReadWriteArray_BezFillProf>
+					</BladeProfiles>
+				</CFturboDesign_RadialImpeller>
+			</CFturboProject>
+		</Updates>
+		<BatchAction Name="Export" ExportInterface="TurboGrid" WorkingDir="C:\Users\vdk\Desktop\HMS\" BaseFileName="test-impeller">
+		</BatchAction>
+		<BatchAction Name="Save" OutputFile="test-impeller_mod" Desc="CFT file name of modified project"/>
+	</CFturboBatchProject>
+</CFturboFile>
