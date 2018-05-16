@@ -50,6 +50,10 @@
 						<callbacks>
 						</callbacks>
 					</property>
+					<property name="TestCell" caption="test cell" control="text" default="act_dir" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
 				</propertygroup>
             </task>
         </tasks>
