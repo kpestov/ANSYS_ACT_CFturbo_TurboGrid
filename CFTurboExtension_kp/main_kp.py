@@ -1,4 +1,5 @@
 import clr
+import os
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
 from Ansys.UI.Toolkit import *
@@ -7,7 +8,6 @@ from filecmp import cmp
 from ntpath import basename
 from os import remove, path, environ, system
 from System.IO import Path
-# from xml_parser import impeller_main_dimensions
 import xml.etree.ElementTree as ET
 
 
@@ -22,7 +22,6 @@ def edit(task):
 
     # obtain data container reference
     container = task.InternalObject
-    active_dir = container.GetActiveDirectory()
 
     # prepare arguments and open file selection dialog starting in user_files
     Filters = "CFTurbo batch (*.cft-batch)|*.cft-batch|All files (*.*)|*.*"
@@ -67,24 +66,33 @@ def edit(task):
                 fileRef = RegisterFile(FilePath=filePath.Value)
                 AssociateFileWithContainer(fileRef, container)
 
-    # get_xml_root
-    tree = ET.parse(active_dir + r"\test-impeller.cft-batch")
-    root = tree.getroot()
 
-    cfturbo_batch_project_node = root.find('CFturboBatchProject')
-    updates_node = cfturbo_batch_project_node.find('Updates')
-    cfturbo_project_node = updates_node.find('CFturboProject')
+    # cft_file_path = task.ActiveDirectory + r"\test-impeller.cft-batch"
 
-    for impeller_design_node in cfturbo_project_node:
-        main_dimensions = {}
-        main_dimensions_node = impeller_design_node.find('MainDimensions')
-        main_dimensions_sub_node = main_dimensions_node.find('MainDimensionsElement')
+    for cft_file in os.listdir(task.ActiveDirectory):
+        if cft_file.endswith(".cft-batch"):
+            cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
 
-        for child in main_dimensions_sub_node:
-            main_dimensions[child.tag] = child.text
+            # get_xml_root
+            tree = ET.parse(cft_file_path)
+            root = tree.getroot()
 
-        # function that takes values from a file .cft-batch
-        update_main_dimensions(task, main_dimensions)
+            # get_design_impeller_node
+            cfturbo_batch_project_node = root.find('CFturboBatchProject')
+            updates_node = cfturbo_batch_project_node.find('Updates')
+            cfturbo_project_node = updates_node.find('CFturboProject')
+
+            # get_impeller_main_dimensions
+            for impeller_design_node in cfturbo_project_node:
+                main_dimensions = {}
+                main_dimensions_node = impeller_design_node.find('MainDimensions')
+                main_dimensions_sub_node = main_dimensions_node.find('MainDimensionsElement')
+
+                for child in main_dimensions_sub_node:
+                    main_dimensions[child.tag] = child.text
+
+                # function that takes values from a file .cft-batch
+                update_main_dimensions(task, main_dimensions)
 
 
 def update_main_dimensions(task, main_dimensions):
@@ -96,10 +104,17 @@ def update_main_dimensions(task, main_dimensions):
     suction_diameter = group.Properties["SuctionDiameter"]
     impeller_diameter = group.Properties["ImpellerDiameter"]
     impeller_outlet_width = group.Properties["ImpellerOutletWidth"]
+    test_cell = group.Properties["TestCell"]
 
     tip_clearance.Value = main_dimensions['xTip']
     hub_diameter.Value = main_dimensions['dN']
     suction_diameter.Value = main_dimensions['dS']
     impeller_diameter.Value = main_dimensions['d2']
     impeller_outlet_width.Value = main_dimensions['b2']
+
+    for cft_file in os.listdir(task.ActiveDirectory):
+        if cft_file.endswith(".cft-batch"):
+            cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
+            test_cell.Value = cft_file_path
+
 
