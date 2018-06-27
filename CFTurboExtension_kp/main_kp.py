@@ -29,8 +29,6 @@ def edit(task):
     startDir = GetUserFilesDirectory()
     diagResult = FileDialog.ShowOpenDialog(Window.MainWindow, startDir, Filters, FilterIndex, "", "")
 
-
-
     if diagResult[0] == DialogResult.OK:
         group = task.Properties["CFTurbo batch file"]
         filePath = group.Properties["InputFileName"]
@@ -48,6 +46,7 @@ def edit(task):
             filePath.Value = dest
             fileRef = RegisterFile(FilePath=filePath.Value)
             AssociateFileWithContainer(fileRef, container)
+
         # if file already chosen
         else:
             messg = "Would you like to replace existing file?"
@@ -66,9 +65,7 @@ def edit(task):
                 fileRef = RegisterFile(FilePath=filePath.Value)
                 AssociateFileWithContainer(fileRef, container)
 
-
-    # cft_file_path = task.ActiveDirectory + r"\test-impeller.cft-batch"
-
+    # choose .cft-batch file from active directory
     for cft_file in os.listdir(task.ActiveDirectory):
         if cft_file.endswith(".cft-batch"):
             cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
@@ -92,10 +89,10 @@ def edit(task):
                     main_dimensions[child.tag] = child.text
 
                 # function that takes values from a file .cft-batch
-                update_main_dimensions(task, main_dimensions)
+                get_main_dimensions(task, main_dimensions)
 
 
-def update_main_dimensions(task, main_dimensions):
+def get_main_dimensions(task, main_dimensions):
 
     group = task.Properties["MainDimensions"]
 
@@ -104,7 +101,9 @@ def update_main_dimensions(task, main_dimensions):
     suction_diameter = group.Properties["SuctionDiameter"]
     impeller_diameter = group.Properties["ImpellerDiameter"]
     impeller_outlet_width = group.Properties["ImpellerOutletWidth"]
-    test_cell = group.Properties["TestCell"]
+
+    #this string just for testing
+    # test_cell = group.Properties["TestCell"]
 
     tip_clearance.Value = main_dimensions['xTip']
     hub_diameter.Value = main_dimensions['dN']
@@ -112,9 +111,41 @@ def update_main_dimensions(task, main_dimensions):
     impeller_diameter.Value = main_dimensions['d2']
     impeller_outlet_width.Value = main_dimensions['b2']
 
+
+def update(task):
+
+    group = task.Properties["MainDimensions"]
+
+    tip_clearance = group.Properties["TipClearance"]
+    hub_diameter = group.Properties["HubDiameter"]
+
+    test_cell = group.Properties["TestCell"]
+    test_cell.Value = tip_clearance.Value
+
+    # this duplicated code must be placed in a separate function
+
     for cft_file in os.listdir(task.ActiveDirectory):
         if cft_file.endswith(".cft-batch"):
             cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
-            test_cell.Value = cft_file_path
 
+            # get_xml_root
+            tree = ET.parse(cft_file_path)
+            root = tree.getroot()
 
+            # get_design_impeller_node
+            cfturbo_batch_project_node = root.find('CFturboBatchProject')
+            updates_node = cfturbo_batch_project_node.find('Updates')
+            cfturbo_project_node = updates_node.find('CFturboProject')
+
+            # get_impeller_main_dimensions
+            for impeller_design_node in cfturbo_project_node:
+                main_dimensions_node = impeller_design_node.find('MainDimensions')
+                main_dimensions_sub_node = main_dimensions_node.find('MainDimensionsElement')
+
+                child_0 = main_dimensions_sub_node.find('xTip')
+                child_1 = main_dimensions_sub_node.find('dN')
+
+                child_0.text = str(tip_clearance.Value)
+                child_1.text = str(hub_diameter.Value)
+
+                tree.write(os.path.join(task.ActiveDirectory, "impeller.cft-batch"))

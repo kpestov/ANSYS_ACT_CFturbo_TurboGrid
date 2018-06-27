@@ -6,12 +6,15 @@
     </interface>
     <workflow name="wf3" context="Project" version="1">
         <tasks>
-            <task name="CFTurbo Design" caption="CFTurbo Design" icon="task" version="1">
+
+			<!-- first cell !-->
+
+            <task name="CFTurbo Design" caption="CFTurbo Design" icon="CFturbo_cell1" version="1">
                 <callbacks>
-                    <!--onupdate>update_main_dimensions</onupdate!-->
+                    <onupdate>update</onupdate>
 				</callbacks>
 				<contextmenus>
-					<entry icon="consumer_system" name="Import CFTurbo batch file..." priority="1.0" type="ContextMenuEntry" version="1">
+					<entry icon="CFturbo_cell2" name="Import CFTurbo batch file..." priority="1.0" type="ContextMenuEntry" version="1">
 						<callbacks>
 							<onclick>edit</onclick>
 						</callbacks>
@@ -50,12 +53,29 @@
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="TestCell" caption="test cell" control="text" default="act_dir" parameterizable="True">
+
+					<!-- this is just for testing !-->
+					<property name="TestCell" caption="test cell" control="double" default="0.0" parameterizable="True">
 						<callbacks>
 						</callbacks>
 					</property>
 				</propertygroup>
             </task>
+
+			<!-- second cell !-->
+
+			<task name="CFTurbo Import" caption="CFTurbo Import" icon="CFturbo_cell2" version="1">
+				<callbacks>
+                   <!-- <onupdate>consumer_update</onupdate> !-->
+                </callbacks>
+                <inputs>
+					<!--
+                    <input/>
+                    <input format="" type="MyData"/>
+                    !-->
+                </inputs>
+                <outputs/>
+			</task>
         </tasks>
         <taskgroups>
             <taskgroup name="CFTurbo" caption="CFTurbo_kp" icon="taskgroup" 
