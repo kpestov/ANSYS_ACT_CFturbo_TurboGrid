@@ -3,7 +3,7 @@ import os
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
 from Ansys.UI.Toolkit import *
-from shutil import copyfile
+from shutil import copyfile, copy
 from filecmp import cmp
 from ntpath import basename
 from os import remove, path, environ, system
@@ -112,6 +112,9 @@ def get_main_dimensions(task, main_dimensions):
     impeller_outlet_width.Value = main_dimensions['b2']
 
 
+
+
+
 def update(task):
 
     group = task.Properties["MainDimensions"]
@@ -148,4 +151,70 @@ def update(task):
                 child_0.text = str(tip_clearance.Value)
                 child_1.text = str(hub_diameter.Value)
 
-                tree.write(os.path.join(task.ActiveDirectory, "impeller.cft-batch"))
+                tree.write(os.path.join(task.ActiveDirectory, "test-impeller.cft-batch"))
+
+
+def consumer_update(task):
+    container = task.InternalObject
+    fileRef = None
+
+    # this is for dummy code (del it in release version)
+    extensionDir = ExtAPI.ExtensionManager.CurrentExtension.InstallDir
+
+    taskGroup = ExtAPI.DataModel.TaskGroups[0].InternalObject
+
+    # task = taskGroup.Tasks[0]
+    #
+    # group = task.Properties["CFTurbo batch file"]
+    # filePath = group.Properties["InputFileName"]
+
+    Ansys.UI.Toolkit.MessageBox.Show(str(taskGroup))
+
+    # cft_file = r'C:\kp\act\test_files\dp0\CFT\ACT\test-impeller.cft-batch'
+    #
+    # result = os.system('cfturbo.exe -batch' + ' ' + cft_file)
+    #
+    # if result != 1:
+    #     Ansys.UI.Toolkit.MessageBox.Show("Failed to launch CFTurbo!")
+    #     return
+
+    # if result != 1:
+    #     Ansys.UI.Toolkit.MessageBox.Show("Failed to launch CFTurbo!")
+    #     return
+
+    # # obtain source and target directories for copy .curve, .tse files (this is dummy code)
+    # for TurboGridFiles in os.listdir(extensionDir):
+    #     if TurboGridFiles.endswith(".curve") or TurboGridFiles.endswith(".tse"):
+    #         source_files = os.path.join(extensionDir, TurboGridFiles)
+    #         target_files = os.path.join(task.ActiveDirectory, TurboGridFiles)
+    #
+    #         # copy .curve, .tse files from act directory to task.ActiveDirectory (this is dummy code)
+    #         copy(source_files, target_files)
+
+    # # obtain source and target directories for copy .inf file (this is dummy code)
+    # TurboGridDummyFiles = System.IO.Path.Combine(extensionDir, "BG.inf")
+    # TurboGridInputFiles = System.IO.Path.Combine(task.ActiveDirectory, "BG.inf")
+    #
+    # # check if the file test-impeller_hub.curve is associated with WB project
+    #
+    # isRegistered = IsFileRegistered(FilePath=TurboGridInputFiles)
+    # if isRegistered == True:
+    #     fileRef = GetRegisteredFile(FilePath=TurboGridInputFiles)
+    # else:
+    #     fileRef = RegisterFile(FilePath=TurboGridInputFiles)
+    #     AssociateFileWithContainer(fileRef, container)
+    #
+    # # copy .inf file from act directory to task.ActiveDirectory (this is dummy code)
+    # copy(TurboGridDummyFiles, TurboGridInputFiles)
+    #
+    # outputRefs = container.GetOutputData()
+    # outputSet = outputRefs["TurboGeometry"]
+    # myData = outputSet[0]
+    # myData.INFFilename = fileRef
+
+
+
+
+
+
+

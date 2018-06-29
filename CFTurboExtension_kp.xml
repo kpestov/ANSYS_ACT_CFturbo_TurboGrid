@@ -20,9 +20,11 @@
 						</callbacks>
 					</entry>
 				</contextmenus>
-                <outputs>
-                    <output format="" type="TurboGeometry"/>
+
+				<outputs>
+                    <output format="" type="MyData"/>
                 </outputs>
+
                 <propertygroup name="CFTurbo batch file" caption="CFTurbo batch input file" display="caption">
                     <property name="InputFileName" caption="Input File Name" control="text" default="No file chosen!" readonly="True">
 						<callbacks>
@@ -66,22 +68,26 @@
 
 			<task name="CFTurbo Import" caption="CFTurbo Import" icon="CFturbo_cell2" version="1">
 				<callbacks>
-                   <!-- <onupdate>consumer_update</onupdate> !-->
+                   <onupdate>consumer_update</onupdate>
                 </callbacks>
+
                 <inputs>
-					<!--
-                    <input/>
                     <input format="" type="MyData"/>
-                    !-->
                 </inputs>
-                <outputs/>
+
+                 <outputs>
+                    <output format="" type="TurboGeometry"/>
+                </outputs>
+
 			</task>
         </tasks>
         <taskgroups>
-            <taskgroup name="CFTurbo" caption="CFTurbo_kp" icon="taskgroup" 
-            category="ACT Custom Workflows" abbreviation="CFT" version="1">
+
+            <taskgroup name="CFTurbo" caption="CFTurbo_kp" icon="taskgroup" category="ACT Custom Workflows" abbreviation="CFT" version="1">
                 <includeTask name="CFTurbo Design" caption="CFTurbo Design"/>
+				<includeTask name="CFTurbo Import" caption="CFTurbo Import"/>
             </taskgroup>
+
         </taskgroups>
     </workflow>
 </extension>
