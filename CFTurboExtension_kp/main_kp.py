@@ -1,20 +1,56 @@
 import clr
 import os
+import Ansys.ACT.Interfaces
+import xml.etree.ElementTree as ET
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
+clr.AddReference('Ansys.ACT.Interfaces')
 from Ansys.UI.Toolkit import *
 from shutil import copyfile, copy
 from filecmp import cmp
 from ntpath import basename
 from os import remove, path, environ, system
 from System.IO import Path
-import xml.etree.ElementTree as ET
+
 
 
 def InFileValid(task, property):
     if path.exists(property.Value):
         return True
     return False
+
+
+def copy_cft_file(task):
+    container = task.InternalObject
+
+    # obtain user_files directory
+    start_dir = GetUserFilesDirectory()
+
+    # getting access to property group of CFTurbo Design cell
+    group = task.Properties["CFTurbo batch file"]
+    cft_batch_file_path = group.Properties["InputFileName"]
+
+    # get_xml_root
+    tree = ET.parse(cft_batch_file_path.Value)
+    root = tree.getroot()
+
+    # get_design_impeller_node
+    cfturbo_batch_project_node = root.find('CFturboBatchProject')
+    input_file = cfturbo_batch_project_node.attrib['InputFile']
+
+    # obtain .cft file name with extension
+    file_name = os.path.basename(input_file)
+    source_dir = Path.Combine(start_dir, file_name)
+    target_dir = Path.Combine(task.ActiveDirectory, file_name)
+    try:
+        copyfile(source_dir, target_dir)
+    except:
+        Ansys.UI.Toolkit.MessageBox.Show('Failed to copy cft file to the working directory!. Please place the .cft file'
+                                         ' in the user_files directory')
+    file_ref = RegisterFile(FilePath=target_dir)
+    AssociateFileWithContainer(file_ref, container)
+
+    # return target_dir
 
 
 def edit(task):
@@ -65,6 +101,9 @@ def edit(task):
                 fileRef = RegisterFile(FilePath=filePath.Value)
                 AssociateFileWithContainer(fileRef, container)
 
+    # function which copies .cft file to active directory
+    copy_cft_file(task)
+
     # choose .cft-batch file from active directory
     for cft_file in os.listdir(task.ActiveDirectory):
         if cft_file.endswith(".cft-batch"):
@@ -88,7 +127,7 @@ def edit(task):
                 for child in main_dimensions_sub_node:
                     main_dimensions[child.tag] = child.text
 
-                # function that takes values from a file .cft-batch
+                # function which takes values from a file .cft-batch
                 get_main_dimensions(task, main_dimensions)
 
 
@@ -110,9 +149,6 @@ def get_main_dimensions(task, main_dimensions):
     suction_diameter.Value = main_dimensions['dS']
     impeller_diameter.Value = main_dimensions['d2']
     impeller_outlet_width.Value = main_dimensions['b2']
-
-
-
 
 
 def update(task):
@@ -152,7 +188,6 @@ def update(task):
                 child_1.text = str(hub_diameter.Value)
 
                 tree.write(os.path.join(task.ActiveDirectory, "test-impeller.cft-batch"))
-
 
 def consumer_update(task):
     container = task.InternalObject

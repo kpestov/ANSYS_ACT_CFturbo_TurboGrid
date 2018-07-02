@@ -11,6 +11,7 @@
 
             <task name="CFTurbo Design" caption="CFTurbo Design" icon="CFturbo_cell1" version="1">
                 <callbacks>
+					<!-- <onstatus>status</onstatus> !-->
                     <onupdate>update</onupdate>
 				</callbacks>
 				<contextmenus>
@@ -68,7 +69,7 @@
 
 			<task name="CFTurbo Import" caption="CFTurbo Import" icon="CFturbo_cell2" version="1">
 				<callbacks>
-                   <onupdate>consumer_update</onupdate>
+                    <onupdate>consumer_update</onupdate>
                 </callbacks>
 
                 <inputs>
