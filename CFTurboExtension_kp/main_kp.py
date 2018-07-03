@@ -1,17 +1,18 @@
 import clr
 import os
-import Ansys.ACT.Interfaces
 import xml.etree.ElementTree as ET
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
 clr.AddReference('Ansys.ACT.Interfaces')
+# clr.AddReference('System.Windows.Forms')
+# from System.Windows.Forms import MessageBox, MessageBoxButtons, MessageBoxIcon
+from Ansys.ACT.Interfaces.Workflow import *
 from Ansys.UI.Toolkit import *
 from shutil import copyfile, copy
 from filecmp import cmp
 from ntpath import basename
 from os import remove, path, environ, system
 from System.IO import Path
-import sys
 
 
 def status(task):
@@ -29,18 +30,24 @@ def InFileValid(task, property):
     return False
 
 
+def get_cft_batch_path(task):
+    group = task.Properties["CFTurbo batch file"]
+    cft_batch_file_path = group.Properties["InputFileName"]
+
+    return cft_batch_file_path
+
+
+
 def copy_cft_file(task):
     container = task.InternalObject
 
     # obtain user_files directory
     start_dir = GetUserFilesDirectory()
 
-    # getting access to property group of CFTurbo Design cell
-    group = task.Properties["CFTurbo batch file"]
-    cft_batch_file_path = group.Properties["InputFileName"]
+    filePath = get_cft_batch_path(task)
 
     # get_xml_root
-    tree = ET.parse(cft_batch_file_path.Value)
+    tree = ET.parse(filePath.Value)
     root = tree.getroot()
 
     # get_design_impeller_node
@@ -54,12 +61,12 @@ def copy_cft_file(task):
     try:
         copyfile(source_dir, target_dir)
     except:
-        Ansys.UI.Toolkit.MessageBox.Show(Window.MainWindow, 'Failed to copy cft file to the working directory! Please place the .cft file '
+        # MessageBox.Show('hui', 'hui_2', MessageBoxButtons.OK, MessageBoxIcon.Asterisk)
+        MessageBox.Show(Window.MainWindow, 'Failed to copy cft file to the working directory! Please place the .cft file '
                                          'in the user_files directory', 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
     file_ref = RegisterFile(FilePath=target_dir)
     AssociateFileWithContainer(file_ref, container)
 
-    # return target_dir
 
 
 def edit(task):
@@ -76,7 +83,7 @@ def edit(task):
 
     if diagResult[0] == DialogResult.OK:
         group = task.Properties["CFTurbo batch file"]
-        filePath = group.Properties["InputFileName"]
+        filePath = get_cft_batch_path(task)
 
         # check if choosing file for the first time by file path property value
         if filePath.Value == "No file chosen!":
@@ -86,7 +93,8 @@ def edit(task):
             try:
                 copyfile(source, dest)
             except:
-                Ansys.UI.Toolkit.MessageBox.Show("Failed to copy file to the working directory!")
+                MessageBox.Show(Window.MainWindow, "Failed to copy file to the working directory!",
+                                                 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                 return
             filePath.Value = dest
             fileRef = RegisterFile(FilePath=filePath.Value)
@@ -104,7 +112,8 @@ def edit(task):
                 try:
                     copyfile(source, dest)
                 except:
-                    Ansys.UI.Toolkit.MessageBox.Show("Failed to copy file to the working directory!")
+                    MessageBox.Show(Window.MainWindow, "Failed to copy file to the working directory!",
+                                                     'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                     return
                 filePath.Value = dest
                 fileRef = RegisterFile(FilePath=filePath.Value)
@@ -213,7 +222,7 @@ def consumer_update(task):
     # group = task.Properties["CFTurbo batch file"]
     # filePath = group.Properties["InputFileName"]
 
-    Ansys.UI.Toolkit.MessageBox.Show(str(taskGroup))
+    MessageBox.Show(str(taskGroup))
 
     # cft_file = r'C:\kp\act\test_files\dp0\CFT\ACT\test-impeller.cft-batch'
     #
