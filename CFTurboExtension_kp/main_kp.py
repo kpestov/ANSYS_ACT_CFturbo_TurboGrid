@@ -11,7 +11,15 @@ from filecmp import cmp
 from ntpath import basename
 from os import remove, path, environ, system
 from System.IO import Path
+import sys
 
+
+def status(task):
+    # start_dir = GetUserFilesDirectory()
+    if "test-impeller.cft" not in os.listdir(task.ActiveDirectory):
+        return [Ansys.ACT.Interfaces.Common.State.Unfulfilled, 'cannot copy .cft file']
+    else:
+        return None
 
 
 def InFileValid(task, property):
@@ -45,9 +53,10 @@ def copy_cft_file(task):
     try:
         copyfile(source_dir, target_dir)
     except:
-        # raise Exception("Error in update - no output value detected!")
-        Ansys.UI.Toolkit.MessageBox.Show('Failed to copy cft file to the working directory!. Please place the .cft file'
+        # raise Exception("Error!")
+        Ansys.UI.Toolkit.MessageBox.Show('Failed to copy cft file to the working directory! Please place the .cft file'
                                          ' in the user_files directory')
+        return
     file_ref = RegisterFile(FilePath=target_dir)
     AssociateFileWithContainer(file_ref, container)
 

@@ -11,11 +11,11 @@
 
             <task name="CFTurbo Design" caption="CFTurbo Design" icon="CFturbo_cell1" version="1">
                 <callbacks>
-					<!-- <onstatus>status</onstatus> !-->
+					<onstatus>status</onstatus>
                     <onupdate>update</onupdate>
 				</callbacks>
 				<contextmenus>
-					<entry icon="CFturbo_cell2" name="Import CFTurbo batch file..." priority="1.0" type="ContextMenuEntry" version="1">
+					<entry icon="CFturbo_cell2" name="Import CFTurbo .cft-batch and .cft files..." priority="1.0" type="ContextMenuEntry" version="1">
 						<callbacks>
 							<onclick>edit</onclick>
 						</callbacks>
