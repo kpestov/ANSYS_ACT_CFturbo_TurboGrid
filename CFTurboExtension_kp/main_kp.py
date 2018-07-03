@@ -15,8 +15,9 @@ import sys
 
 
 def status(task):
-    # start_dir = GetUserFilesDirectory()
-    if "test-impeller.cft" not in os.listdir(task.ActiveDirectory):
+    dir_list = os.listdir(task.ActiveDirectory)
+
+    if len(dir_list) != 2:
         return [Ansys.ACT.Interfaces.Common.State.Unfulfilled, 'cannot copy .cft file']
     else:
         return None
@@ -53,10 +54,8 @@ def copy_cft_file(task):
     try:
         copyfile(source_dir, target_dir)
     except:
-        # raise Exception("Error!")
-        Ansys.UI.Toolkit.MessageBox.Show('Failed to copy cft file to the working directory! Please place the .cft file'
-                                         ' in the user_files directory')
-        return
+        Ansys.UI.Toolkit.MessageBox.Show(Window.MainWindow, 'Failed to copy cft file to the working directory! Please place the .cft file '
+                                         'in the user_files directory', 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
     file_ref = RegisterFile(FilePath=target_dir)
     AssociateFileWithContainer(file_ref, container)
 
@@ -171,9 +170,6 @@ def update(task):
     test_cell = group.Properties["TestCell"]
     test_cell.Value = tip_clearance.Value
 
-    if tip_clearance.Value == 1:
-        raise Exception("Error in update - no output value detected!")
-
     # this duplicated code must be placed in a separate function
 
     for cft_file in os.listdir(task.ActiveDirectory):
@@ -201,6 +197,7 @@ def update(task):
                 child_1.text = str(hub_diameter.Value)
 
                 tree.write(os.path.join(task.ActiveDirectory, "test-impeller.cft-batch"))
+
 
 def consumer_update(task):
     container = task.InternalObject
