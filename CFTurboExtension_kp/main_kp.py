@@ -45,6 +45,7 @@ def copy_cft_file(task):
     try:
         copyfile(source_dir, target_dir)
     except:
+        # raise Exception("Error in update - no output value detected!")
         Ansys.UI.Toolkit.MessageBox.Show('Failed to copy cft file to the working directory!. Please place the .cft file'
                                          ' in the user_files directory')
     file_ref = RegisterFile(FilePath=target_dir)
@@ -160,6 +161,9 @@ def update(task):
 
     test_cell = group.Properties["TestCell"]
     test_cell.Value = tip_clearance.Value
+
+    if tip_clearance.Value == 1:
+        raise Exception("Error in update - no output value detected!")
 
     # this duplicated code must be placed in a separate function
 
