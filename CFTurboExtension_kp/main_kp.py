@@ -72,7 +72,7 @@ def copy_cft_file(task):
     file_ref = RegisterFile(FilePath=target_dir)
     AssociateFileWithContainer(file_ref, container)
 
-    return file_name
+    return target_dir
 
 
 def edit(task):
@@ -233,7 +233,8 @@ def update(task):
         child_0.text = str(tip_clearance.Value)
         child_1.text = str(hub_diameter.Value)
 
-        tree.write(os.path.join(task.ActiveDirectory, "test-impeller.cft-batch"))
+        target_dir = copy_cft_file(task)
+        tree.write(target_dir + '-batch')
 
 
 def consumer_update(task):
