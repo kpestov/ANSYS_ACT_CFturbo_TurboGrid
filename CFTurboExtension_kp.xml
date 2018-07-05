@@ -69,7 +69,8 @@
 
 			<task name="CFTurbo Import" caption="CFTurbo Import" icon="CFturbo_cell2" version="1">
 				<callbacks>
-                    <onupdate>consumer_update</onupdate>
+                    <!-- <onupdate>cfturbo_start</onupdate> !-->
+					<onupdate>dummy_copying</onupdate>
                 </callbacks>
 
                 <inputs>
