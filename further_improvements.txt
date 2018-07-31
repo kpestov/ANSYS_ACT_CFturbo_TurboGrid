@@ -4,6 +4,7 @@
  - Написать промежуточную функцию, которая бы при обновлении брала одно (обновленное) значение ячейки свойств Tip Clearance
    и писала бы это новое значение в файл с названием output.xml. Перед этим понять как изменить текст в xml по тегу(атрибуту)(готово)
 
+
 /*------- 26.06.18 --------*/
 
  - Добавить ещё один task ниже основного CFTurbo Design и назвать его СFTurbo Import (готово)
@@ -26,11 +27,46 @@
    - Убрать абсолютное имя файла в 236 строке (готово).
 
 
-/*------- 4.07.18 --------*/
-
-- Запуск CFTurbo в фоновом режиме.
-
-
 /*------- 5.07.18 --------*/
 
+- Запуск CFTurbo в фоновом режиме(готово).
+
+
+/*------- 6.07.18 --------*/
+
  - Из TSE файла необходимо выделить информацию для формирования .inf-файла.
+  /*------ комментарии к структуре файлов .inf и .tse -------*/
+
+   - Axis of Rotation:              берется из узла MACHINE DATA атрибута Principal Axis = Z
+   - Number of Blade Sets:          берется из узла MACHINE DATA атрибута Bladeset Count = 4
+   - Number of Blades Per Set:      можно подсчитывать количество атрибутов Blade Number в узле BLADE SET
+   - Blade Loft Direction:          по умолчанию оставляем Spanwise, так как в CFTurbo нет Streamwise направления
+   - Geometry Units:                берется из узла HUB Input Length Units
+   - Coordinate System Orientation: по умолчанию CFTurbo использует Righthanded
+   - Blade 0 LE:                    берется из узла BLADE атрибута Leading Edge Type. Если у данного атрибута значение = Single, то присваивается EllipseEnd
+                                    (нужно проверить какие есть конфигурации кромок в TurboGrid и BladeEditor и какие при этом записываются свойства в .inf файл)
+                                    разъяснения по конфигурации .inf файла имеются в разделе документации help/tg_user/i998527.html
+   - Blade 0 TE:                    берется из узла BLADE атрибута Leading Edge Type. Если у данного атрибута значение = Double Cutoff, то присваивается CutOffEnd
+
+   Нижние строки добавляются, если имеются сплиттерные лопатки
+   - Blade 1 LE:
+   - Blade 1 TE:
+
+   - Hub Data File: *_hub.curve
+   - Shroud Data File: *_shroud.curve
+   - Profile Data File: *_profile.curve
+
+
+/*------- 25.07.18 --------*/
+
+ - В файле main_kp.py функция obtain_curve_files является избыточной так как мы можем получать имена *_hub.curve, *_shroud.curve, *_profile.curve из словарей,
+   которые создаются в файле tse_parser.py. Пока что не перепичывать скрипт;
+ - Необходиом сделать такую же структуру списка, состоящего из словарей как делает функция make_genaral_list()
+ - На данном этапе нужно понять, до какого
+
+
+ /*---- новый подход к созданию tse-парсера ----*/
+
+  - Создать родительский класс Geometry, в котором необходиом определить метод, открывающий файл и выделяющий кусок в файле между строками start='MACHINE DATA', end='END'.
+    Строки между start и end будут являться атрибутами дочерних классов MachineData, Hub, Shroud, MainBlade, SplitterBlade.
+  - Понять как динамически создать дочерние классы MachineData, Hub, Shroud, MainBlade, SplitterBlade (пока что через функцию type()).
