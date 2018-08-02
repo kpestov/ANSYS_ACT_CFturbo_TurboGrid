@@ -70,3 +70,16 @@
   - Создать родительский класс Geometry, в котором необходиом определить метод, открывающий файл и выделяющий кусок в файле между строками start='MACHINE DATA', end='END'.
     Строки между start и end будут являться атрибутами дочерних классов MachineData, Hub, Shroud, MainBlade, SplitterBlade.
   - Понять как динамически создать дочерние классы MachineData, Hub, Shroud, MainBlade, SplitterBlade (пока что через функцию type()).
+
+
+/*------- 1.08.18 --------*/
+
+ - модифицировать скрипт, так чтобы читались файлы с пробелами.(готово)
+ - дописать подстановку
+ - нужно удалять из .cft-batch файла фрагмент
+ "
+ <ExportComponents Desc="Add/remove value with component's index in project; remove this element to export active component only">
+				<Value Type="Integer">1</Value>
+			</ExportComponents>
+ "
+

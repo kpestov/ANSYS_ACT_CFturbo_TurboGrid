@@ -58,10 +58,10 @@
 					</property>
 
 					<!-- this is just for testing !-->
-					<property name="TestCell" caption="test cell" control="double" default="0.0" parameterizable="True">
+					<!--<property name="TestCell" caption="test cell" control="double" default="0.0" parameterizable="True">
 						<callbacks>
 						</callbacks>
-					</property>
+					</property>!-->
 				</propertygroup>
             </task>
 
@@ -69,8 +69,8 @@
 
 			<task name="CFTurbo Import" caption="CFTurbo Import" icon="CFturbo_cell2" version="1">
 				<callbacks>
-                    <!-- <onupdate>cfturbo_start</onupdate> !-->
-					<onupdate>dummy_copying</onupdate>
+                    <onupdate>cfturbo_start</onupdate>
+                    <!--<onupdate>dummy_copying</onupdate>!-->
                 </callbacks>
 
                 <inputs>
