@@ -13,9 +13,10 @@
                 <callbacks>
 					<onstatus>status</onstatus>
                     <onupdate>update</onupdate>
+					<onreset>resetParameters</onreset>
 				</callbacks>
 				<contextmenus>
-					<entry icon="CFturbo_cell2" name="Import CFTurbo .cft-batch and .cft files..." priority="1.0" type="ContextMenuEntry" version="1">
+					<entry icon="CFturbo_cell2" name="Import CFTurbo .cft-batch file..." priority="1.0" type="ContextMenuEntry" version="1">
 						<callbacks>
 							<onclick>edit</onclick>
 						</callbacks>
@@ -35,25 +36,54 @@
                     </property>
                 </propertygroup>
                 <propertygroup name="MainDimensions" caption="Main dimensions of Impeller" display="caption">
+
+					<!-- Main dimensions of Radial Pump and Mixed Pump !-->
+
 					<property name="TipClearance" caption="Tip clearance" control="double" default="0.0" parameterizable="True">
 						<callbacks>
-							<!--isvisible></isvisible!-->
 						</callbacks>
 					</property>
 					<property name="HubDiameter" caption="Hub diameter" control="double" default="0.0" parameterizable="True">
 						<callbacks>
+							<isvisible>HubDiameterVisible</isvisible>
 						</callbacks>
 					</property>
 					<property name="SuctionDiameter" caption="Suction diameter" control="double" default="0.0" parameterizable="True">
 						<callbacks>
+							<isvisible>HubDiameterVisible</isvisible>
 						</callbacks>
 					</property>
 					<property name="ImpellerDiameter" caption="Impeller diameter" control="double" default="0.0" parameterizable="True">
 						<callbacks>
+							<isvisible>HubDiameterVisible</isvisible>
 						</callbacks>
 					</property>
 					<property name="ImpellerOutletWidth" caption="Impeller outlet width" control="double" default="0.0" parameterizable="True">
 						<callbacks>
+							<isvisible>HubDiameterVisible</isvisible>
+						</callbacks>
+					</property>
+
+					<!-- Main dimensions of Axial Pump !-->
+
+					<property name="HubDiameterInlet" caption="Hub diameter inlet" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>HubDiameterInletVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="TipDiameterInlet" caption="Tip diameter inlet" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>HubDiameterInletVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="HubDiameterOutlet" caption="Hub diameter outlet" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>HubDiameterInletVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="TipDiameterOutlet" caption="Tip diameter outlet" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>HubDiameterInletVisible</isvisible>
 						</callbacks>
 					</property>
 
