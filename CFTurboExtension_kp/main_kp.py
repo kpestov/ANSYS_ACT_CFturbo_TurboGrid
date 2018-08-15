@@ -201,6 +201,9 @@ def edit(task):
                 fileRef = RegisterFile(FilePath=filePath.Value)
                 AssociateFileWithContainer(fileRef, container)
 
+    # this is test func
+    # test_insert(task)
+
     # function which copies .cft file to active directory
     copy_cft_file(task)
 
@@ -236,60 +239,6 @@ def HubDiameterVisible(task, property):
     return False
 
 
-def get_cft_path(task):
-    '''
-    Extract .cft-batch file path from active directory .\ACT
-    :param task:
-    :return: path of .cft-batch file
-    '''
-    for cft_file in os.listdir(task.ActiveDirectory):
-        if cft_file.endswith(".cft-batch"):
-            cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
-
-            return cft_file_path
-
-
-def get_xml_tree(task):
-    '''
-    Parses .cft-batch file for parameters extraction
-    :param task:
-    :return: parsed tree object of .cft-batch file
-    '''
-    cft_file_path = get_cft_path(task)
-    tree = ET.parse(cft_file_path)
-
-    return tree
-
-
-def get_main_dimensions_element(task):
-    '''
-    Gets access to MainDimensionsElement element
-    :param task:
-    :return: MainDimensionsElement node of .cft-batch file
-    '''
-    tree = get_xml_tree(task)
-    root = tree.getroot()
-
-    # get main dimensions element
-    main_dimensions_element = root[0][0][0][0][0][0]
-
-    return main_dimensions_element
-
-
-def get_main_dimensions(task):
-    '''
-    Get main dimensions of impeller from MainDimensionsElement element and push it to dict
-    :param task:
-    :return: dict, e.g. main_dimensions = {'Tip clearance': 0.0, 'Hub diameter inlet dH1': 0.22}
-    '''
-    main_dimensions_element = get_main_dimensions_element(task)
-    main_dimensions = {}
-    for child in main_dimensions_element:
-        main_dimensions[child.attrib['Desc']] = child.text
-
-    return main_dimensions
-
-
 def insert_main_dimensions(task):
     '''
     Insert main dimensions of impeller to the table of properties of cell#1
@@ -297,38 +246,9 @@ def insert_main_dimensions(task):
     :return:
     '''
     try:
+        # if there is no .cft-file in user_files directory raise exception
         copy_cft_file(task)
-        main_dimensions = get_main_dimensions(task)
-        group = task.Properties["MainDimensions"]
-
-        tip_clearance = group.Properties["TipClearance"]
-        tip_clearance.Value = main_dimensions['Tip clearance']
-
-        # check if 'Hub diameter dH' key in dictionary for showing main dimensions values in property table
-        if 'Hub diameter dH' in main_dimensions:
-
-            # properties for radial and mixed pumps
-            hub_diameter = group.Properties["HubDiameter"]
-            suction_diameter = group.Properties["SuctionDiameter"]
-            impeller_diameter = group.Properties["ImpellerDiameter"]
-            impeller_outlet_width = group.Properties["ImpellerOutletWidth"]
-
-            hub_diameter.Value = main_dimensions['Hub diameter dH']
-            suction_diameter.Value = main_dimensions['Suction diameter dS']
-            impeller_diameter.Value = main_dimensions['Impeller diameter d2']
-            impeller_outlet_width.Value = main_dimensions['Impeller outlet width b2']
-
-        else:
-            # properties for axial pump
-            hub_diameter_inlet = group.Properties["HubDiameterInlet"]
-            tip_diameter_inlet = group.Properties["TipDiameterInlet"]
-            hub_diameter_outlet = group.Properties["HubDiameterOutlet"]
-            tip_diameter_outlet = group.Properties["TipDiameterOutlet"]
-
-            hub_diameter_inlet.Value = main_dimensions['Hub diameter inlet dH1']
-            tip_diameter_inlet.Value = main_dimensions['Tip diameter inlet dS1']
-            hub_diameter_outlet.Value = main_dimensions['Hub diameter outlet dH2']
-            tip_diameter_outlet.Value = main_dimensions['Tip diameter outlet dS2']
+        MainDimensions(task).insert_main_dimensions(task)
     except IOError:
         pass
 
@@ -341,23 +261,12 @@ def update_main_dimensions(task):
     classes, e.g. class MainDimensions, class BladeProfiles.
     :return: refreshed .cft-batch file
     '''
-    group = task.Properties["MainDimensions"]
-    tip_clearance = group.Properties["TipClearance"]
 
-    # In the future try to write separate function to not copy code below
-    # properties for radial and mixed pumps
-    hub_diameter = group.Properties["HubDiameter"]
-    suction_diameter = group.Properties["SuctionDiameter"]
-    impeller_diameter = group.Properties["ImpellerDiameter"]
-    impeller_outlet_width = group.Properties["ImpellerOutletWidth"]
+    # MainDimensions and Impeller classes from xml_parser.py module
+    mainDim = MainDimensions(task)
+    impeller = Impeller(task)
 
-    # properties for axial pump
-    hub_diameter_inlet = group.Properties["HubDiameterInlet"]
-    tip_diameter_inlet = group.Properties["TipDiameterInlet"]
-    hub_diameter_outlet = group.Properties["HubDiameterOutlet"]
-    tip_diameter_outlet = group.Properties["TipDiameterOutlet"]
-
-    tree = get_xml_tree(task)
+    tree = impeller.get_xml_tree(task)
     root = tree.getroot()
 
     # get main dimensions element
@@ -367,19 +276,19 @@ def update_main_dimensions(task):
     impeller_design = root[0][0][0][0]
 
     # the code bellow writes new values of parameter when update cell#2
-    main_dimensions_element.find('xTip').text = str(tip_clearance.Value)
+    main_dimensions_element.find('xTip').text = str(mainDim.tip_clearance.Value)
 
     if impeller_design.attrib['Name'] == "Radial_Impeller":
-        main_dimensions_element.find('dN').text = str(hub_diameter.Value)
-        main_dimensions_element.find('dS').text = str(suction_diameter.Value)
-        main_dimensions_element.find('d2').text = str(impeller_diameter.Value)
-        main_dimensions_element.find('b2').text = str(impeller_outlet_width.Value)
+        main_dimensions_element.find('dN').text = str(mainDim.hub_diameter.Value)
+        main_dimensions_element.find('dS').text = str(mainDim.suction_diameter.Value)
+        main_dimensions_element.find('d2').text = str(mainDim.impeller_diameter.Value)
+        main_dimensions_element.find('b2').text = str(mainDim.impeller_outlet_width.Value)
 
     elif impeller_design.attrib['Name'] == "Axial Impeller":
-        main_dimensions_element.find('dN').text = str(hub_diameter_inlet.Value)
-        main_dimensions_element.find('dS').text = str(tip_diameter_inlet.Value)
-        main_dimensions_element.find('dH2').text = str(hub_diameter_outlet.Value)
-        main_dimensions_element.find('dS2').text = str(tip_diameter_outlet.Value)
+        main_dimensions_element.find('dN').text = str(mainDim.hub_diameter_inlet.Value)
+        main_dimensions_element.find('dS').text = str(mainDim.tip_diameter_inlet.Value)
+        main_dimensions_element.find('dH2').text = str(mainDim.hub_diameter_outlet.Value)
+        main_dimensions_element.find('dS2').text = str(mainDim.tip_diameter_outlet.Value)
 
     target_dir = copy_cft_file(task)
     tree.write(target_dir + '-batch')
@@ -398,7 +307,8 @@ def launch_cfturbo(task):
     cft_env = 'CFturbo10_root'
     cft_path = environ.get(cft_env)
     launch_cft_path = os.path.join(cft_path, 'cfturbo.exe')
-    cft_batch_file = get_cft_path(task)
+    cft_batch_file = Impeller.get_cft_batch_path(task)
+
 
     # this is for files with spaces in the name
     quoted_cft_batch_file ='"{}"'.format(cft_batch_file)
@@ -412,7 +322,7 @@ def launch_cfturbo(task):
 
 
 def obtain_cft_file_name(task):
-    cft_file_path = get_cft_path(task)
+    cft_file_path = Impeller.get_cft_batch_path(task)
     cft_file_name = basename(cft_file_path).split('.cft')[0]
 
     return cft_file_name
@@ -435,7 +345,6 @@ def extract_attribs(task, start, end):
     :param end:
     :return: dict, attribs = {'Bladeset Count': 7, 'Rotation Axis Type': 'Principal Axis', ...}
     '''
-
     tse_file = obtain_tse_file(task)
     attribs = {}
 
@@ -492,7 +401,6 @@ def make_s4(task):
     :param task:
     :return: 'Number of Blades Per Set: 0'
     '''
-
     splitter_blade_attribs = extract_splitter_blade_attribs(task)
     main_blade_attribs = extract_main_blade_attribs(task)
 
@@ -633,7 +541,6 @@ def cfturbo_start(task):
     :param task:
     :return:
     '''
-
     launch_cfturbo(task)
 
     container = task.InternalObject

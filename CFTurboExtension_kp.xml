@@ -1,6 +1,11 @@
 <extension version="1" name="CFTurboExtension_kp" icon="images\plm_ural.png">
     <guid shortid="CFTurbo">69f95f34-a323-4d7b-9324-00d6c9ebec27</guid>
-    <script src="main_kp.py" />
+
+    <script src="main_kp.py" compiled="True" />
+    <script src="xml_parser.py" compiled="True" />
+
+   <!-- <script src="test.py" compiled="True" /> !-->
+
     <interface context="Project">
         <images>images</images>
     </interface>
@@ -36,6 +41,11 @@
                     </property>
                 </propertygroup>
                 <propertygroup name="MainDimensions" caption="Main dimensions of Impeller" display="caption">
+
+					<!--<property name="TestCell" caption="Test Cell" control="text" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property> !-->
 
 					<!-- Main dimensions of Radial Pump and Mixed Pump !-->
 
