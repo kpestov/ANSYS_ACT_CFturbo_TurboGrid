@@ -47,8 +47,6 @@
 						</callbacks>
 					</property> !-->
 
-					<!-- Main dimensions of Radial Pump and Mixed Pump !-->
-
 					<property name="TipClearance" caption="Tip clearance" control="double" default="0.0" parameterizable="True">
 						<callbacks>
 						</callbacks>
@@ -60,17 +58,17 @@
 					</property>
 					<property name="SuctionDiameter" caption="Suction diameter" control="double" default="0.0" parameterizable="True">
 						<callbacks>
-							<isvisible>HubDiameterVisible</isvisible>
+							<isvisible>SuctionDiameterVisible</isvisible>
 						</callbacks>
 					</property>
 					<property name="ImpellerDiameter" caption="Impeller diameter" control="double" default="0.0" parameterizable="True">
 						<callbacks>
-							<isvisible>HubDiameterVisible</isvisible>
+							<isvisible>ImpellerDiameterVisible</isvisible>
 						</callbacks>
 					</property>
 					<property name="ImpellerOutletWidth" caption="Impeller outlet width" control="double" default="0.0" parameterizable="True">
 						<callbacks>
-							<isvisible>HubDiameterVisible</isvisible>
+							<isvisible>ImpellerOutWidthVisible</isvisible>
 						</callbacks>
 					</property>
 
@@ -83,25 +81,72 @@
 					</property>
 					<property name="TipDiameterInlet" caption="Tip diameter inlet" control="double" default="0.0" parameterizable="True">
 						<callbacks>
-							<isvisible>HubDiameterInletVisible</isvisible>
+							<isvisible>TipDiameterInletVisible</isvisible>
 						</callbacks>
 					</property>
 					<property name="HubDiameterOutlet" caption="Hub diameter outlet" control="double" default="0.0" parameterizable="True">
 						<callbacks>
-							<isvisible>HubDiameterInletVisible</isvisible>
+							<isvisible>HubDiameterOutVisible</isvisible>
 						</callbacks>
 					</property>
 					<property name="TipDiameterOutlet" caption="Tip diameter outlet" control="double" default="0.0" parameterizable="True">
 						<callbacks>
-							<isvisible>HubDiameterInletVisible</isvisible>
+							<isvisible>TipDiameterOutVisible</isvisible>
 						</callbacks>
 					</property>
 
-					<!-- this is just for testing !-->
-					<!--<property name="TestCell" caption="test cell" control="double" default="0.0" parameterizable="True">
+				</propertygroup>
+
+				<!-- Blade Properties of Radial Pump !-->
+
+				<propertygroup name="BladeProperties" caption="Blade Properties" display="caption">
+
+					<!-- Blade thicknesses !-->
+
+					<property name="NumberBlades" caption="Number of blades" control="integer" default="0.0" parameterizable="True">
 						<callbacks>
 						</callbacks>
-					</property>!-->
+					</property>
+					<property name="BladeThicknessLeHub" caption="Thickness leading edge at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="BladeThicknessLeShroud" caption="Thickness leading edge at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="BladeThicknessTeHub" caption="Thickness trailing edge at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="BladeThicknessTeShroud" caption="Thickness trailing edge at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+
+					<!-- Blade angles !-->
+
+					<property name="beta1h" caption="Blade angle leading edge at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>beta1Visible</isvisible>
+						</callbacks>
+					</property>
+					<property name="beta1s" caption="Blade angle leading edge at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>beta1Visible</isvisible>
+						</callbacks>
+					</property>
+					<property name="beta2h" caption="Blade angle trailing edge at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>beta2Visible</isvisible>
+						</callbacks>
+					</property>
+					<property name="beta2s" caption="Blade angle trailing edge at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>beta2Visible</isvisible>
+						</callbacks>
+					</property>
+
 				</propertygroup>
             </task>
 

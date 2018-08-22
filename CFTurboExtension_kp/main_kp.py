@@ -1,6 +1,7 @@
 import clr
 import os
 import xml.etree.ElementTree as ET
+
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
 clr.AddReference('Ansys.ACT.Interfaces')
@@ -11,6 +12,7 @@ from ntpath import basename
 from os import remove, path, environ
 from System.IO import Path
 from System.Diagnostics import Process
+
 clr.AddReference("Ans.ProjectSchematic")
 import Ansys.ProjectSchematic
 
@@ -25,6 +27,10 @@ def resetParameters(task):
     MainDimensionsGroup = task.Properties["MainDimensions"].Properties
     for i in range(len(MainDimensionsGroup)):
         MainDimensionsGroup[i].Value = 0.0
+
+    BladePropertiesGroup = task.Properties["BladeProperties"].Properties
+    for i in range(len(BladePropertiesGroup)):
+        BladePropertiesGroup[i].Value = 0.0
 
 
 def status(task):
@@ -99,8 +105,9 @@ def copy_cft_file(task):
         copyfile(source_dir, target_dir)
     except IOError:
         pass
-        MessageBox.Show(Window.MainWindow, 'Failed to copy .cft file to the working directory! Please place the .cft file '
-                                         'in the user_files directory', 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
+        MessageBox.Show(Window.MainWindow,
+                        'Failed to copy .cft file to the working directory! Please place the .cft file '
+                        'in the user_files directory', 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
 
         # remain yellow color in Input File Name field
         group = task.Properties["CFTurbo batch file"]
@@ -169,7 +176,7 @@ def edit(task):
                 copyfile(source, dest)
             except IOError:
                 MessageBox.Show(Window.MainWindow, "Failed to copy file to the working directory!",
-                                                 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
+                                'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                 return
 
             filePath.Value = dest
@@ -194,52 +201,82 @@ def edit(task):
                     copyfile(source, dest)
                 except IOError:
                     MessageBox.Show(Window.MainWindow, "Failed to copy file to the working directory!",
-                                                     'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
+                                    'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                     return
 
                 filePath.Value = dest
                 fileRef = RegisterFile(FilePath=filePath.Value)
                 AssociateFileWithContainer(fileRef, container)
 
-    # this is test func
-    # test_insert(task)
-
     # function which copies .cft file to active directory
     copy_cft_file(task)
 
     # function which takes values from a file .cft-batch
-    insert_main_dimensions(task)
-
-
-def HubDiameterInletVisible(task, property):
-    '''
-    Hide radial pump parameters if Hub diameter inlet != 0
-    :param task:
-    :param property:
-    :return: bool
-    '''
-    group=task.Properties["MainDimensions"]
-    HubDiameter=group.Properties["HubDiameter"]
-    if HubDiameter.Value == 0.0:
-        return True
-    return False
+    insert_dimensions(task)
 
 
 def HubDiameterVisible(task, property):
-    '''
-    Hide axial pump parameters if Hub diameter != 0
-    :param task:
-    :param property:
-    :return:
-    '''
-    group=task.Properties["MainDimensions"]
-    HubDiameterInlet=group.Properties["HubDiameterInlet"]
-    if HubDiameterInlet.Value == 0.0:
-        return True
-    return False
+    HubDiameter = MainDimensions(task).mainDimExist(task, 'dN', 'Desc', 'Hub diameter dH')
+    if HubDiameter is None:
+        return False
+    return True
+
+def SuctionDiameterVisible(task, property):
+    SuctionDiameter = MainDimensions(task).mainDimExist(task, 'dS', 'Desc', 'Suction diameter dS')
+    if SuctionDiameter is None:
+        return False
+    return True
+
+def ImpellerDiameterVisible(task, property):
+    ImpellerDiameter = MainDimensions(task).mainDimExist(task, 'd2', 'Desc', 'Impeller diameter d2')
+    if ImpellerDiameter is None:
+        return False
+    return True
+
+def ImpellerOutWidthVisible(task, property):
+    ImpellerOutWidth = MainDimensions(task).mainDimExist(task, 'b2', 'Desc', 'Impeller outlet width b2')
+    if ImpellerOutWidth is None:
+        return False
+    return True
+
+def HubDiameterInletVisible(task, property):
+    HubDiameterInlet = MainDimensions(task).mainDimExist(task, 'dN', 'Desc', 'Hub diameter inlet dH1')
+    if HubDiameterInlet is None:
+        return False
+    return True
+
+def TipDiameterInletVisible(task, property):
+    TipDiameterInlet = MainDimensions(task).mainDimExist(task, 'dS', 'Desc', 'Tip diameter inlet dS1')
+    if TipDiameterInlet is None:
+        return False
+    return True
+
+def HubDiameterOutVisible(task, property):
+    HubDiameterOut = MainDimensions(task).mainDimExist(task, 'dH2', 'Desc', 'Hub diameter outlet dH2')
+    if HubDiameterOut is None:
+        return False
+    return True
+
+def TipDiameterOutVisible(task, property):
+    TipDiameterOut = MainDimensions(task).mainDimExist(task, 'dS2', 'Desc', 'Tip diameter outlet dS2')
+    if TipDiameterOut is None:
+        return False
+    return True
+
+def beta1Visible(task, property):
+    beta1 = BladeProperties(task).betaExist(task, 'Beta1')
+    if beta1 is None:
+        return False
+    return True
+
+def beta2Visible(task, property):
+    beta1 = BladeProperties(task).betaExist(task, 'Beta2')
+    if beta1 is None:
+        return False
+    return True
 
 
-def insert_main_dimensions(task):
+def insert_dimensions(task):
     '''
     Insert main dimensions of impeller to the table of properties of cell#1
     :param task:
@@ -249,6 +286,7 @@ def insert_main_dimensions(task):
         # if there is no .cft-file in user_files directory raise exception
         copy_cft_file(task)
         MainDimensions(task).insert_main_dimensions(task)
+        BladeProperties(task).insert_blade_properties(task)
     except IOError:
         pass
 
@@ -272,33 +310,86 @@ def update_main_dimensions(task):
     # get main dimensions element
     main_dimensions_element = root[0][0][0][0][0][0]
 
-    # get CFturboDesign_(AxialI/Radial)mpeller element
-    impeller_design = root[0][0][0][0]
+    # the code bellow writes new values of parameter when update cell#2
+    for child in main_dimensions_element:
+        if child.attrib["Desc"] == "Tip clearance":
+            child.text = str(mainDim.tip_clearance.Value)
+
+        # properties for axial pump
+        if child.attrib["Desc"] == "Hub diameter inlet dH1":
+            child.text = str(mainDim.hub_diameter_inlet.Value)
+        if child.attrib["Desc"] == "Tip diameter inlet dS1":
+            child.text = str(mainDim.tip_diameter_inlet.Value)
+        if child.attrib["Desc"] == "Hub diameter outlet dH2":
+            child.text = str(mainDim.hub_diameter_outlet.Value)
+        if child.attrib["Desc"] == "Tip diameter outlet dS2":
+            child.text = str(mainDim.tip_diameter_outlet.Value)
+
+        # properties for radial and mixed pumps
+        if child.attrib["Desc"] == "Hub diameter dH":
+            child.text = str(mainDim.hub_diameter.Value)
+        if child.attrib["Desc"] == "Suction diameter dS":
+            child.text = str(mainDim.suction_diameter.Value)
+        if child.attrib["Desc"] == "Impeller diameter d2":
+            child.text = str(mainDim.impeller_diameter.Value)
+        if child.attrib["Desc"] == "Impeller outlet width b2":
+            child.text = str(mainDim.impeller_outlet_width.Value)
+
+    target_dir = copy_cft_file(task)
+    tree.write(target_dir + '-batch')
+
+
+def update_blade_properties(task):
+
+    #BladeProperties  and Impeller classes from xml_parser.py module
+    bladeProp = BladeProperties(task)
+    impeller = Impeller(task)
+
+    tree = impeller.get_xml_tree(task)
+    root = tree.getroot()
+
+    # get blade properties element
+    blade_properties_element = root[0][0][0][0][2]
+    le_thickness_node = blade_properties_element[3][0][0]
+    te_thickness_node = blade_properties_element[3][0][1]
+
+    spans = bladeProp.getNumSpans(task)
+    check_node = blade_properties_element[3][0]
 
     # the code bellow writes new values of parameter when update cell#2
-    main_dimensions_element.find('xTip').text = str(mainDim.tip_clearance.Value)
+    blade_properties_element.find('nBl').text = str(bladeProp.number_blades.Value)
 
-    if impeller_design.attrib['Name'] == "Radial_Impeller":
-        main_dimensions_element.find('dN').text = str(mainDim.hub_diameter.Value)
-        main_dimensions_element.find('dS').text = str(mainDim.suction_diameter.Value)
-        main_dimensions_element.find('d2').text = str(mainDim.impeller_diameter.Value)
-        main_dimensions_element.find('b2').text = str(mainDim.impeller_outlet_width.Value)
+    bladeProp.writeThickness(le_thickness_node, '0', bladeProp.le_thickness_hub.Value)
+    bladeProp.writeThickness(le_thickness_node, '1', bladeProp.le_thickness_shroud.Value)
+    bladeProp.writeThickness(te_thickness_node, '0', bladeProp.te_thickness_hub.Value)
+    bladeProp.writeThickness(te_thickness_node, '1', bladeProp.te_thickness_shroud.Value)
 
-    elif impeller_design.attrib['Name'] == "Axial Impeller":
-        main_dimensions_element.find('dN').text = str(mainDim.hub_diameter_inlet.Value)
-        main_dimensions_element.find('dS').text = str(mainDim.tip_diameter_inlet.Value)
-        main_dimensions_element.find('dH2').text = str(mainDim.hub_diameter_outlet.Value)
-        main_dimensions_element.find('dS2').text = str(mainDim.tip_diameter_outlet.Value)
+    beta1 = check_node.find('Beta1')
+    if beta1 is None:
+        pass
+    else:
+        beta1_node = blade_properties_element[3][0][2]
+        bladeProp.writeBladeAngles(beta1_node, '0', bladeProp.beta_1_h.Value)
+        bladeProp.writeBladeAngles(beta1_node, (int(spans) - 1), bladeProp.beta_1_s.Value)
+        bladeProp.writeInterpolatedBladeAngles(task, beta1_node, bladeProp.beta_1_h.Value, bladeProp.beta_1_s.Value)
+
+    beta2 = check_node.find('Beta2')
+    if beta2 is None:
+        pass
+    else:
+        beta2_node = blade_properties_element[3][0][3]
+        bladeProp.writeBladeAngles(beta2_node, '0', bladeProp.beta_2_h.Value)
+        bladeProp.writeBladeAngles(beta2_node, (int(spans) - 1), bladeProp.beta_2_s.Value)
+        bladeProp.writeInterpolatedBladeAngles(task, beta2_node, bladeProp.beta_2_h.Value, bladeProp.beta_2_s.Value)
 
     target_dir = copy_cft_file(task)
     tree.write(target_dir + '-batch')
 
 
 def update(task):
-
     update_main_dimensions(task)
     # update_meridian(task)
-    # update_blade_properties(task)
+    update_blade_properties(task)
     # update_skeletonLines(task)
     # update_blade_profiles(task)
 
@@ -307,11 +398,10 @@ def launch_cfturbo(task):
     cft_env = 'CFturbo10_root'
     cft_path = environ.get(cft_env)
     launch_cft_path = os.path.join(cft_path, 'cfturbo.exe')
-    cft_batch_file = Impeller.get_cft_batch_path(task)
-
+    cft_batch_file = Impeller(task).get_cft_batch_path(task)
 
     # this is for files with spaces in the name
-    quoted_cft_batch_file ='"{}"'.format(cft_batch_file)
+    quoted_cft_batch_file = '"{}"'.format(cft_batch_file)
 
     start_cfturbo = Process.Start(launch_cft_path, '-batch' + ' ' + quoted_cft_batch_file)
     start_cfturbo.WaitForExit()
@@ -322,7 +412,7 @@ def launch_cfturbo(task):
 
 
 def obtain_cft_file_name(task):
-    cft_file_path = Impeller.get_cft_batch_path(task)
+    cft_file_path = Impeller(task).get_cft_batch_path(task)
     cft_file_name = basename(cft_file_path).split('.cft')[0]
 
     return cft_file_name
@@ -434,7 +524,6 @@ def make_s8(task):
 
 
 def make_s9(task):
-
     main_blade_attribs = extract_main_blade_attribs(task)
 
     blade_0_te_type = main_blade_attribs['Trailing Edge Type']
@@ -448,7 +537,6 @@ def make_s9(task):
 
 
 def make_s10(task):
-
     splitter_blade_attribs = extract_splitter_blade_attribs(task)
 
     if splitter_blade_attribs == {}:
@@ -465,7 +553,6 @@ def make_s10(task):
 
 
 def make_s11(task):
-
     splitter_blade_attribs = extract_splitter_blade_attribs(task)
 
     if splitter_blade_attribs == {}:
@@ -568,7 +655,6 @@ def cfturbo_start(task):
     outputSet = outputRefs["TurboGeometry"]
     myData = outputSet[0]
     myData.INFFilename = fileRef
-
 
 # def dummy_copying(task):
 #
