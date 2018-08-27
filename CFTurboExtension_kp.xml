@@ -99,7 +99,7 @@
 
 				<!-- Blade Properties of Radial Pump !-->
 
-				<propertygroup name="BladeProperties" caption="Blade Properties" display="caption">
+				<propertygroup name="BladeProperties" caption="Blade properties" display="caption">
 
 					<!-- Blade thicknesses !-->
 
@@ -148,6 +148,67 @@
 					</property>
 
 				</propertygroup>
+
+				<!-- wrap angles !-->
+
+				<propertygroup name="BladeMeanLines" caption="Blade mean lines" display="caption">
+
+					<property name="phiLEhub" caption="Leading edge angle at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="phiLEshroud" caption="Leading edge angle at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="phiTEhub" caption="Trailing edge angle at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+					<property name="phiTEshroud" caption="Trailing edge angle at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+						</callbacks>
+					</property>
+
+				</propertygroup>
+
+				<!-- Meridional contour !-->
+
+				<propertygroup name="Meridian" caption="Meridional contour" display="caption">
+
+					<property name="LePosHub" caption="Leading edge position at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>LePosHubVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="LePosShroud" caption="Leading edge position at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>LePosHubVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="TePosHub" caption="Trailing edge position at hub" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>TePosHubVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="TePosShroud" caption="Trailing edge position at shroud" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>TePosHubVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="LePosHubSplitter" caption="Leading edge position at hub (splitter blade)" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>LePosHubSplitterVisible</isvisible>
+						</callbacks>
+					</property>
+					<property name="LePosShroudSplitter" caption="Leading edge position at shroud (splitter blade)" control="double" default="0.0" parameterizable="True">
+						<callbacks>
+							<isvisible>LePosHubSplitterVisible</isvisible>
+						</callbacks>
+					</property>
+
+				</propertygroup>
+
             </task>
 
 			<!-- second cell !-->

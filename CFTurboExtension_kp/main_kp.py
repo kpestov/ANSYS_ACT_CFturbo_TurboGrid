@@ -1,3 +1,5 @@
+import math
+
 import clr
 import os
 import xml.etree.ElementTree as ET
@@ -17,20 +19,16 @@ clr.AddReference("Ans.ProjectSchematic")
 import Ansys.ProjectSchematic
 
 
-def resetParameters(task):
+def resetParameters(task, propGroup):
     '''
     Called when try to replace .cft-batch file and resets all parameters to the 0.0 from right table of properties
     Improvements: add ability to work with rest parameters in the table, not only for Main Dimensions
     :param task:
     :return:
     '''
-    MainDimensionsGroup = task.Properties["MainDimensions"].Properties
-    for i in range(len(MainDimensionsGroup)):
-        MainDimensionsGroup[i].Value = 0.0
-
-    BladePropertiesGroup = task.Properties["BladeProperties"].Properties
-    for i in range(len(BladePropertiesGroup)):
-        BladePropertiesGroup[i].Value = 0.0
+    Group = task.Properties["{}".format(propGroup)].Properties
+    for i in range(len(Group)):
+        Group[i].Value = 0.0
 
 
 def status(task):
@@ -192,7 +190,10 @@ def edit(task):
 
             if overwriteDialogResult == DialogResult.Yes:
 
-                resetParameters(task)
+                # reset parameters in propertygroups
+                propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian']
+                for i in propGroupList:
+                    resetParameters(task, i)
 
                 dest = Path.Combine(task.ActiveDirectory, path.basename(diagResult[1]))
                 source = diagResult[1]
@@ -275,6 +276,25 @@ def beta2Visible(task, property):
         return False
     return True
 
+def LePosHubVisible(task, property):
+    LePosHub = Meridian(task).positionExist(task, 'LePosHub')
+    if LePosHub is None:
+        return False
+    return True
+
+def TePosHubVisible(task, property):
+    TePosHub = Meridian(task).positionExist(task, 'TePosHub')
+    if TePosHub is None:
+        return False
+    return True
+
+
+def LePosHubSplitterVisible(task, property):
+    LePosHubSplitter = Meridian(task).positionExist(task, 'LePosHubSplitter')
+    if LePosHubSplitter is None:
+        return False
+    return True
+
 
 def insert_dimensions(task):
     '''
@@ -287,6 +307,8 @@ def insert_dimensions(task):
         copy_cft_file(task)
         MainDimensions(task).insert_main_dimensions(task)
         BladeProperties(task).insert_blade_properties(task)
+        SkeletonLines(task).insert_skeletonLines_properties(task)
+        Meridian(task).insert_meridian_properties(task)
     except IOError:
         pass
 
@@ -386,11 +408,43 @@ def update_blade_properties(task):
     tree.write(target_dir + '-batch')
 
 
+def update_skeletonLines(task):
+
+    skeletonLines = SkeletonLines(task)
+    impeller = Impeller(task)
+
+    tree = impeller.get_xml_tree(task)
+    root = tree.getroot()
+    skeletonlines_element = root[0][0][0][0][3]
+    num_of_bezier_curves = len(skeletonlines_element[0][0])
+
+    skeletonLines.writes_phi_angles(task, 0, skeletonLines.phiLEhub.Value, skeletonLines.phiTEhub.Value)
+    skeletonLines.writes_phi_angles(task, num_of_bezier_curves - 1, skeletonLines.phiLEshroud.Value, skeletonLines.phiTEshroud.Value)
+
+def update_meridian(task):
+    meridian = Meridian(task)
+    meridian_properties = meridian.join_positions(task)
+    bezierCurvesList = meridian.get_bezierCurvesList(task)
+
+    if 'LePosHub' in meridian_properties:
+        meridian.writes_positions(task, 0, meridian.LePosHub.Value, 'u-Hub')
+    if 'LePosShroud' in meridian_properties:
+        meridian.writes_positions(task, 0, meridian.LePosShroud.Value, 'u-Shroud')
+    if 'TePosHub' in meridian_properties:
+        meridian.writes_positions(task, 1, meridian.TePosHub.Value, 'u-Hub')
+    if 'TePosShroud' in meridian_properties:
+        meridian.writes_positions(task, 1, meridian.TePosShroud.Value, 'u-Shroud')
+    if 'LePosHubSplitter' in meridian_properties:
+        meridian.writes_positions(task, len(bezierCurvesList) - 1, meridian.LePosHubSplitter.Value, 'u-Hub')
+    if 'LePosShroudSplitter' in meridian_properties:
+        meridian.writes_positions(task, len(bezierCurvesList) - 1, meridian.LePosShroudSplitter.Value, 'u-Shroud')
+
+
 def update(task):
     update_main_dimensions(task)
-    # update_meridian(task)
+    update_meridian(task)
     update_blade_properties(task)
-    # update_skeletonLines(task)
+    update_skeletonLines(task)
     # update_blade_profiles(task)
 
 

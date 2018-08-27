@@ -1,6 +1,9 @@
 import xml.etree.ElementTree as ET
 import os
 import math
+import clr
+clr.AddReference("Ans.UI.Toolkit")
+from Ansys.UI.Toolkit import *
 
 
 class Impeller:
@@ -159,10 +162,6 @@ class BladeProperties(Impeller):
         :param task:
         :return: dict, e.g. blade_properties
         '''
-        blade_properties_element = self.get_blade_properties_element(task)
-        le_thickness_node = self.get_blade_properties_element(task)[3][0][0]
-        te_thickness_node = self.get_blade_properties_element(task)[3][0][1]
-
         blade_thickness = {}
 
         for child in node:
@@ -258,6 +257,7 @@ class BladeProperties(Impeller):
             self.te_thickness_hub.Value = blade_properties['BladeThicknessTeHub']
             self.te_thickness_shroud.Value = blade_properties['BladeThicknessTeShroud']
 
+            # convert from radians to degree
             self.beta_1_h.Value = round((float(blade_properties["beta1h"]) * 180/math.pi), 1)
             self.beta_1_s.Value = round((float(blade_properties['beta1s']) * 180/math.pi), 1)
             self.beta_2_h.Value = round((float(blade_properties['beta2h']) * 180/math.pi), 1)
@@ -300,5 +300,210 @@ class BladeProperties(Impeller):
                 # make linear interpolation from beta hub angle to shroud angle
                 node[i].text = str(
                     float(node[0].text) - i * (float(node[0].text) - float(node[spans - 1].text)) / (spans - 1))
+
+
+class SkeletonLines(Impeller):
+    def __init__(self, task):
+        Impeller.__init__(self, task)
+        self.group = task.Properties["BladeMeanLines"]
+        self.phiLEhub = self.group.Properties['phiLEhub']
+        self.phiLEshroud = self.group.Properties['phiLEshroud']
+        self.phiTEhub = self.group.Properties['phiTEhub']
+        self.phiTEshroud = self.group.Properties['phiTEshroud']
+
+    def get_skeletonLines_element(self, task):
+
+        main_element = Impeller(task).get_main_element(task, node=3)
+
+        return main_element
+
+    def get_phi_angles(self, task, number, phiLE, phiTE):
+        phi_angles = {}
+
+        check_node = self.get_skeletonLines_element(task)[0]
+        splitter_node = check_node.find('RelativeSplitterPosition')
+
+        if splitter_node is None:
+            index = 0
+        else:
+            index = 1
+
+        Bezier3SL_element = self.get_skeletonLines_element(task)[0][index][number]
+        num_of_points = Bezier3SL_element[0].attrib['Count']
+        anglesLe = Bezier3SL_element[0][0]
+        anglesTe = Bezier3SL_element[0][int(num_of_points) - 1]
+        phi_angles[phiLE] = anglesLe[0].text
+        phi_angles[phiTE] = anglesTe[0].text
+
+        return phi_angles
+
+    def join_phi_angles(self, task):
+
+        skeletonLinesProp = {}
+
+        num_of_bezier_curves = len(self.get_skeletonLines_element(task)[0][0])
+
+        phi_hub = self.get_phi_angles(task, 0, 'phiLEhub', 'phiTEhub')
+        phi_shroud = self.get_phi_angles(task, num_of_bezier_curves - 1, 'phiLEshroud', 'phiTEshroud')
+
+        skeletonLinesProp.update(phi_hub)
+        skeletonLinesProp.update(phi_shroud)
+
+        return skeletonLinesProp
+
+    def insert_skeletonLines_properties(self, task):
+
+        skeletonLinesProp = self.join_phi_angles(task)
+
+        # convert from radians to degree
+        self.phiLEhub.Value = round((float(skeletonLinesProp["phiLEhub"]) * 180/math.pi), 1)
+        self.phiLEshroud.Value = round((float(skeletonLinesProp["phiLEshroud"]) * 180/math.pi), 1)
+        self.phiTEhub.Value = round((float(skeletonLinesProp["phiTEhub"]) * 180/math.pi), 1)
+        self.phiTEshroud.Value = round((float(skeletonLinesProp["phiTEshroud"]) * 180/math.pi), 1)
+
+    def writes_phi_angles(self, task, number, phiLEValue, phiTEValue):
+        impeller = Impeller(task)
+
+        tree = impeller.get_xml_tree(task)
+        root = tree.getroot()
+
+        check_node = self.get_skeletonLines_element(task)[0]
+        splitter_node = check_node.find('RelativeSplitterPosition')
+
+        if splitter_node is None:
+            index = 0
+        else:
+            index = 1
+
+        skeletonlines_element = root[0][0][0][0][3]
+        Bezier3SL_element = skeletonlines_element[0][index][number]
+        num_of_points = Bezier3SL_element[0].attrib['Count']
+        anglesLe = Bezier3SL_element[0][0]
+        anglesTe = Bezier3SL_element[0][int(num_of_points) - 1]
+
+        anglesLe[0].text = str(round(((float(phiLEValue) / 180) * math.pi), 7))
+        anglesTe[0].text = str(round(((float(phiTEValue) / 180) * math.pi), 7))
+
+        target_dir = copy_cft_file(task)
+        tree.write(target_dir + '-batch')
+
+
+class Meridian(Impeller):
+    def __init__(self, task):
+        Impeller.__init__(self, task)
+        self.group = task.Properties['Meridian']
+        self.LePosHub = self.group.Properties['LePosHub']
+        self.LePosShroud = self.group.Properties['LePosShroud']
+        self.TePosHub = self.group.Properties['TePosHub']
+        self.TePosShroud = self.group.Properties['TePosShroud']
+        self.LePosHubSplitter = self.group.Properties['LePosHubSplitter']
+        self.LePosShroudSplitter = self.group.Properties['LePosShroudSplitter']
+
+    def get_meridian_element(self, task):
+
+        main_element = Impeller(task).get_main_element(task, node=1)
+
+        return main_element
+
+    def get_positions(self, task, numCurve, posParam, HubOrShroud):
+        positions = {}
+        pos_elements = self.get_meridian_element(task)[0][numCurve]
+        HubShroud = pos_elements.find('{}'.format(HubOrShroud)).text
+        positions['{}'.format(posParam)] = HubShroud
+
+        return positions
+
+    def get_bezierCurvesList(self, task):
+
+        check_node = self.get_meridian_element(task)[0]
+        bezierCurvesLE = check_node.findall('Bezier4MerLE')
+        bezierCurvesTE = check_node.findall('Bezier4MerTE')
+
+        set1 = set(bezierCurvesLE)
+        set2 = set(bezierCurvesTE)
+        set3 = set1.union(set2)
+        bezierCurvesList = list(set3)
+
+        return bezierCurvesList
+
+    def join_positions(self, task):
+        positionsProps = {}
+
+        check_node = self.get_meridian_element(task)[0]
+        Bezier4MerTE = check_node.find('Bezier4MerTE')
+        bezierCurvesLE = check_node.findall('Bezier4MerLE')
+
+        bezierCurvesList = self.get_bezierCurvesList(task)
+
+        for i in bezierCurvesLE:
+            if i.attrib['Desc'] == 'Leading edge (Splitter blade)':
+                LePosHubSplitter = self.get_positions(task, len(bezierCurvesList) - 1, 'LePosHubSplitter', 'u-Hub')
+                LePosShroudSplitter = self.get_positions(task, len(bezierCurvesList) - 1, 'LePosShroudSplitter', 'u-Shroud')
+
+                positionsProps.update(LePosHubSplitter)
+                positionsProps.update(LePosShroudSplitter)
+
+        if Bezier4MerTE is None:
+            LePosHub = self.get_positions(task, 0, 'LePosHub', 'u-Hub')
+            LePosShroud = self.get_positions(task, 0, 'LePosShroud', 'u-Shroud')
+            positionsProps.update(LePosHub)
+            positionsProps.update(LePosShroud)
+        else:
+            LePosHub = self.get_positions(task, 0, 'LePosHub', 'u-Hub')
+            LePosShroud = self.get_positions(task, 0, 'LePosShroud', 'u-Shroud')
+            TePosHub = self.get_positions(task, 1, 'TePosHub', 'u-Hub')
+            TePosShroud = self.get_positions(task, 1, 'TePosShroud', 'u-Shroud')
+
+            positionsProps.update(LePosHub)
+            positionsProps.update(LePosShroud)
+            positionsProps.update(TePosHub)
+            positionsProps.update(TePosShroud)
+
+        return positionsProps
+
+    def insert_meridian_properties(self, task):
+
+        meridian_properties = self.join_positions(task)
+
+        if 'LePosHub' in meridian_properties:
+            self.LePosHub.Value = meridian_properties['LePosHub']
+        if 'LePosShroud' in meridian_properties:
+            self.LePosShroud.Value = meridian_properties['LePosShroud']
+        if 'TePosHub' in meridian_properties:
+            self.TePosHub.Value = meridian_properties['TePosHub']
+        if 'TePosShroud' in meridian_properties:
+            self.TePosShroud.Value = meridian_properties['TePosShroud']
+        if 'LePosHubSplitter' in meridian_properties:
+            self.LePosHubSplitter.Value = meridian_properties['LePosHubSplitter']
+        if 'LePosShroudSplitter' in meridian_properties:
+            self.LePosShroudSplitter.Value = meridian_properties['LePosShroudSplitter']
+
+
+    def positionExist(self, task, key):
+
+        meridian_properties = self.join_positions(task)
+
+        if key not in meridian_properties:
+            return
+        else:
+            return 1
+
+    def writes_positions(self, task, numCurve, posParam, HubOrShroud):
+        impeller = Impeller(task)
+        tree = impeller.get_xml_tree(task)
+        root = tree.getroot()
+        meridian_element = root[0][0][0][0][1]
+
+        pos_elements = meridian_element[0][numCurve]
+        pos_elements.find('{}'.format(HubOrShroud)).text = str(posParam)
+
+        target_dir = copy_cft_file(task)
+        tree.write(target_dir + '-batch')
+
+
+
+
+
+
 
 
