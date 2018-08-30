@@ -191,7 +191,7 @@ def edit(task):
             if overwriteDialogResult == DialogResult.Yes:
 
                 # reset parameters in propertygroups
-                propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian']
+                propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
                 for i in propGroupList:
                     resetParameters(task, i)
 
@@ -288,13 +288,65 @@ def TePosHubVisible(task, property):
         return False
     return True
 
-
 def LePosHubSplitterVisible(task, property):
     LePosHubSplitter = Meridian(task).positionExist(task, 'LePosHubSplitter')
     if LePosHubSplitter is None:
         return False
     return True
 
+def BladeThickHub1Visible(task, property):
+    BladeThickHub1 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_1')
+    if BladeThickHub1 is None:
+        return False
+    return True
+
+def BladeThickHub2Visible(task, property):
+    BladeThickHub2 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_2')
+    if BladeThickHub2 is None:
+        return False
+    return True
+
+def BladeThickHub3Visible(task, property):
+    BladeThickHub3 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_3')
+    if BladeThickHub3 is None:
+        return False
+    return True
+
+def BladeThickHub4Visible(task, property):
+    BladeThickHub4 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_4')
+    if BladeThickHub4 is None:
+        return False
+    return True
+
+def BladeThickShroud1Visible(task, property):
+    BladeThickShroud1 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_1')
+    if BladeThickShroud1 is None:
+        return False
+    return True
+
+def BladeThickShroud2Visible(task, property):
+    BladeThickShroud2 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_2')
+    if BladeThickShroud2 is None:
+        return False
+    return True
+
+def BladeThickShroud3Visible(task, property):
+    BladeThickShroud3 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_3')
+    if BladeThickShroud3 is None:
+        return False
+    return True
+
+def BladeThickShroud4Visible(task, property):
+    BladeThickShroud4 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_4')
+    if BladeThickShroud4 is None:
+        return False
+    return True
+
+def BladeProfilesVisible(task, property):
+    num_points = BladeProfiles(task).BladeProfilesExist(task)
+    if num_points == 1:
+        return True
+    return False
 
 def insert_dimensions(task):
     '''
@@ -309,6 +361,7 @@ def insert_dimensions(task):
         BladeProperties(task).insert_blade_properties(task)
         SkeletonLines(task).insert_skeletonLines_properties(task)
         Meridian(task).insert_meridian_properties(task)
+        BladeProfiles(task).insert_blade_thickness(task)
     except IOError:
         pass
 
@@ -440,12 +493,36 @@ def update_meridian(task):
         meridian.writes_positions(task, len(bezierCurvesList) - 1, meridian.LePosShroudSplitter.Value, 'u-Shroud')
 
 
+def update_blade_profiles(task):
+
+    blProf = BladeProfiles(task)
+    blade_thickness = blProf.join_blade_thickness(task)
+
+    if 'BladeThickHub_1' in blade_thickness:
+        blProf.write_blade_thickness(task, 0, 1, blProf.BladeThickHub_1.Value)
+    if 'BladeThickHub_2' in blade_thickness:
+        blProf.write_blade_thickness(task, 0, 2, blProf.BladeThickHub_2.Value)
+    if 'BladeThickHub_3' in blade_thickness:
+        blProf.write_blade_thickness(task, 0, 3, blProf.BladeThickHub_3.Value)
+    if 'BladeThickHub_4' in blade_thickness:
+        blProf.write_blade_thickness(task, 0, 4, blProf.BladeThickHub_4.Value)
+
+    if 'BladeThickShroud_1' in blade_thickness:
+        blProf.write_blade_thickness(task, 1, 1, blProf.BladeThickShroud_1.Value)
+    if 'BladeThickShroud_2' in blade_thickness:
+        blProf.write_blade_thickness(task, 1, 2, blProf.BladeThickShroud_2.Value)
+    if 'BladeThickShroud_3' in blade_thickness:
+        blProf.write_blade_thickness(task, 1, 3, blProf.BladeThickShroud_3.Value)
+    if 'BladeThickShroud_4' in blade_thickness:
+        blProf.write_blade_thickness(task, 1, 4, blProf.BladeThickShroud_4.Value)
+
+
 def update(task):
     update_main_dimensions(task)
     update_meridian(task)
     update_blade_properties(task)
     update_skeletonLines(task)
-    # update_blade_profiles(task)
+    update_blade_profiles(task)
 
 
 def launch_cfturbo(task):

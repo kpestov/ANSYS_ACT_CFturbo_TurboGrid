@@ -501,6 +501,116 @@ class Meridian(Impeller):
         tree.write(target_dir + '-batch')
 
 
+class BladeProfiles(Impeller):
+    def __init__(self, task):
+        Impeller.__init__(self, task)
+        self.group = task.Properties['BladeProfiles']
+        self.BladeThickHub_1 = self.group.Properties['BladeThickHub_1']
+        self.BladeThickHub_2 = self.group.Properties['BladeThickHub_2']
+        self.BladeThickHub_3 = self.group.Properties['BladeThickHub_3']
+        self.BladeThickHub_4 = self.group.Properties['BladeThickHub_4']
+        self.BladeThickShroud_1 = self.group.Properties['BladeThickShroud_1']
+        self.BladeThickShroud_2 = self.group.Properties['BladeThickShroud_2']
+        self.BladeThickShroud_3 = self.group.Properties['BladeThickShroud_3']
+        self.BladeThickShroud_4 = self.group.Properties['BladeThickShroud_4']
+
+    def get_blade_profiles_element(self, task):
+
+        main_element = Impeller(task).get_main_element(task, node=4)
+
+        return main_element
+
+    def get_blade_thickness(self, task, HubShroud, BladeThickHubSroud):
+        blade_thickness = {}
+        node = self.get_blade_profiles_element(task)[0][HubShroud]
+        points_nodes = node[0][0].findall('Point')[1:-1]
+        j = 1
+        for i in points_nodes:
+            thickness = i.find('y').text
+            blade_thickness['{}_{}'.format(BladeThickHubSroud, j)] = 2 * float(thickness)
+            j += 1
+        return blade_thickness
+
+    def join_blade_thickness(self, task):
+        bladeThicknessProps = {}
+
+        BladeThickHub = self.get_blade_thickness(task, 0, 'BladeThickHub')
+        BladeThickShroud = self.get_blade_thickness(task, 1, 'BladeThickShroud')
+
+        bladeThicknessProps.update(BladeThickHub)
+        bladeThicknessProps.update(BladeThickShroud)
+
+        return bladeThicknessProps
+
+    def insert_blade_thickness(self, task):
+        blade_thickness = self.join_blade_thickness(task)
+
+        if 'BladeThickHub_1' in blade_thickness:
+            self.BladeThickHub_1.Value = blade_thickness['BladeThickHub_1']
+        if 'BladeThickHub_2' in blade_thickness:
+            self.BladeThickHub_2.Value = blade_thickness['BladeThickHub_2']
+        if 'BladeThickHub_3' in blade_thickness:
+            self.BladeThickHub_3.Value = blade_thickness['BladeThickHub_3']
+        if 'BladeThickHub_4' in blade_thickness:
+            self.BladeThickHub_4.Value = blade_thickness['BladeThickHub_4']
+
+        if 'BladeThickShroud_1' in blade_thickness:
+            self.BladeThickShroud_1.Value = blade_thickness['BladeThickShroud_1']
+        if 'BladeThickShroud_2' in blade_thickness:
+            self.BladeThickShroud_2.Value = blade_thickness['BladeThickShroud_2']
+        if 'BladeThickShroud_3' in blade_thickness:
+            self.BladeThickShroud_3.Value = blade_thickness['BladeThickShroud_3']
+        if 'BladeThickShroud_4' in blade_thickness:
+            self.BladeThickShroud_4.Value = blade_thickness['BladeThickShroud_4']
+
+    def bladeThicknessExist(self, task, key):
+        blade_thickness = self.join_blade_thickness(task)
+        if key not in blade_thickness:
+            return
+        else:
+            return 1
+
+    def BladeProfilesExist(self, task):
+        '''
+        Visibility of all property group BladeProfiles
+        :param task:
+        :return:
+        '''
+        num_points = self.get_blade_profiles_element(task)
+        if num_points == 2:
+            return
+        else:
+            return 1
+
+    def write_blade_thickness(self, task, HubShroud, indexValue, paramValue):
+        impeller = Impeller(task)
+        tree = impeller.get_xml_tree(task)
+        root = tree.getroot()
+        blade_profiles_element = root[0][0][0][0][4]
+
+        node = blade_profiles_element[0][HubShroud]
+        for i in range(2):
+            points_nodes = node[i][0]
+            for child in points_nodes:
+                if child.attrib["Index"] == "{}".format(indexValue):
+                    if i == 1:
+                        child[1].text = str(-float(paramValue) / 2)
+                    else:
+                        child[1].text = str(float(paramValue) / 2)
+
+        target_dir = copy_cft_file(task)
+        tree.write(target_dir + '-batch')
+
+
+
+
+
+
+
+
+
+
+
 
 
 
