@@ -3,6 +3,8 @@
 
     <script src="main_kp.py" compiled="True" />
     <script src="xml_parser.py" compiled="True" />
+    <script src="tse_parser.py" compiled="True" />
+    <script src="visibility.py" compiled="True" />
 
    <!-- <script src="test.py" compiled="True" /> !-->
 
