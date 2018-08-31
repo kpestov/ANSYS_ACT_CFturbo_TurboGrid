@@ -11,11 +11,6 @@ class Impeller:
         self.task = task
 
     def get_cft_batch_path(self, task):
-        '''
-        Extract .cft-batch file path from active directory .\ACT
-        :param task:
-        :return: path of .cft-batch file
-        '''
         for cft_file in os.listdir(task.ActiveDirectory):
             if cft_file.endswith(".cft-batch"):
                 cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
@@ -52,7 +47,8 @@ class MainDimensions(Impeller):
         self.group = task.Properties["MainDimensions"]
 
         # this property is the same for all types of pumps
-        self.tip_clearance = self.group.Properties["TipClearance"]
+        # I've commented it because it is possible to parameterized tip clearance in TurboGrid
+        # self.tip_clearance = self.group.Properties["TipClearance"]
 
         # properties for radial and mixed pumps
         self.hub_diameter = self.group.Properties["HubDiameter"]
@@ -65,6 +61,17 @@ class MainDimensions(Impeller):
         self.tip_diameter_inlet = self.group.Properties["TipDiameterInlet"]
         self.hub_diameter_outlet = self.group.Properties["HubDiameterOutlet"]
         self.tip_diameter_outlet = self.group.Properties["TipDiameterOutlet"]
+
+    # I've commented it because it is possible to parameterized tip clearance in TurboGrid
+    # def tipClearanceExist(self, task):
+    #     cft_file_path = self.get_cft_batch_path(task, '')
+    #
+    #     tree = ET.parse(cft_file_path)
+    #     root = tree.getroot()
+    #     main_dimensions_element = root[0][8].find('MainDimensions')
+    #     unshrouded_element = main_dimensions_element.find('MainDimensionsElement').find('UnShrouded')
+    #
+    #     return unshrouded_element.text
 
     def get_main_dimensions_element(self, task):
         '''
@@ -97,9 +104,9 @@ class MainDimensions(Impeller):
         main_dimensions_element = MainDimensions(task).get_main_dimensions_element(task)
 
         for child in main_dimensions_element:
-
-            if child.attrib["Desc"] == "Tip clearance":
-                self.tip_clearance.Value = child.text
+            # I've commented it because it is possible to parameterized tip clearance in TurboGrid
+            # if child.attrib["Desc"] == "Tip clearance":
+            #     self.tip_clearance.Value = child.text
 
             # properties for axial pump
             if child.attrib["Desc"] == "Hub diameter inlet dH1":

@@ -42,15 +42,13 @@
                 </propertygroup>
                 <propertygroup name="MainDimensions" caption="Main dimensions of Impeller" display="caption">
 
-					<!--<property name="TestCell" caption="Test Cell" control="text" default="0.0" parameterizable="True">
+
+					<!-- I've commented it because it is possible to parameterized tip clearance in TurboGrid !-->
+					<!--<property name="TipClearance" caption="Tip clearance" control="double" default="0.0" parameterizable="True">
 						<callbacks>
+							<isvisible>tipClearanceVisible</isvisible>
 						</callbacks>
 					</property> !-->
-
-					<property name="TipClearance" caption="Tip clearance" control="double" default="0.0" parameterizable="True">
-						<callbacks>
-						</callbacks>
-					</property>
 					<property name="HubDiameter" caption="Hub diameter" control="double" default="0.0" parameterizable="True">
 						<callbacks>
 							<isvisible>HubDiameterVisible</isvisible>

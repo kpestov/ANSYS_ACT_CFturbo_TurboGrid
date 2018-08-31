@@ -215,6 +215,12 @@ def edit(task):
     # function which takes values from a file .cft-batch
     insert_dimensions(task)
 
+# I've commented it because it is possible to parameterized tip clearance in TurboGrid
+# def tipClearanceVisible(task, property):
+#     tipClearance = MainDimensions(task).tipClearanceExist(task)
+#     if tipClearance == '0':
+#         return False
+#     return True
 
 def HubDiameterVisible(task, property):
     HubDiameter = MainDimensions(task).mainDimExist(task, 'dN', 'Desc', 'Hub diameter dH')
@@ -387,8 +393,9 @@ def update_main_dimensions(task):
 
     # the code bellow writes new values of parameter when update cell#2
     for child in main_dimensions_element:
-        if child.attrib["Desc"] == "Tip clearance":
-            child.text = str(mainDim.tip_clearance.Value)
+        # I've commented it because it is possible to parameterized tip clearance in TurboGrid
+        # if child.attrib["Desc"] == "Tip clearance":
+        #     child.text = str(mainDim.tip_clearance.Value)
 
         # properties for axial pump
         if child.attrib["Desc"] == "Hub diameter inlet dH1":
