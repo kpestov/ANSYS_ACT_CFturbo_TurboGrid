@@ -20,7 +20,7 @@
                 <callbacks>
 					<onstatus>status</onstatus>
                     <onupdate>update</onupdate>
-					<onreset>resetParameters</onreset>
+					<onreset>reset</onreset>
 				</callbacks>
 				<contextmenus>
 					<entry icon="CFturbo_cell2" name="Import CFTurbo .cft-batch file..." priority="1.0" type="ContextMenuEntry" version="1">
@@ -43,6 +43,10 @@
                     </property>
                 </propertygroup>
                 <propertygroup name="MainDimensions" caption="Main dimensions of Impeller" display="caption">
+
+					<callbacks>
+							<isvisible>GroupsVisible</isvisible>
+					</callbacks>
 
 
 					<!-- I've commented it because it is possible to parameterized tip clearance in TurboGrid !-->
@@ -101,6 +105,10 @@
 
 				<propertygroup name="BladeProperties" caption="Blade properties" display="caption">
 
+					<callbacks>
+							<isvisible>GroupsVisible</isvisible>
+					</callbacks>
+
 					<!-- Blade thicknesses !-->
 
 					<property name="NumberBlades" caption="Number of blades" control="integer" default="0.0" parameterizable="True">
@@ -153,6 +161,10 @@
 
 				<propertygroup name="BladeMeanLines" caption="Blade mean lines" display="caption">
 
+					<callbacks>
+							<isvisible>GroupsVisible</isvisible>
+					</callbacks>
+
 					<property name="phiLEhub" caption="Leading edge angle at hub" control="double" default="0.0" parameterizable="True">
 						<callbacks>
 						</callbacks>
@@ -175,6 +187,10 @@
 				<!-- Meridional contour !-->
 
 				<propertygroup name="Meridian" caption="Meridional contour" display="caption">
+
+					<callbacks>
+							<isvisible>GroupsVisible</isvisible>
+					</callbacks>
 
 					<property name="LePosHub" caption="Leading edge position at hub" control="double" default="0.0" parameterizable="True">
 						<callbacks>
@@ -214,7 +230,7 @@
 				<propertygroup name="BladeProfiles" caption="Blade profiles" display="caption">
 
 					<callbacks>
-							<isvisible>BladeProfilesVisible</isvisible>
+							<isvisible>GroupsVisible</isvisible>
 					</callbacks>
 
 					<property name="BladeThickHub_1" caption="Blade thickness at hub (point 1)" control="double" default="0.0" parameterizable="True">
@@ -266,7 +282,9 @@
 
 			<task name="CFTurbo Import" caption="CFTurbo Import" icon="CFturbo_cell2" version="1">
 				<callbacks>
+
                     <onupdate>cfturbo_start</onupdate>
+
                     <!--<onupdate>dummy_copying</onupdate>!-->
                 </callbacks>
 

@@ -607,20 +607,3 @@ class BladeProfiles(Impeller):
 
         target_dir = copy_cft_file(task)
         tree.write(target_dir + '-batch')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

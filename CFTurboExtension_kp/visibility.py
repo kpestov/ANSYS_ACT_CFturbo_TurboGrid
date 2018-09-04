@@ -5,6 +5,19 @@
 #         return False
 #     return True
 
+def GroupsVisible(task, property):
+    '''
+    Hide groups of properties if file no chosen
+    :param task:
+    :param property:
+    :return: boolean
+    '''
+    InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
+
+    if InputFileName.Value == "No file chosen!":
+        return False
+    return True
+
 def HubDiameterVisible(task, property):
     HubDiameter = MainDimensions(task).mainDimExist(task, 'dN', 'Desc', 'Hub diameter dH')
     if HubDiameter is None:
@@ -131,8 +144,11 @@ def BladeThickShroud4Visible(task, property):
         return False
     return True
 
-def BladeProfilesVisible(task, property):
-    num_points = BladeProfiles(task).BladeProfilesExist(task)
-    if num_points == 1:
-        return True
-    return False
+# I've commented it because BladeProfiles group is hidden when all properties are absent. No need to write a separate
+# function.
+# def BladeProfilesVisible(task, property):
+#     num_points = BladeProfiles(task).BladeProfilesExist(task)
+#
+#     if num_points == 1:
+#         return False
+#     return True

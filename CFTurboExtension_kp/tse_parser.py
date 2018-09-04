@@ -148,8 +148,3 @@ class FilesStrings(Geometry):
             f.write(self.s12 + '\n')
             f.write(self.s13 + '\n')
             f.write(self.s14 + '\n')
-
-
-
-
-

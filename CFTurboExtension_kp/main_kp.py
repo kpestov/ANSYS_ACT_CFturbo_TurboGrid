@@ -1,3 +1,5 @@
+from os.path import basename
+
 import clr
 import os
 import xml.etree.ElementTree as ET
@@ -16,16 +18,51 @@ clr.AddReference("Ans.ProjectSchematic")
 import Ansys.ProjectSchematic
 
 
-def resetParameters(task, propGroup):
+def resetParameters(task):
     '''
     Called when try to replace .cft-batch file and resets all parameters to the 0.0 from right table of properties
     Improvements: add ability to work with rest parameters in the table, not only for Main Dimensions
     :param task:
     :return:
     '''
-    Group = task.Properties["{}".format(propGroup)].Properties
-    for i in range(len(Group)):
-        Group[i].Value = 0.0
+    propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
+    for group in propGroupList:
+        Group = task.Properties["{}".format(group)].Properties
+        for i in range(len(Group)):
+            Group[i].Value = 0.0
+
+
+def cleanDir(task):
+    for file in os.listdir(task.ActiveDirectory):
+        os.remove(os.path.join(task.ActiveDirectory, file))
+
+
+def delCFturboFiles(task):
+    for file in os.listdir(task.ActiveDirectory):
+        if file.endswith('.inf'):
+        # if file.endswith('.curve') or file.endswith('.log') or file.endswith('.inf') or file.endswith('.tse'):
+            os.remove(os.path.join(task.ActiveDirectory, file))
+
+
+def reset(task):
+
+    InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
+
+    cft_batch_file_path = get_cft_batch_path(task)
+    cft_file_name = basename(cft_batch_file_path.Value).split('.cft')[0]
+    cft_file_path = path.join(task.ActiveDirectory, (cft_file_name + '.cft'))
+
+    task.UnregisterFile(cft_file_path)
+    task.UnregisterFile(cft_batch_file_path.Value)
+
+    for file in os.listdir(task.ActiveDirectory):
+        os.remove(os.path.join(task.ActiveDirectory, file))
+
+    cleanDir(task)
+
+    InputFileName.Value = "No file chosen!"
+
+    resetParameters(task)
 
 
 def status(task):
@@ -132,9 +169,6 @@ def copy_cft_file(task):
 
     tree.write(target_dir + '-batch')
 
-    file_ref = RegisterFile(FilePath=target_dir)
-    AssociateFileWithContainer(file_ref, container)
-
     return target_dir
 
 
@@ -174,12 +208,13 @@ def edit(task):
                                 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                 return
 
-            filePath.Value = dest
-            fileRef = RegisterFile(FilePath=filePath.Value)
-            AssociateFileWithContainer(fileRef, container)
+            # filePath.Value = dest
+            # fileRef = RegisterFile(FilePath=filePath.Value)
+            # AssociateFileWithContainer(fileRef, container)
 
         # if file already chosen
         else:
+
             messg = "Would you like to replace existing file?"
 
             overwriteDialogResult = MessageBox.Show(Window.MainWindow, messg, "", MessageBoxType.Question,
@@ -187,10 +222,14 @@ def edit(task):
 
             if overwriteDialogResult == DialogResult.Yes:
 
+                cft_batch_file_path = get_cft_batch_path(task)
+                cft_file_name = basename(cft_batch_file_path.Value).split('.cft')[0]
+                cft_file_path = path.join(task.ActiveDirectory, (cft_file_name + '.cft'))
+
+                task.UnregisterFile(cft_file_path)
+
                 # reset parameters in propertygroups
-                propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
-                for i in propGroupList:
-                    resetParameters(task, i)
+                resetParameters(task)
 
                 dest = Path.Combine(task.ActiveDirectory, path.basename(diagResult[1]))
                 source = diagResult[1]
@@ -202,12 +241,18 @@ def edit(task):
                                     'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                     return
 
-                filePath.Value = dest
-                fileRef = RegisterFile(FilePath=filePath.Value)
-                AssociateFileWithContainer(fileRef, container)
+                # filePath.Value = dest
+                # fileRef = RegisterFile(FilePath=filePath.Value)
+                # AssociateFileWithContainer(fileRef, container)
+
+    filePath.Value = dest
+    fileRef = RegisterFile(FilePath=filePath.Value)
+    AssociateFileWithContainer(fileRef, container)
 
     # function which copies .cft file to active directory
-    copy_cft_file(task)
+    cft_file_path = copy_cft_file(task)
+
+    task.RegisterFile(cft_file_path)
 
     # function which takes values from a file .cft-batch
     insert_dimensions(task)
@@ -482,11 +527,3 @@ def cfturbo_start(task):
 #     outputSet = outputRefs["TurboGeometry"]
 #     myData = outputSet[0]
 #     myData.INFFilename = fileRef
-
-
-
-
-
-
-
-
