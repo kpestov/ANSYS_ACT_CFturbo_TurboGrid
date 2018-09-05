@@ -39,9 +39,16 @@ def cleanDir(task):
 
 def delCFturboFiles(task):
     for file in os.listdir(task.ActiveDirectory):
-        if file.endswith('.inf'):
-        # if file.endswith('.curve') or file.endswith('.log') or file.endswith('.inf') or file.endswith('.tse'):
+        # if file.endswith('.inf'):
+        if file.endswith('.curve') or file.endswith('.log') or file.endswith('.tse'):
             os.remove(os.path.join(task.ActiveDirectory, file))
+
+
+def get_cft_file_name(task):
+    cft_batch_file_path = get_cft_batch_path(task)
+    cft_file_name = basename(cft_batch_file_path.Value).split('.cft')[0]
+
+    return cft_file_name
 
 
 def reset(task):
@@ -49,7 +56,7 @@ def reset(task):
     InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
 
     cft_batch_file_path = get_cft_batch_path(task)
-    cft_file_name = basename(cft_batch_file_path.Value).split('.cft')[0]
+    cft_file_name = get_cft_file_name(task)
     cft_file_path = path.join(task.ActiveDirectory, (cft_file_name + '.cft'))
 
     task.UnregisterFile(cft_file_path)
@@ -223,13 +230,8 @@ def edit(task):
 
             if overwriteDialogResult == DialogResult.Yes:
 
-                cft_batch_file_path = get_cft_batch_path(task)
-                cft_file_name = basename(cft_batch_file_path.Value).split('.cft')[0]
+                cft_file_name = get_cft_file_name(task)
                 cft_file_path = path.join(task.ActiveDirectory, (cft_file_name + '.cft'))
-
-                # for file in os.listdir(task.ActiveDirectory):
-                #     if file.endswith('.cft-batch'):
-                #         task.UnregisterFile(os.path.join(task.ActiveDirectory, file))
 
                 task.UnregisterFile(cft_file_path)
 
@@ -251,9 +253,11 @@ def edit(task):
                 # AssociateFileWithContainer(fileRef, container)
 
     cft_batch_file_path = get_cft_batch_path(task)
+    cft_file_name = get_cft_file_name(task)
     # MessageBox.Show(cft_batch_file_path.Value)
 
     task.UnregisterFile(cft_batch_file_path.Value)
+    task.UnregisterFile(path.join(task.ActiveDirectory, cft_file_name + '.inf'))
 
     filePath.Value = dest
     fileRef = RegisterFile(FilePath=filePath.Value)
@@ -439,6 +443,7 @@ def update_blade_profiles(task):
 
 
 def update(task):
+    delCFturboFiles(task)
     update_main_dimensions(task)
     update_meridian(task)
     update_blade_properties(task)
