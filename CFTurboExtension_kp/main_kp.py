@@ -54,6 +54,7 @@ def reset(task):
 
     task.UnregisterFile(cft_file_path)
     task.UnregisterFile(cft_batch_file_path.Value)
+    task.UnregisterFile(path.join(task.ActiveDirectory, cft_file_name + '.inf'))
 
     for file in os.listdir(task.ActiveDirectory):
         os.remove(os.path.join(task.ActiveDirectory, file))
@@ -226,6 +227,10 @@ def edit(task):
                 cft_file_name = basename(cft_batch_file_path.Value).split('.cft')[0]
                 cft_file_path = path.join(task.ActiveDirectory, (cft_file_name + '.cft'))
 
+                # for file in os.listdir(task.ActiveDirectory):
+                #     if file.endswith('.cft-batch'):
+                #         task.UnregisterFile(os.path.join(task.ActiveDirectory, file))
+
                 task.UnregisterFile(cft_file_path)
 
                 # reset parameters in propertygroups
@@ -244,6 +249,11 @@ def edit(task):
                 # filePath.Value = dest
                 # fileRef = RegisterFile(FilePath=filePath.Value)
                 # AssociateFileWithContainer(fileRef, container)
+
+    cft_batch_file_path = get_cft_batch_path(task)
+    # MessageBox.Show(cft_batch_file_path.Value)
+
+    task.UnregisterFile(cft_batch_file_path.Value)
 
     filePath.Value = dest
     fileRef = RegisterFile(FilePath=filePath.Value)
@@ -434,6 +444,7 @@ def update(task):
     update_blade_properties(task)
     update_skeletonLines(task)
     update_blade_profiles(task)
+    cfturbo_start(task)
 
 
 def launch_cfturbo(task):
