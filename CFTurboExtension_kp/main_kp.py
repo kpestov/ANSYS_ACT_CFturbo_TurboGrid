@@ -1,5 +1,4 @@
 from os.path import basename
-
 import clr
 import os
 import xml.etree.ElementTree as ET
@@ -19,12 +18,12 @@ import Ansys.ProjectSchematic
 
 
 def resetParameters(task):
-    '''
+    """
     Called when try to replace .cft-batch file and resets all parameters to the 0.0 from right table of properties
     Improvements: add ability to work with rest parameters in the table, not only for Main Dimensions
     :param task:
     :return:
-    '''
+    """
     propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
     for group in propGroupList:
         Group = task.Properties["{}".format(group)].Properties

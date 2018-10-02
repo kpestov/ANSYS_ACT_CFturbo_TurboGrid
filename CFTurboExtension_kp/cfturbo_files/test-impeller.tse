@@ -1,0 +1,75 @@
+GEOMETRY:
+  MACHINE DATA:
+    Bladeset Count = 6
+    Rotation Axis Type = Principal Axis
+    Principal Axis = Z
+    Rotation Axis From = 0 , 0 , 0
+    Rotation Axis To = 1 , 0 , 0
+  END
+  HUB:
+    Curve Representation = Piece-wise linear
+    Input Filename = C:\Users\vdk\Desktop\HMS\test-impeller_hub.curve
+    Coordinate Frame Type = Cartesian
+    Input Length Units = mm
+  END
+
+  SHROUD:
+    Curve Representation = Piece-wise linear
+    Input Filename = C:\Users\vdk\Desktop\HMS\test-impeller_shroud.curve
+    Coordinate Frame Type = Cartesian
+    Input Length Units = mm
+  END
+
+  BLADE SET:
+    BLADE:Main blade
+      Blade Type = Main
+      Blade Number = 0
+      Hub Name For Blade = ../HUB
+      Shroud Name For Blade = ../SHROUD
+      Tip Names For Blade = ../BLADE SET/HUB TIP,../BLADE SET/SHROUD TIP
+      Tip Names For Blade Distance = ../BLADE SET/HUB TIP,../BLADE SET/SHROUD TIP
+      Theta Controllers For Blade = ../INLET,../OUTLET
+      Input Filename = C:\Users\vdk\Desktop\HMS\test-impeller_profile.curve
+      Coordinate Frame Type = Cartesian
+      Input Length Units = mm
+      Leading Edge Type = Single
+      Trailing Edge Type = Double Cutoff
+    END
+    Blade List Surface Link = BLADE SET/BLADE:Main blade
+    Blade List Tolerance Link = BLADE SET/BLADE:Main blade
+    Blade List Edges Link = BLADE SET/BLADE:Main blade
+    Blade List Tip Link = BLADE SET/BLADE:Main blade
+    Blade List Extend Link = BLADE SET/BLADE:Main blade
+  END
+END
+GEOMETRY:
+  INLET:
+    Visibility = On
+    Opening Mode = Points
+    GEO POINT:Low Hub Point
+      AR Location Method = From A and R
+      Requested ART = 0 [m], 0.017 [m], 0.0 [degree]
+    END
+    GEO POINT:Low Shroud Point
+      AR Location Method = From A and R
+      Requested ART = 0 [m], 0.06195 [m], 0.0 [degree]
+    END
+  END
+  OUTLET:
+    Visibility = On
+    Opening Mode = Points
+    GEO POINT:Low Hub Point
+      AR Location Method = From A and R
+      Requested ART = 0.0635619490989212 [m], 0.1075 [m], 0.0 [degree]
+    END
+    GEO POINT:Low Shroud Point
+      AR Location Method = From A and R
+      Requested ART = 0.0418615106461511 [m], 0.1075 [m], 0.0 [degree]
+    END
+  END
+END
+MESH DATA:
+  Inlet Domain = Off
+  Outlet Domain = Off
+END
+>centerview 1
