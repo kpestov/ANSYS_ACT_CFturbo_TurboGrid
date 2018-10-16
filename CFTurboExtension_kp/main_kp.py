@@ -443,6 +443,14 @@ def update_blade_profiles(task):
         blProf.write_blade_thickness(task, 1, 4, blProf.BladeThickShroud_4.Value)
 
 
+def getDPName():
+    """
+        Method to get current design point name
+    """
+    currDP = Parameters.GetActiveDesignPoint()
+    return "dp"+currDP.Name
+
+
 def isDP0():
     name = getDPName()
     return name == "dp0"
@@ -465,7 +473,6 @@ def update(task):
     update_skeletonLines(task)
     update_blade_profiles(task)
     cfturbo_start(task)
-
 
 def launch_cfturbo(task):
     cft_env = 'CFturbo10_root'
