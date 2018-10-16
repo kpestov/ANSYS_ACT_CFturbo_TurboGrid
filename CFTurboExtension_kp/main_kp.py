@@ -443,12 +443,28 @@ def update_blade_profiles(task):
         blProf.write_blade_thickness(task, 1, 4, blProf.BladeThickShroud_4.Value)
 
 
-def getDPName():
-    """
-        Method to get current design point name
-    """
-    currDP = Parameters.GetActiveDesignPoint()
-    return "dp"+currDP.Name
+def isDP0():
+    name = getDPName()
+    return name == "dp0"
+
+
+def update(task):
+    dp_name = getDPName()
+    InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
+
+    if isDP0() == True:
+        pass
+    else:
+        # input_file_path = task.Properties["CFTurbo batch file"].Properties["InputFileName"].Value
+        InputFileName.Value = re.sub(r'dp\d+', dp_name, r'{}'.format(InputFileName.Value))
+
+    delCFturboFiles(task)
+    update_main_dimensions(task)
+    update_meridian(task)
+    update_blade_properties(task)
+    update_skeletonLines(task)
+    update_blade_profiles(task)
+    cfturbo_start(task)
 
 
 def launch_cfturbo(task):
