@@ -35,7 +35,7 @@
                 </outputs>
 
                 <propertygroup name="CFTurbo batch file" caption="CFTurbo batch input file" display="caption">
-                    <property name="InputFileName" caption="Input File Name" control="text" default="No file chosen!" readonly="True">
+                    <property name="InputFileName" caption="Input File Name" control="string" default="No file chosen!" needupdate="True" parameterizable="False" persistent="True" readonly="True" visible="True">
 						<callbacks>
 							<!--onadd>onAdd</onadd!-->
 							<IsValid>InFileValid</IsValid>
@@ -55,22 +55,23 @@
 							<isvisible>tipClearanceVisible</isvisible>
 						</callbacks>
 					</property> !-->
-					<property name="HubDiameter" caption="Hub diameter" control="double" default="0.0" parameterizable="True">
+
+                    <property name="HubDiameter" caption="Hub diameter" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>HubDiameterVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="SuctionDiameter" caption="Suction diameter" control="double" default="0.0" parameterizable="True">
+					<property name="SuctionDiameter" caption="Suction diameter" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>SuctionDiameterVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="ImpellerDiameter" caption="Impeller diameter" control="double" default="0.0" parameterizable="True">
+					<property name="ImpellerDiameter" caption="Impeller diameter" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>ImpellerDiameterVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="ImpellerOutletWidth" caption="Impeller outlet width" control="double" default="0.0" parameterizable="True">
+					<property name="ImpellerOutletWidth" caption="Impeller outlet width" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>ImpellerOutWidthVisible</isvisible>
 						</callbacks>
@@ -78,22 +79,22 @@
 
 					<!-- Main dimensions of Axial Pump !-->
 
-					<property name="HubDiameterInlet" caption="Hub diameter inlet" control="double" default="0.0" parameterizable="True">
+					<property name="HubDiameterInlet" caption="Hub diameter inlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>HubDiameterInletVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="TipDiameterInlet" caption="Tip diameter inlet" control="double" default="0.0" parameterizable="True">
+					<property name="TipDiameterInlet" caption="Tip diameter inlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>TipDiameterInletVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="HubDiameterOutlet" caption="Hub diameter outlet" control="double" default="0.0" parameterizable="True">
+					<property name="HubDiameterOutlet" caption="Hub diameter outlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>HubDiameterOutVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="TipDiameterOutlet" caption="Tip diameter outlet" control="double" default="0.0" parameterizable="True">
+					<property name="TipDiameterOutlet" caption="Tip diameter outlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>TipDiameterOutVisible</isvisible>
 						</callbacks>
@@ -111,45 +112,45 @@
 
 					<!-- Blade thicknesses !-->
 
-					<property name="NumberBlades" caption="Number of blades" control="integer" default="0.0" parameterizable="True">
+					<property name="NumberBlades" caption="Number of blades" control="integer" default="0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="BladeThicknessLeHub" caption="Thickness leading edge at hub" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThicknessLeHub" caption="Thickness leading edge at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="BladeThicknessLeShroud" caption="Thickness leading edge at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThicknessLeShroud" caption="Thickness leading edge at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="BladeThicknessTeHub" caption="Thickness trailing edge at hub" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThicknessTeHub" caption="Thickness trailing edge at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="BladeThicknessTeShroud" caption="Thickness trailing edge at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThicknessTeShroud" caption="Thickness trailing edge at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
 
 					<!-- Blade angles !-->
 
-					<property name="beta1h" caption="Blade angle leading edge at hub" control="double" default="0.0" parameterizable="True">
+					<property name="beta1h" caption="Blade angle leading edge at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>beta1Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="beta1s" caption="Blade angle leading edge at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="beta1s" caption="Blade angle leading edge at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>beta1Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="beta2h" caption="Blade angle trailing edge at hub" control="double" default="0.0" parameterizable="True">
+					<property name="beta2h" caption="Blade angle trailing edge at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>beta2Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="beta2s" caption="Blade angle trailing edge at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="beta2s" caption="Blade angle trailing edge at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>beta2Visible</isvisible>
 						</callbacks>
@@ -165,19 +166,19 @@
 							<isvisible>GroupsVisible</isvisible>
 					</callbacks>
 
-					<property name="phiLEhub" caption="Leading edge angle at hub" control="double" default="0.0" parameterizable="True">
+					<property name="phiLEhub" caption="Leading edge angle at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="phiLEshroud" caption="Leading edge angle at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="phiLEshroud" caption="Leading edge angle at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="phiTEhub" caption="Trailing edge angle at hub" control="double" default="0.0" parameterizable="True">
+					<property name="phiTEhub" caption="Trailing edge angle at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="phiTEshroud" caption="Trailing edge angle at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="phiTEshroud" caption="Trailing edge angle at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
@@ -192,32 +193,32 @@
 							<isvisible>GroupsVisible</isvisible>
 					</callbacks>
 
-					<property name="LePosHub" caption="Leading edge position at hub" control="double" default="0.0" parameterizable="True">
+					<property name="LePosHub" caption="Leading edge position at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>LePosHubVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="LePosShroud" caption="Leading edge position at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="LePosShroud" caption="Leading edge position at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>LePosHubVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="TePosHub" caption="Trailing edge position at hub" control="double" default="0.0" parameterizable="True">
+					<property name="TePosHub" caption="Trailing edge position at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>TePosHubVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="TePosShroud" caption="Trailing edge position at shroud" control="double" default="0.0" parameterizable="True">
+					<property name="TePosShroud" caption="Trailing edge position at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>TePosHubVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="LePosHubSplitter" caption="Leading edge position at hub (splitter blade)" control="double" default="0.0" parameterizable="True">
+					<property name="LePosHubSplitter" caption="Leading edge position at hub (splitter blade)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>LePosHubSplitterVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="LePosShroudSplitter" caption="Leading edge position at shroud (splitter blade)" control="double" default="0.0" parameterizable="True">
+					<property name="LePosShroudSplitter" caption="Leading edge position at shroud (splitter blade)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>LePosHubSplitterVisible</isvisible>
 						</callbacks>
@@ -233,42 +234,42 @@
 							<isvisible>GroupsVisible</isvisible>
 					</callbacks>
 
-					<property name="BladeThickHub_1" caption="Blade thickness at hub (point 1)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickHub_1" caption="Blade thickness at hub (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub1Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_1" caption="Blade thickness at Shroud (point 1)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickShroud_1" caption="Blade thickness at Shroud (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud1Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickHub_2" caption="Blade thickness at hub (point 2)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickHub_2" caption="Blade thickness at hub (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub2Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_2" caption="Blade thickness at Shroud (point 2)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickShroud_2" caption="Blade thickness at Shroud (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud2Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickHub_3" caption="Blade thickness at hub (point 3)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickHub_3" caption="Blade thickness at hub (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub3Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_3" caption="Blade thickness at Shroud (point 3)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickShroud_3" caption="Blade thickness at Shroud (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud3Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickHub_4" caption="Blade thickness at hub (point 4)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickHub_4" caption="Blade thickness at hub (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub4Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_4" caption="Blade thickness at Shroud (point 4)" control="double" default="0.0" parameterizable="True">
+					<property name="BladeThickShroud_4" caption="Blade thickness at Shroud (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud4Visible</isvisible>
 						</callbacks>

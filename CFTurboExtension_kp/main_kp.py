@@ -1,4 +1,6 @@
+import re
 from os.path import basename
+
 import clr
 import os
 import xml.etree.ElementTree as ET
@@ -18,12 +20,12 @@ import Ansys.ProjectSchematic
 
 
 def resetParameters(task):
-    """
+    '''
     Called when try to replace .cft-batch file and resets all parameters to the 0.0 from right table of properties
     Improvements: add ability to work with rest parameters in the table, not only for Main Dimensions
     :param task:
     :return:
-    """
+    '''
     propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
     for group in propGroupList:
         Group = task.Properties["{}".format(group)].Properties
@@ -41,6 +43,18 @@ def delCFturboFiles(task):
         # if file.endswith('.inf'):
         if file.endswith('.curve') or file.endswith('.log') or file.endswith('.tse'):
             os.remove(os.path.join(task.ActiveDirectory, file))
+
+
+def get_cft_batch_path(task):
+    '''
+    Extract .cft-batch file path from property 'Input File Name'
+    :param task:
+    :return: file path ..\*.cft-batch
+    '''
+    group = task.Properties["CFTurbo batch file"]
+    cft_batch_file_path = group.Properties["InputFileName"]
+
+    return cft_batch_file_path
 
 
 def get_cft_file_name(task):
@@ -100,18 +114,6 @@ def InFileValid(task, property):
     if path.exists(property.Value):
         return True
     return False
-
-
-def get_cft_batch_path(task):
-    '''
-    Extract .cft-batch file path from property 'Input File Name'
-    :param task:
-    :return: file path ..\*.cft-batch
-    '''
-    group = task.Properties["CFTurbo batch file"]
-    cft_batch_file_path = group.Properties["InputFileName"]
-
-    return cft_batch_file_path
 
 
 def copy_cft_file(task):
@@ -441,14 +443,12 @@ def update_blade_profiles(task):
         blProf.write_blade_thickness(task, 1, 4, blProf.BladeThickShroud_4.Value)
 
 
-def update(task):
-    delCFturboFiles(task)
-    update_main_dimensions(task)
-    update_meridian(task)
-    update_blade_properties(task)
-    update_skeletonLines(task)
-    update_blade_profiles(task)
-    cfturbo_start(task)
+def getDPName():
+    """
+        Method to get current design point name
+    """
+    currDP = Parameters.GetActiveDesignPoint()
+    return "dp"+currDP.Name
 
 
 def launch_cfturbo(task):
