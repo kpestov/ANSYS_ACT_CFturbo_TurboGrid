@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py" line="567" />
+    <bookmark url="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py" line="568" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d99d84d-f755-4395-808a-f228ccfcbc2d" name="Default" comment="">
@@ -34,6 +34,16 @@
           <entry key="PLAIN_TEXT" value="2" />
         </counts>
       </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="py" value="15" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="Python" value="15" />
+        </counts>
+      </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
@@ -41,8 +51,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="476" selection-start-line="476" selection-end-line="476" />
+            <state relative-caret-position="140">
+              <caret line="456" lean-forward="true" selection-start-line="456" selection-end-line="456" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -127,10 +137,10 @@
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1936" />
-    <option name="height" value="1056" />
+    <option name="x" value="92" />
+    <option name="y" value="332" />
+    <option name="width" value="1598" />
+    <option name="height" value="858" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -626,12 +636,12 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py</url>
-          <line>464</line>
+          <line>465</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py</url>
-          <line>476</line>
+          <line>477</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
       </breakpoints>
@@ -746,8 +756,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="429">
-          <caret line="476" selection-start-line="476" selection-end-line="476" />
+        <state relative-caret-position="140">
+          <caret line="456" lean-forward="true" selection-start-line="456" selection-end-line="456" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>

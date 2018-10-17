@@ -455,17 +455,21 @@ def isDP0():
     name = getDPName()
     return name == "dp0"
 
-def change_path_in_cft_batch(file_path):
 
-    tree = ET.parse(file_path)
+def change_dp_name(*args):
+    dp_dir = re.sub(r'dp\d+', getDPName(), r'{}'.format(*args))
+    return dp_dir
+
+
+def change_path_in_cft_batch(*args):
+    tree = ET.parse(*args)
     root = tree.getroot()
     cfturbo_batch_project_node = root.find('CFturboBatchProject')
     input_file = cfturbo_batch_project_node.attrib['InputFile']
-
-    dp_dir = re.sub(r'dp\d+', getDPName(), r'{}'.format(input_file))
+    dp_dir = change_dp_name(input_file)
     cfturbo_batch_project_node.attrib['InputFile'] = dp_dir
+    tree.write(*args)
 
-    tree.write(file_path)
 
 def update(task):
     InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
@@ -473,8 +477,7 @@ def update(task):
     if isDP0() == True:
         pass
     else:
-        # input_file_path = task.Properties["CFTurbo batch file"].Properties["InputFileName"].Value
-        InputFileName.Value = re.sub(r'dp\d+', getDPName(), r'{}'.format(InputFileName.Value))
+        InputFileName.Value = change_dp_name(InputFileName.Value)
         change_path_in_cft_batch(InputFileName.Value)
 
     delCFturboFiles(task)
