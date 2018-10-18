@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py" line="570" />
+    <bookmark url="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py" line="567" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4d99d84d-f755-4395-808a-f228ccfcbc2d" name="Default" comment="">
@@ -26,20 +26,24 @@
         <counts>
           <entry key="gitignore" value="1" />
           <entry key="txt" value="1" />
+          <entry key="xml" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="PLAIN_TEXT" value="2" />
+          <entry key="XML" value="1" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="py" value="15" />
+          <entry key="txt" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
+          <entry key="PLAIN_TEXT" value="4" />
           <entry key="Python" value="15" />
         </counts>
       </usages-collector>
@@ -47,14 +51,23 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="465" column="25" selection-start-line="465" selection-start-column="25" selection-end-line="465" selection-end-column="25" />
+            <state relative-caret-position="293">
+              <caret line="486" selection-start-line="486" selection-end-line="486" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="260" column="31" lean-forward="true" selection-start-line="260" selection-start-column="31" selection-end-line="260" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -135,7 +148,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="92" />
     <option name="y" value="332" />
     <option name="width" value="1598" />
@@ -163,7 +176,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="C:/programming/practies" />
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -551,9 +564,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18018967" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18018967" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -564,7 +578,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.21216217" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.23210412" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.35357916" />
+      <window_info anchor="bottom" id="Terminal" order="8" visible="true" weight="0.29718006" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3286334" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -725,13 +739,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="179" column="31" lean-forward="true" selection-start-line="179" selection-start-column="31" selection-end-line="179" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -744,11 +751,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="465" column="25" selection-start-line="465" selection-start-column="25" selection-end-line="465" selection-end-column="25" />
+        <state relative-caret-position="293">
+          <caret line="486" selection-start-line="486" selection-end-line="486" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="260" column="31" lean-forward="true" selection-start-line="260" selection-start-column="31" selection-end-line="260" selection-end-column="31" />
         </state>
       </provider>
     </entry>

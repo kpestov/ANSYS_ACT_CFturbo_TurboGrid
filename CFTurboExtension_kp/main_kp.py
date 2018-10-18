@@ -485,9 +485,29 @@ def update(task):
     update_blade_profiles(task)
     cfturbo_start(task)
 
+
+def get_exe_cft_path(func):
+    def wrapper():
+        latest_release = 0
+        for v in func():
+            cur_release = int(v[7:-5])
+            if cur_release > latest_release:
+                latest_release = cur_release
+        cft_path = os.environ.get('CFTURBO{}_root'.format(latest_release))
+        return cft_path
+    return wrapper
+
+
+@get_exe_cft_path
+def get_cft_var_list():
+    var_list = [key for key in os.environ.keys() if re.findall(r'CFTURBO\d+_ROOT', key)]
+    if not var_list:
+        raise Exception('There is no system variables CFTURBO!')
+    return var_list
+
+
 def launch_cfturbo(task):
-    cft_env = 'CFturbo10_root'
-    cft_path = environ.get(cft_env)
+    cft_path = get_cft_var_list()
     launch_cft_path = os.path.join(cft_path, 'cfturbo.exe')
     cft_batch_file = Impeller(task).get_cft_batch_path(task)
 
