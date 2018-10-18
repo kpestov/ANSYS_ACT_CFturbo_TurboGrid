@@ -1,21 +1,18 @@
 import re
-from os.path import basename
-
 import clr
 import os
 import xml.etree.ElementTree as ET
-
+from os.path import basename
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
 clr.AddReference('Ansys.ACT.Interfaces')
+clr.AddReference("Ans.ProjectSchematic")
 from Ansys.ACT.Interfaces.Workflow import *
 from Ansys.UI.Toolkit import *
 from shutil import copyfile
 from os import remove, path, environ
 from System.IO import Path
 from System.Diagnostics import Process
-
-clr.AddReference("Ans.ProjectSchematic")
 import Ansys.ProjectSchematic
 
 
