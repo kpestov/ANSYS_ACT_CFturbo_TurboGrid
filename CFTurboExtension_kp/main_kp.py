@@ -487,6 +487,11 @@ def update(task):
 
 
 def get_exe_cft_path(func):
+    """
+        Extract release number and find path to cfturbo.exe
+        :param func:
+        :return: path to cfturbo.exe
+    """
     def wrapper():
         latest_release = 0
         for v in func():
@@ -500,6 +505,10 @@ def get_exe_cft_path(func):
 
 @get_exe_cft_path
 def get_cft_var_list():
+    """
+        Get list of system variables and find only CFTURBO vars
+        :return: list of CFTURBO versions
+    """
     var_list = [key for key in os.environ.keys() if re.findall(r'CFTURBO\d+_ROOT', key)]
     if not var_list:
         raise Exception('There is no system variables CFTURBO!')
