@@ -2,6 +2,7 @@ import re
 import clr
 import os
 import xml.etree.ElementTree as ET
+import subprocess
 from os.path import basename
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
@@ -517,18 +518,12 @@ def get_cft_var_list():
 
 def launch_cfturbo(task):
     cft_path = get_cft_var_list()
-    launch_cft_path = os.path.join(cft_path, 'cfturbo.exe')
     cft_batch_file = Impeller(task).get_cft_batch_path(task)
-
-    # this is for files with spaces in the name
-    quoted_cft_batch_file = '"{}"'.format(cft_batch_file)
-
-    start_cfturbo = Process.Start(launch_cft_path, '-batch' + ' ' + quoted_cft_batch_file)
-    start_cfturbo.WaitForExit()
-    exit_code = start_cfturbo.ExitCode
-
-    if exit_code != 1:
-        raise Exception('Failed to launch CFTurbo!')
+    cmdline = r'"{}\cfturbo.exe" -batch {}'.format(cft_path, cft_batch_file)
+    try:
+        os.system(cmdline)
+    except Exception:
+        MessageBox.Show('Failed to launch CFTurbo!')
 
 
 def cfturbo_start(task):
