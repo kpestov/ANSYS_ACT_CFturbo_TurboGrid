@@ -2,6 +2,7 @@ import re
 import clr
 import os
 import xml.etree.ElementTree as ET
+import subprocess
 from os.path import basename
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
@@ -10,8 +11,9 @@ clr.AddReference("Ans.ProjectSchematic")
 from Ansys.ACT.Interfaces.Workflow import *
 from Ansys.UI.Toolkit import *
 from shutil import copyfile
-from os import remove, path
+from os import remove, path, environ
 from System.IO import Path
+from System.Diagnostics import Process
 import Ansys.ProjectSchematic
 
 
@@ -517,7 +519,7 @@ def get_cft_var_list():
 def launch_cfturbo(task):
     cft_path = get_cft_var_list()
     cft_batch_file = Impeller(task).get_cft_batch_path(task)
-    cmdline = r'"{}\cfturbo.exe" -batch {}'.format(cft_path, cft_batch_file)
+    cmdline = r'"{}\cfturbo.exe" -batch "{}"'.format(cft_path, cft_batch_file)
     try:
         os.system(cmdline)
     except Exception:
