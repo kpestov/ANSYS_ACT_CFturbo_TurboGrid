@@ -2,7 +2,6 @@ import re
 import clr
 import os
 import xml.etree.ElementTree as ET
-import subprocess
 from os.path import basename
 clr.AddReference("Ans.UI.Toolkit")
 clr.AddReference("Ans.UI.Toolkit.Base")
@@ -11,9 +10,8 @@ clr.AddReference("Ans.ProjectSchematic")
 from Ansys.ACT.Interfaces.Workflow import *
 from Ansys.UI.Toolkit import *
 from shutil import copyfile
-from os import remove, path, environ
+from os import remove, path
 from System.IO import Path
-from System.Diagnostics import Process
 import Ansys.ProjectSchematic
 
 
@@ -274,8 +272,6 @@ def edit(task):
 def insert_dimensions(task):
     '''
     Insert main dimensions of impeller to the table of properties of cell#1
-    :param task:
-    :return:
     '''
     try:
         # if there is no .cft-file in user_files directory raise exception
@@ -310,28 +306,25 @@ def update_main_dimensions(task):
 
     # the code bellow writes new values of parameter when update cell#2
     for child in main_dimensions_element:
-        # I've commented it because it is possible to parameterized tip clearance in TurboGrid
-        # if child.attrib["Desc"] == "Tip clearance":
-        #     child.text = str(mainDim.tip_clearance.Value)
 
         # properties for axial pump
-        if child.attrib["Desc"] == "Hub diameter inlet dH1":
+        if child.attrib["Caption"] == "Hub diameter inlet dH1":
             child.text = str(mainDim.hub_diameter_inlet.Value)
-        if child.attrib["Desc"] == "Tip diameter inlet dS1":
+        if child.attrib["Caption"] == "Tip diameter inlet dS1":
             child.text = str(mainDim.tip_diameter_inlet.Value)
-        if child.attrib["Desc"] == "Hub diameter outlet dH2":
+        if child.attrib["Caption"] == "Hub diameter outlet dH2":
             child.text = str(mainDim.hub_diameter_outlet.Value)
-        if child.attrib["Desc"] == "Tip diameter outlet dS2":
+        if child.attrib["Caption"] == "Tip diameter outlet dS2":
             child.text = str(mainDim.tip_diameter_outlet.Value)
 
         # properties for radial and mixed pumps
-        if child.attrib["Desc"] == "Hub diameter dH":
+        if child.attrib["Caption"] == "Hub diameter":
             child.text = str(mainDim.hub_diameter.Value)
-        if child.attrib["Desc"] == "Suction diameter dS":
+        if child.attrib["Caption"] == "Suction diameter dS":
             child.text = str(mainDim.suction_diameter.Value)
-        if child.attrib["Desc"] == "Impeller diameter d2":
+        if child.attrib["Caption"] == "Impeller diameter d2":
             child.text = str(mainDim.impeller_diameter.Value)
-        if child.attrib["Desc"] == "Impeller outlet width b2":
+        if child.attrib["Caption"] == "Impeller outlet width b2":
             child.text = str(mainDim.impeller_outlet_width.Value)
 
     target_dir = copy_cft_file(task)

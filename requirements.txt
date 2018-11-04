@@ -1,1 +1,2 @@
+beautifulsoup4==4.6.3
 clr==1.0.3

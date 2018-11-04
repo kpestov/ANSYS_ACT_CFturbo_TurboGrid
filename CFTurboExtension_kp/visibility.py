@@ -18,50 +18,52 @@ def GroupsVisible(task, property):
         return False
     return True
 
+# properties for radial and mixed pumps
 def HubDiameterVisible(task, property):
-    HubDiameter = MainDimensions(task).mainDimExist(task, 'dN', 'Desc', 'Hub diameter dH')
+    HubDiameter = MainDimensions(task).mainDimExist(task, 'dN', 'Caption', 'Hub diameter')
     if HubDiameter is None:
         return False
     return True
 
 def SuctionDiameterVisible(task, property):
-    SuctionDiameter = MainDimensions(task).mainDimExist(task, 'dS', 'Desc', 'Suction diameter dS')
+    SuctionDiameter = MainDimensions(task).mainDimExist(task, 'dS', 'Caption', 'Suction diameter')
     if SuctionDiameter is None:
         return False
     return True
 
 def ImpellerDiameterVisible(task, property):
-    ImpellerDiameter = MainDimensions(task).mainDimExist(task, 'd2', 'Desc', 'Impeller diameter d2')
+    ImpellerDiameter = MainDimensions(task).mainDimExist(task, 'b2', 'Caption', 'Impeller diameter')
     if ImpellerDiameter is None:
         return False
     return True
 
 def ImpellerOutWidthVisible(task, property):
-    ImpellerOutWidth = MainDimensions(task).mainDimExist(task, 'b2', 'Desc', 'Impeller outlet width b2')
+    ImpellerOutWidth = MainDimensions(task).mainDimExist(task, 'd2', 'Caption', 'Outlet width')
     if ImpellerOutWidth is None:
         return False
     return True
 
+# properties for axial pump
 def HubDiameterInletVisible(task, property):
-    HubDiameterInlet = MainDimensions(task).mainDimExist(task, 'dN', 'Desc', 'Hub diameter inlet dH1')
+    HubDiameterInlet = MainDimensions(task).mainDimExist(task, 'dN', 'Caption', 'Hub diameter')
     if HubDiameterInlet is None:
         return False
     return True
 
 def TipDiameterInletVisible(task, property):
-    TipDiameterInlet = MainDimensions(task).mainDimExist(task, 'dS', 'Desc', 'Tip diameter inlet dS1')
+    TipDiameterInlet = MainDimensions(task).mainDimExist(task, 'dS', 'Caption', 'Suction diameter')
     if TipDiameterInlet is None:
         return False
     return True
 
 def HubDiameterOutVisible(task, property):
-    HubDiameterOut = MainDimensions(task).mainDimExist(task, 'dH2', 'Desc', 'Hub diameter outlet dH2')
+    HubDiameterOut = MainDimensions(task).mainDimExist(task, 'dH2', 'Caption', 'Hub diameter outlet')
     if HubDiameterOut is None:
         return False
     return True
 
 def TipDiameterOutVisible(task, property):
-    TipDiameterOut = MainDimensions(task).mainDimExist(task, 'dS2', 'Desc', 'Tip diameter outlet dS2')
+    TipDiameterOut = MainDimensions(task).mainDimExist(task, 'dS2', 'Caption', 'Tip diameter outlet')
     if TipDiameterOut is None:
         return False
     return True

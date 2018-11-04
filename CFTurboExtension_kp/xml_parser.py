@@ -14,15 +14,9 @@ class Impeller:
         for cft_file in os.listdir(task.ActiveDirectory):
             if cft_file.endswith(".cft-batch"):
                 cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
-
                 return cft_file_path
 
     def get_xml_tree(self, task):
-        '''
-        Parses .cft-batch file for parameters extraction
-        :param task:
-        :return: parsed tree object of .cft-batch file
-        '''
         cft_batch_file_path = self.get_cft_batch_path(task)
         tree = ET.parse(cft_batch_file_path)
         return tree
@@ -30,13 +24,11 @@ class Impeller:
     def get_xml_root(self, task):
         tree = self.get_xml_tree(task)
         root = tree.getroot()
-
         return root
 
     def get_main_element(self, task, node=0):
         root = self.get_xml_root(task)
         main_element = root[0][0][0][0][node]
-
         return main_element
 
 
@@ -74,16 +66,8 @@ class MainDimensions(Impeller):
     #     return unshrouded_element.text
 
     def get_main_dimensions_element(self, task):
-        '''
-        Gets access to MainDimensionsElement element
-        :param task:
-        :return: MainDimensionsElement node of .cft-batch file
-        '''
-
-        # get main dimensions element
         main_element = Impeller(task).get_main_element(task, node=0)
         main_dimensions_element = main_element[0]
-
         return main_dimensions_element
 
     def mainDimExist(self, task, tag, attrib, attribValue):
@@ -96,36 +80,28 @@ class MainDimensions(Impeller):
             pass
 
     def insert_main_dimensions(self, task):
-        '''
-        Insert main dimensions of impeller to the table of properties of cell#1
-        :param task:
-        :return:
-        '''
         main_dimensions_element = MainDimensions(task).get_main_dimensions_element(task)
 
         for child in main_dimensions_element:
-            # I've commented it because it is possible to parameterized tip clearance in TurboGrid
-            # if child.attrib["Desc"] == "Tip clearance":
-            #     self.tip_clearance.Value = child.text
 
             # properties for axial pump
-            if child.attrib["Desc"] == "Hub diameter inlet dH1":
+            if child.attrib["Caption"] == "Hub diameter":
                 self.hub_diameter_inlet.Value = child.text
-            if child.attrib["Desc"] == "Tip diameter inlet dS1":
+            if child.attrib["Caption"] == "Suction diameter":
                 self.tip_diameter_inlet.Value = child.text
-            if child.attrib["Desc"] == "Hub diameter outlet dH2":
+            if child.attrib["Caption"] == "Hub diameter outlet":
                 self.hub_diameter_outlet.Value = child.text
-            if child.attrib["Desc"] == "Tip diameter outlet dS2":
+            if child.attrib["Caption"] == "Tip diameter outlet":
                 self.tip_diameter_outlet.Value = child.text
 
             # properties for radial and mixed pumps
-            if child.attrib["Desc"] == "Hub diameter dH":
+            if child.attrib["Caption"] == "Hub diameter":
                 self.hub_diameter.Value = child.text
-            if child.attrib["Desc"] == "Suction diameter dS":
+            if child.attrib["Caption"] == "Suction diameter":
                 self.suction_diameter.Value = child.text
-            if child.attrib["Desc"] == "Impeller diameter d2":
+            if child.attrib["Caption"] == "Impeller diameter":
                 self.impeller_diameter.Value = child.text
-            if child.attrib["Desc"] == "Impeller outlet width b2":
+            if child.attrib["Caption"] == "Outlet width":
                 self.impeller_outlet_width.Value = child.text
 
 
@@ -145,60 +121,48 @@ class BladeProperties(Impeller):
 
 
     def get_blade_properties_element(self, task):
-        '''
-        Gets access to BladeProperties element
-        :param task:
-        :return: BladeProperties node of .cft-batch file
-        '''
-        # get blade properties element
         main_element = Impeller(task).get_main_element(task, node=2)
-
         return main_element
 
+
+    def get_main_blade_element(self, task):
+        tread_array = self.get_blade_properties_element(task).find('TReadWriteArray_TBladeProps')
+        main_blade_element = tread_array[0]
+        return main_blade_element
+
+
     def betaExist(self, task, tag):
-        angles = self.get_blade_properties_element(task)[3][0]
-        beta = angles.find(tag)
+        main_blade_element = self.get_main_blade_element(task)
+        beta = main_blade_element.find(tag)
         if beta is None:
             return
         else:
             return 1
 
-    def get_blade_thickness(self, task, node, thickness_hub, thickness_shroud):
-        '''
-        Get blade properties of impeller from BladeProperties element and push it to dict
-        :param task:
-        :return: dict, e.g. blade_properties
-        '''
-        blade_thickness = {}
-
-        for child in node:
-            if child.attrib["Index"] == "0":
-                blade_thickness["{}".format(thickness_hub)] = child.text
-            if child.attrib["Index"] == "1":
-                blade_thickness["{}".format(thickness_shroud)] = child.text
-
-        return blade_thickness
+    # def get_blade_thickness(self, task, node, thickness_hub, thickness_shroud):
+    #     '''
+    #     Get blade properties of impeller from BladeProperties element and push it to dict
+    #     :param task:
+    #     :return: dict, e.g. blade_properties
+    #     '''
+    #     blade_thickness = {}
+    #
+    #     for child in node:
+    #         if child.attrib["Index"] == "0":
+    #             blade_thickness["{}".format(thickness_hub)] = child.text
+    #         if child.attrib["Index"] == "1":
+    #             blade_thickness["{}".format(thickness_shroud)] = child.text
+    #
+    #     return blade_thickness
 
     def getNumSpans(self, task):
-        '''
-        Extract number of spans from BladeProperties node
-        :param task:
-        :return:number of spans
-        '''
-        blade_properties_element = self.get_blade_properties_element(task)
-        spans = blade_properties_element.find('Count').text
+
+        main_blade_element = self.get_main_blade_element(task)
+        spans = main_blade_element.find('Beta1').attrib['Count']
 
         return spans
 
     def get_blade_angles(self, task, node, betah, betas):
-        '''
-        Extract blade angles beta1, beta2 and push it to the blade_angles dict
-        :param task:
-        :param node:
-        :param betah: beta1h, beta1s
-        :param betas: beta2h, beta2s
-        :return: blade_angles = {'beta1h': 0.2515, ...}
-        '''
 
         spans = self.getNumSpans(task)
 
@@ -218,51 +182,63 @@ class BladeProperties(Impeller):
         :return: blade_properties dict
         '''
         blade_properties_element = self.get_blade_properties_element(task)
-
+        main_blade_element = self.get_main_blade_element(task)
         blade_properties = {}
 
-        for child in blade_properties_element:
-            if child.attrib["Desc"] == "Number of blades":
-                blade_properties[child.attrib['Desc']] = child.text
+        # for child in blade_properties_element:
+        #     if child.attrib["Caption"] == "Number of blades":
+        #         blade_properties[child.attrib['Caption']] = child.text
 
         # try to extract blade angles from .cft-batch file. Check existence of Beta1 node
         try:
-            blade_properties_element[3][0][2]
+            main_blade_element.find('Beta1')
         except IndexError:
             pass
         else:
-            beta1_node = blade_properties_element[3][0][2]
-            beta2_node = blade_properties_element[3][0][3]
+            beta1_node = main_blade_element.find('Beta1')
+            beta2_node = main_blade_element.find('Beta2')
+
             beta_1_angles = self.get_blade_angles(task, beta1_node, 'beta1h', 'beta1s')
             beta_2_angles = self.get_blade_angles(task, beta2_node, 'beta2h', 'beta2s')
             blade_properties.update(beta_1_angles)
             blade_properties.update(beta_2_angles)
-        finally:
-            le_thickness_node = blade_properties_element[3][0][0]
-            te_thickness_node = blade_properties_element[3][0][1]
-            blade_thickness_le = self.get_blade_thickness(task, le_thickness_node, 'BladeThicknessLeHub',
-                                                          'BladeThicknessLeShroud')
-            blade_thickness_te = self.get_blade_thickness(task, te_thickness_node, 'BladeThicknessTeHub',
-                                                          'BladeThicknessTeShroud')
-            blade_properties.update(blade_thickness_le)
-            blade_properties.update(blade_thickness_te)
-
+        # finally:
+        #
+        #     le_thickness_node = blade_properties_element[3][0][0]
+        #     te_thickness_node = blade_properties_element[3][0][1]
+        #
+        #     blade_thickness_le = self.get_blade_thickness(task, le_thickness_node, 'BladeThicknessLeHub',
+        #                                                   'BladeThicknessLeShroud')
+        #     blade_thickness_te = self.get_blade_thickness(task, te_thickness_node, 'BladeThicknessTeHub',
+        #                                                   'BladeThicknessTeShroud')
+        #     blade_properties.update(blade_thickness_le)
+        #     blade_properties.update(blade_thickness_te)
         return blade_properties
 
     def insert_blade_properties(self, task):
-        '''
-        Insert blade properties of impeller to the table of properties of cell#1
-        :param task:
-        :return:
-        '''
+        blade_properties_element = self.get_blade_properties_element(task)
+        main_blade_element = self.get_main_blade_element(task)
+
+        number_of_blades = blade_properties_element.find('nBl').text
+        self.number_blades.Value = number_of_blades
+
+        # for child in blade_properties_element:
+        #     if child.attrib["Caption"] == "Number of blades":
+        #         self.number_blades.Value = child.text
+
+        for child in main_blade_element:
+            if child.attrib["Caption"] == "Thickness LE@hub":
+                self.le_thickness_hub.Value = child.text
+            if child.attrib["Caption"] == "Thickness LE@shroud":
+                self.le_thickness_shroud.Value = child.text
+            if child.attrib["Caption"] == "Thickness TE@hub":
+                self.te_thickness_hub.Value = child.text
+            if child.attrib["Caption"] == "Thickness TE@shroud":
+                self.te_thickness_shroud.Value = child.text
+
         blade_properties = self.join_blade_properties(task)
 
         if "beta1h" in blade_properties:
-            self.number_blades.Value = blade_properties['Number of blades']
-            self.le_thickness_hub.Value = blade_properties['BladeThicknessLeHub']
-            self.le_thickness_shroud.Value = blade_properties['BladeThicknessLeShroud']
-            self.te_thickness_hub.Value = blade_properties['BladeThicknessTeHub']
-            self.te_thickness_shroud.Value = blade_properties['BladeThicknessTeShroud']
 
             # convert from radians to degree
             self.beta_1_h.Value = round((float(blade_properties["beta1h"]) * 180/math.pi), 1)
@@ -270,17 +246,11 @@ class BladeProperties(Impeller):
             self.beta_2_h.Value = round((float(blade_properties['beta2h']) * 180/math.pi), 1)
             self.beta_2_s.Value = round((float(blade_properties['beta2s']) * 180/math.pi), 1)
 
-        else:
-            self.number_blades.Value = blade_properties['Number of blades']
-            self.le_thickness_hub.Value = blade_properties['BladeThicknessLeHub']
-            self.le_thickness_shroud.Value = blade_properties['BladeThicknessLeShroud']
-            self.te_thickness_hub.Value = blade_properties['BladeThicknessTeHub']
-            self.te_thickness_shroud.Value = blade_properties['BladeThicknessTeShroud']
 
-    def writeThickness(self, node, indexValue, paramValue):
-        for child in node:
-            if child.attrib["Index"] == "{}".format(indexValue):
-                child.text = str(paramValue)
+    # def writeThickness(self, node, indexValue, paramValue):
+    #     for child in node:
+    #         if child.attrib["Index"] == "{}".format(indexValue):
+    #             child.text = str(paramValue)
 
     def writeBladeAngles(self, node, indexValue, paramValue):
         for child in node:
@@ -290,13 +260,7 @@ class BladeProperties(Impeller):
     def writeInterpolatedBladeAngles(self, task, node, betah, betas):
         '''
         Writes interpolated values of angles to the Beta1 and Beta2 nodes. By default linear interpolation works
-        :param task:
-        :param node:
-        :param betah:
-        :param betas:
-        :return:
         '''
-        blade_properties = self.join_blade_properties(task)
         spans = int(self.getNumSpans(task))
 
         for i in range(spans):
@@ -325,33 +289,24 @@ class SkeletonLines(Impeller):
         return main_element
 
     def get_phi_angles(self, task, number, phiLE, phiTE):
+
+        phi_node = self.get_skeletonLines_element(task)[0][0][0][0]
+
         phi_angles = {}
-
-        check_node = self.get_skeletonLines_element(task)[0]
-        splitter_node = check_node.find('RelativeSplitterPosition')
-
-        if splitter_node is None:
-            index = 0
-        else:
-            index = 1
-
-        Bezier3SL_element = self.get_skeletonLines_element(task)[0][index][number]
-        num_of_points = Bezier3SL_element[0].attrib['Count']
-        anglesLe = Bezier3SL_element[0][0]
-        anglesTe = Bezier3SL_element[0][int(num_of_points) - 1]
-        phi_angles[phiLE] = anglesLe[0].text
-        phi_angles[phiTE] = anglesTe[0].text
-
+        for child in phi_node:
+            if child.attrib['Index'] == "{}".format(number):
+                phi_angles[phiLE] = child.find('lePos').text
+                phi_angles[phiTE] = child.find('tePos').text
         return phi_angles
 
     def join_phi_angles(self, task):
 
+        phi_node = self.get_skeletonLines_element(task)[0][0][0][0]
+
         skeletonLinesProp = {}
-
-        num_of_bezier_curves = len(self.get_skeletonLines_element(task)[0][0])
-
+        num_nodes = len([element for element in phi_node])
         phi_hub = self.get_phi_angles(task, 0, 'phiLEhub', 'phiTEhub')
-        phi_shroud = self.get_phi_angles(task, num_of_bezier_curves - 1, 'phiLEshroud', 'phiTEshroud')
+        phi_shroud = self.get_phi_angles(task, num_nodes - 1, 'phiLEshroud', 'phiTEshroud')
 
         skeletonLinesProp.update(phi_hub)
         skeletonLinesProp.update(phi_shroud)
@@ -443,7 +398,7 @@ class Meridian(Impeller):
         bezierCurvesList = self.get_bezierCurvesList(task)
 
         for i in bezierCurvesLE:
-            if i.attrib['Desc'] == 'Leading edge (Splitter blade)':
+            if i.attrib['Caption'] == 'Leading edge (Splitter blade)':
                 LePosHubSplitter = self.get_positions(task, len(bezierCurvesList) - 1, 'LePosHubSplitter', 'u-Hub')
                 LePosShroudSplitter = self.get_positions(task, len(bezierCurvesList) - 1, 'LePosShroudSplitter', 'u-Shroud')
 
@@ -484,7 +439,6 @@ class Meridian(Impeller):
             self.LePosHubSplitter.Value = meridian_properties['LePosHubSplitter']
         if 'LePosShroudSplitter' in meridian_properties:
             self.LePosShroudSplitter.Value = meridian_properties['LePosShroudSplitter']
-
 
     def positionExist(self, task, key):
 
