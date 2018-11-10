@@ -293,20 +293,15 @@ class SkeletonLines(Impeller):
         phi_node = self.get_skeletonLines_element(task)[0][0][0][0]
 
         phi_angles = {}
-        for child in phi_node:
-            if child.attrib['Index'] == "{}".format(number):
-                phi_angles[phiLE] = child.find('lePos').text
-                phi_angles[phiTE] = child.find('tePos').text
+        phi_angles[phiTE] = phi_node[number].find('tePos').text
+        phi_angles[phiLE] = phi_node[number].find('lePos').text
         return phi_angles
 
     def join_phi_angles(self, task):
 
-        phi_node = self.get_skeletonLines_element(task)[0][0][0][0]
-
         skeletonLinesProp = {}
-        num_nodes = len([element for element in phi_node])
         phi_hub = self.get_phi_angles(task, 0, 'phiLEhub', 'phiTEhub')
-        phi_shroud = self.get_phi_angles(task, num_nodes - 1, 'phiLEshroud', 'phiTEshroud')
+        phi_shroud = self.get_phi_angles(task, - 1, 'phiLEshroud', 'phiTEshroud')
 
         skeletonLinesProp.update(phi_hub)
         skeletonLinesProp.update(phi_shroud)
@@ -367,65 +362,39 @@ class Meridian(Impeller):
 
         return main_element
 
-    def get_positions(self, task, numCurve, posParam, HubOrShroud):
-        positions = {}
-        pos_elements = self.get_meridian_element(task)[0][numCurve]
-        HubShroud = pos_elements.find('{}'.format(HubOrShroud)).text
-        positions['{}'.format(posParam)] = HubShroud
+    def get_positions(self, task):
 
+        positions_attribs = [
+            'LePosHub',
+            'LePosShroud',
+            'TePosHub',
+            'TePosShroud',
+            'LePosHubSplitter',
+            'LePosShroudSplitter'
+        ]
+
+        positions_list = [
+            'GeoLeadingEdge_u-Hub',
+            'GeoLeadingEdge_u-Shroud',
+            'GeoTrailingEdge_u-Hub',
+            'GeoTrailingEdge_u-Shroud',
+            'GeoSplitLeadingEdge_u-Hub',
+            'GeoSplitLeadingEdge_u-Shroud'
+        ]
+
+        positions = dict(zip(positions_attribs, positions_list))
+        main_element = self.get_meridian_element(task)
+
+        for key, value in positions.items():
+            if main_element.find(value) is None:
+                del positions[key]
+            else:
+                positions[key] = main_element.find(value).text
         return positions
-
-    def get_bezierCurvesList(self, task):
-
-        check_node = self.get_meridian_element(task)[0]
-        bezierCurvesLE = check_node.findall('Bezier4MerLE')
-        bezierCurvesTE = check_node.findall('Bezier4MerTE')
-
-        set1 = set(bezierCurvesLE)
-        set2 = set(bezierCurvesTE)
-        set3 = set1.union(set2)
-        bezierCurvesList = list(set3)
-
-        return bezierCurvesList
-
-    def join_positions(self, task):
-        positionsProps = {}
-
-        check_node = self.get_meridian_element(task)[0]
-        Bezier4MerTE = check_node.find('Bezier4MerTE')
-        bezierCurvesLE = check_node.findall('Bezier4MerLE')
-
-        bezierCurvesList = self.get_bezierCurvesList(task)
-
-        for i in bezierCurvesLE:
-            if i.attrib['Caption'] == 'Leading edge (Splitter blade)':
-                LePosHubSplitter = self.get_positions(task, len(bezierCurvesList) - 1, 'LePosHubSplitter', 'u-Hub')
-                LePosShroudSplitter = self.get_positions(task, len(bezierCurvesList) - 1, 'LePosShroudSplitter', 'u-Shroud')
-
-                positionsProps.update(LePosHubSplitter)
-                positionsProps.update(LePosShroudSplitter)
-
-        if Bezier4MerTE is None:
-            LePosHub = self.get_positions(task, 0, 'LePosHub', 'u-Hub')
-            LePosShroud = self.get_positions(task, 0, 'LePosShroud', 'u-Shroud')
-            positionsProps.update(LePosHub)
-            positionsProps.update(LePosShroud)
-        else:
-            LePosHub = self.get_positions(task, 0, 'LePosHub', 'u-Hub')
-            LePosShroud = self.get_positions(task, 0, 'LePosShroud', 'u-Shroud')
-            TePosHub = self.get_positions(task, 1, 'TePosHub', 'u-Hub')
-            TePosShroud = self.get_positions(task, 1, 'TePosShroud', 'u-Shroud')
-
-            positionsProps.update(LePosHub)
-            positionsProps.update(LePosShroud)
-            positionsProps.update(TePosHub)
-            positionsProps.update(TePosShroud)
-
-        return positionsProps
 
     def insert_meridian_properties(self, task):
 
-        meridian_properties = self.join_positions(task)
+        meridian_properties = self.get_positions(task)
 
         if 'LePosHub' in meridian_properties:
             self.LePosHub.Value = meridian_properties['LePosHub']
@@ -442,7 +411,7 @@ class Meridian(Impeller):
 
     def positionExist(self, task, key):
 
-        meridian_properties = self.join_positions(task)
+        meridian_properties = self.get_positions(task)
 
         if key not in meridian_properties:
             return
