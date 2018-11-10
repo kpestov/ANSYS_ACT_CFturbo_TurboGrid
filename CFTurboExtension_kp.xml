@@ -193,32 +193,32 @@
 							<isvisible>GroupsVisible</isvisible>
 					</callbacks>
 
-					<property name="LePosHub" caption="Leading edge position at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="LePosHub" caption="Leading edge position at hub [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+						<callbacks>
+							<isvisible>LePosHubVisible</isvisible>s
+						</callbacks>
+					</property>
+					<property name="LePosShroud" caption="Leading edge position at shroud [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>LePosHubVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="LePosShroud" caption="Leading edge position at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
-						<callbacks>
-							<isvisible>LePosHubVisible</isvisible>
-						</callbacks>
-					</property>
-					<property name="TePosHub" caption="Trailing edge position at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="TePosHub" caption="Trailing edge position at hub [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>TePosHubVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="TePosShroud" caption="Trailing edge position at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="TePosShroud" caption="Trailing edge position at shroud [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>TePosHubVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="LePosHubSplitter" caption="Leading edge position at hub (splitter blade)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="LePosHubSplitter" caption="Leading edge position at hub (splitter blade) [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>LePosHubSplitterVisible</isvisible>
 						</callbacks>
 					</property>
-					<property name="LePosShroudSplitter" caption="Leading edge position at shroud (splitter blade)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="LePosShroudSplitter" caption="Leading edge position at shroud (splitter blade) [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>LePosHubSplitterVisible</isvisible>
 						</callbacks>
