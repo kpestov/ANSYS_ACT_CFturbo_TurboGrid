@@ -280,7 +280,7 @@ def insert_dimensions(task):
         BladeProperties(task).insert_blade_properties(task)
         SkeletonLines(task).insert_skeletonLines_properties(task)
         Meridian(task).insert_meridian_properties(task)
-        BladeProfiles(task).insert_blade_thickness(task)
+        BladeProfiles(task).insert_distances_to_pres_side(task)
     except IOError:
         pass
 

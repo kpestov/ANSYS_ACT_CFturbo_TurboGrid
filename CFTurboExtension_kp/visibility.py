@@ -98,50 +98,50 @@ def LePosHubSplitterVisible(task, property):
         return False
     return True
 
-def BladeThickHub1Visible(task, property):
-    BladeThickHub1 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_1')
+def DstPresSideHub1Visible(task, property):
+    BladeThickHub1 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideHub_1')
     if BladeThickHub1 is None:
         return False
     return True
 
-def BladeThickHub2Visible(task, property):
-    BladeThickHub2 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_2')
+def DstPresSideHub2Visible(task, property):
+    BladeThickHub2 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideHub_2')
     if BladeThickHub2 is None:
         return False
     return True
 
-def BladeThickHub3Visible(task, property):
-    BladeThickHub3 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_3')
+def DstPresSideHub3Visible(task, property):
+    BladeThickHub3 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideHub_3')
     if BladeThickHub3 is None:
         return False
     return True
 
-def BladeThickHub4Visible(task, property):
-    BladeThickHub4 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickHub_4')
+def DstPresSideHub4Visible(task, property):
+    BladeThickHub4 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideHub_4')
     if BladeThickHub4 is None:
         return False
     return True
 
-def BladeThickShroud1Visible(task, property):
-    BladeThickShroud1 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_1')
+def DstPresSideShroud1Visible(task, property):
+    BladeThickShroud1 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideShroud_1')
     if BladeThickShroud1 is None:
         return False
     return True
 
-def BladeThickShroud2Visible(task, property):
-    BladeThickShroud2 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_2')
+def DstPresSideShroud2Visible(task, property):
+    BladeThickShroud2 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideShroud_2')
     if BladeThickShroud2 is None:
         return False
     return True
 
-def BladeThickShroud3Visible(task, property):
-    BladeThickShroud3 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_3')
+def DstPresSideShroud3Visible(task, property):
+    BladeThickShroud3 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideShroud_3')
     if BladeThickShroud3 is None:
         return False
     return True
 
-def BladeThickShroud4Visible(task, property):
-    BladeThickShroud4 = BladeProfiles(task).bladeThicknessExist(task, 'BladeThickShroud_4')
+def DstPresSideShroud4Visible(task, property):
+    BladeThickShroud4 = BladeProfiles(task).dstToPressSideExist(task, 'DstPresSideShroud_4')
     if BladeThickShroud4 is None:
         return False
     return True

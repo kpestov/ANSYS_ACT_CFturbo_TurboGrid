@@ -38,10 +38,6 @@ class MainDimensions(Impeller):
         Impeller.__init__(self, task)
         self.group = task.Properties["MainDimensions"]
 
-        # this property is the same for all types of pumps
-        # I've commented it because it is possible to parameterized tip clearance in TurboGrid
-        # self.tip_clearance = self.group.Properties["TipClearance"]
-
         # properties for radial and mixed pumps
         self.hub_diameter = self.group.Properties["HubDiameter"]
         self.suction_diameter = self.group.Properties["SuctionDiameter"]
@@ -54,16 +50,6 @@ class MainDimensions(Impeller):
         self.hub_diameter_outlet = self.group.Properties["HubDiameterOutlet"]
         self.tip_diameter_outlet = self.group.Properties["TipDiameterOutlet"]
 
-    # I've commented it because it is possible to parameterized tip clearance in TurboGrid
-    # def tipClearanceExist(self, task):
-    #     cft_file_path = self.get_cft_batch_path(task, '')
-    #
-    #     tree = ET.parse(cft_file_path)
-    #     root = tree.getroot()
-    #     main_dimensions_element = root[0][8].find('MainDimensions')
-    #     unshrouded_element = main_dimensions_element.find('MainDimensionsElement').find('UnShrouded')
-    #
-    #     return unshrouded_element.text
 
     def get_main_dimensions_element(self, task):
         main_element = Impeller(task).get_main_element(task, node=0)
@@ -435,67 +421,67 @@ class BladeProfiles(Impeller):
     def __init__(self, task):
         Impeller.__init__(self, task)
         self.group = task.Properties['BladeProfiles']
-        self.BladeThickHub_1 = self.group.Properties['BladeThickHub_1']
-        self.BladeThickHub_2 = self.group.Properties['BladeThickHub_2']
-        self.BladeThickHub_3 = self.group.Properties['BladeThickHub_3']
-        self.BladeThickHub_4 = self.group.Properties['BladeThickHub_4']
-        self.BladeThickShroud_1 = self.group.Properties['BladeThickShroud_1']
-        self.BladeThickShroud_2 = self.group.Properties['BladeThickShroud_2']
-        self.BladeThickShroud_3 = self.group.Properties['BladeThickShroud_3']
-        self.BladeThickShroud_4 = self.group.Properties['BladeThickShroud_4']
+        self.DstPresSideHub_1 = self.group.Properties['DstPresSideHub_1']
+        self.DstPresSideHub_2 = self.group.Properties['DstPresSideHub_2']
+        self.DstPresSideHub_3 = self.group.Properties['DstPresSideHub_3']
+        self.DstPresSideHub_4 = self.group.Properties['DstPresSideHub_4']
+        self.DstPresSideShroud_1 = self.group.Properties['DstPresSideShroud_1']
+        self.DstPresSideShroud_2 = self.group.Properties['DstPresSideShroud_2']
+        self.DstPresSideShroud_3 = self.group.Properties['DstPresSideShroud_3']
+        self.DstPresSideShroud_4 = self.group.Properties['DstPresSideShroud_4']
 
     def get_blade_profiles_element(self, task):
-
         main_element = Impeller(task).get_main_element(task, node=4)
-
         return main_element
 
-    def get_blade_thickness(self, task, HubShroud, BladeThickHubSroud):
-        blade_thickness = {}
-        node = self.get_blade_profiles_element(task)[0][HubShroud]
-        points_nodes = node[0][0].findall('Point')[1:-1]
-        j = 1
-        for i in points_nodes:
-            thickness = i.find('y').text
-            blade_thickness['{}_{}'.format(BladeThickHubSroud, j)] = 2 * float(thickness)
-            j += 1
-        return blade_thickness
+    def get_distances(self, task, HubShroud, DstPresSideHubShroud ):
+        distances = {}
+        main_ps_node = self.get_blade_profiles_element(task)[HubShroud]
 
-    def join_blade_thickness(self, task):
-        bladeThicknessProps = {}
+        point_count = 1
+        for child in main_ps_node:
+            distances['{}_{}'.format(DstPresSideHubShroud, point_count)] = child.text
+            point_count += 1
+        return distances
 
-        BladeThickHub = self.get_blade_thickness(task, 0, 'BladeThickHub')
-        BladeThickShroud = self.get_blade_thickness(task, 1, 'BladeThickShroud')
 
-        bladeThicknessProps.update(BladeThickHub)
-        bladeThicknessProps.update(BladeThickShroud)
+    def join_distances_to_pres_side(self, task):
+        bladeDistancesProps = {}
 
-        return bladeThicknessProps
+        DstPresSideHub = self.get_distances(task, 0, 'DstPresSideHub')
+        DstPresSideShroud = self.get_distances(task, 1, 'DstPresSideShroud')
 
-    def insert_blade_thickness(self, task):
-        blade_thickness = self.join_blade_thickness(task)
+        bladeDistancesProps.update(DstPresSideHub)
+        bladeDistancesProps.update(DstPresSideShroud)
 
-        if 'BladeThickHub_1' in blade_thickness:
-            self.BladeThickHub_1.Value = blade_thickness['BladeThickHub_1']
-        if 'BladeThickHub_2' in blade_thickness:
-            self.BladeThickHub_2.Value = blade_thickness['BladeThickHub_2']
-        if 'BladeThickHub_3' in blade_thickness:
-            self.BladeThickHub_3.Value = blade_thickness['BladeThickHub_3']
-        if 'BladeThickHub_4' in blade_thickness:
-            self.BladeThickHub_4.Value = blade_thickness['BladeThickHub_4']
+        return bladeDistancesProps
 
-        if 'BladeThickShroud_1' in blade_thickness:
-            self.BladeThickShroud_1.Value = blade_thickness['BladeThickShroud_1']
-        if 'BladeThickShroud_2' in blade_thickness:
-            self.BladeThickShroud_2.Value = blade_thickness['BladeThickShroud_2']
-        if 'BladeThickShroud_3' in blade_thickness:
-            self.BladeThickShroud_3.Value = blade_thickness['BladeThickShroud_3']
-        if 'BladeThickShroud_4' in blade_thickness:
-            self.BladeThickShroud_4.Value = blade_thickness['BladeThickShroud_4']
 
-    def bladeThicknessExist(self, task, key):
-        blade_thickness = self.join_blade_thickness(task)
-        if key not in blade_thickness:
+    def insert_distances_to_pres_side(self, task):
+        distances_to_pres_side = self.join_distances_to_pres_side(task)
+
+        if 'DstPresSideHub_1' in distances_to_pres_side:
+            self.DstPresSideHub_1.Value = distances_to_pres_side['DstPresSideHub_1']
+        if 'DstPresSideHub_2' in distances_to_pres_side:
+            self.DstPresSideHub_2.Value = distances_to_pres_side['DstPresSideHub_2']
+        if 'DstPresSideHub_3' in distances_to_pres_side:
+            self.DstPresSideHub_3.Value = distances_to_pres_side['DstPresSideHub_3']
+        if 'DstPresSideHub_4' in distances_to_pres_side:
+            self.DstPresSideHub_4.Value = distances_to_pres_side['DstPresSideHub_4']
+
+        if 'DstPresSideShroud_1' in distances_to_pres_side:
+            self.DstPresSideShroud_1.Value = distances_to_pres_side['DstPresSideShroud_1']
+        if 'DstPresSideShroud_2' in distances_to_pres_side:
+            self.DstPresSideShroud_2.Value = distances_to_pres_side['DstPresSideShroud_2']
+        if 'DstPresSideShroud_3' in distances_to_pres_side:
+            self.DstPresSideShroud_3.Value = distances_to_pres_side['DstPresSideShroud_3']
+        if 'DstPresSideShroud_4' in distances_to_pres_side:
+            self.DstPresSideShroud_4.Value = distances_to_pres_side['DstPresSideShroud_4']
+
+
+    def dstToPressSideExist(self, task, key):
+        distances = self.join_distances_to_pres_side(task)
+        if key not in distances:
             return
         else:
             return 1
