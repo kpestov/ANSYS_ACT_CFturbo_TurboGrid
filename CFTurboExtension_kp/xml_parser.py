@@ -500,17 +500,17 @@ class BladeProfiles(Impeller):
         else:
             return 1
 
-    def BladeProfilesExist(self, task):
-        '''
-        Visibility of all property group BladeProfiles
-        :param task:
-        :return:
-        '''
-        num_points = self.get_blade_profiles_element(task)
-        if num_points == 2:
-            return
-        else:
-            return 1
+    # def BladeProfilesExist(self, task):
+    #     '''
+    #     Visibility of all property group BladeProfiles
+    #     :param task:
+    #     :return:
+    #     '''
+    #     num_points = self.get_blade_profiles_element(task)
+    #     if num_points == 2:
+    #         return
+    #     else:
+    #         return 1
 
     def write_blade_thickness(self, task, HubShroud, indexValue, paramValue):
         impeller = Impeller(task)

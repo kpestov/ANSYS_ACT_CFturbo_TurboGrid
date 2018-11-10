@@ -234,42 +234,42 @@
 							<isvisible>GroupsVisible</isvisible>
 					</callbacks>
 
-					<property name="BladeThickHub_1" caption="Blade thickness at hub (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickHub_1" caption="Distance to pressure side at hub (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub1Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_1" caption="Blade thickness at Shroud (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickShroud_1" caption="Distance to pressure side at Shroud (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud1Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickHub_2" caption="Blade thickness at hub (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickHub_2" caption="Distance to pressure side at hub (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub2Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_2" caption="Blade thickness at Shroud (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickShroud_2" caption="Distance to pressure side at Shroud (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud2Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickHub_3" caption="Blade thickness at hub (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickHub_3" caption="Distance to pressure side at hub (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub3Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_3" caption="Blade thickness at Shroud (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickShroud_3" caption="Distance to pressure side at Shroud (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud3Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickHub_4" caption="Blade thickness at hub (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickHub_4" caption="Distance to pressure side at hub (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickHub4Visible</isvisible>
 						</callbacks>
 					</property>
-					<property name="BladeThickShroud_4" caption="Blade thickness at Shroud (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="BladeThickShroud_4" caption="Distance to pressure side at Shroud (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>BladeThickShroud4Visible</isvisible>
 						</callbacks>
