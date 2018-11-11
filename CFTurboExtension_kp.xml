@@ -79,16 +79,6 @@
 
 					<!-- Main dimensions of Axial Pump !-->
 
-					<property name="HubDiameterInlet" caption="Hub diameter inlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
-						<callbacks>
-							<isvisible>HubDiameterInletVisible</isvisible>
-						</callbacks>
-					</property>
-					<property name="TipDiameterInlet" caption="Tip diameter inlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
-						<callbacks>
-							<isvisible>TipDiameterInletVisible</isvisible>
-						</callbacks>
-					</property>
 					<property name="HubDiameterOutlet" caption="Hub diameter outlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 							<isvisible>HubDiameterOutVisible</isvisible>

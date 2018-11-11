@@ -32,30 +32,18 @@ def SuctionDiameterVisible(task, property):
     return True
 
 def ImpellerDiameterVisible(task, property):
-    ImpellerDiameter = MainDimensions(task).mainDimExist(task, 'b2', 'Caption', 'Impeller diameter')
+    ImpellerDiameter = MainDimensions(task).mainDimExist(task, 'd2', 'Caption', 'Impeller diameter')
     if ImpellerDiameter is None:
         return False
     return True
 
 def ImpellerOutWidthVisible(task, property):
-    ImpellerOutWidth = MainDimensions(task).mainDimExist(task, 'd2', 'Caption', 'Outlet width')
+    ImpellerOutWidth = MainDimensions(task).mainDimExist(task, 'b2', 'Caption', 'Outlet width')
     if ImpellerOutWidth is None:
         return False
     return True
 
 # properties for axial pump
-def HubDiameterInletVisible(task, property):
-    HubDiameterInlet = MainDimensions(task).mainDimExist(task, 'dN', 'Caption', 'Hub diameter')
-    if HubDiameterInlet is None:
-        return False
-    return True
-
-def TipDiameterInletVisible(task, property):
-    TipDiameterInlet = MainDimensions(task).mainDimExist(task, 'dS', 'Caption', 'Suction diameter')
-    if TipDiameterInlet is None:
-        return False
-    return True
-
 def HubDiameterOutVisible(task, property):
     HubDiameterOut = MainDimensions(task).mainDimExist(task, 'dH2', 'Caption', 'Hub diameter outlet')
     if HubDiameterOut is None:

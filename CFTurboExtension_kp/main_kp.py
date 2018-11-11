@@ -308,23 +308,19 @@ def update_main_dimensions(task):
     for child in main_dimensions_element:
 
         # properties for axial pump
-        if child.attrib["Caption"] == "Hub diameter inlet dH1":
-            child.text = str(mainDim.hub_diameter_inlet.Value)
-        if child.attrib["Caption"] == "Tip diameter inlet dS1":
-            child.text = str(mainDim.tip_diameter_inlet.Value)
-        if child.attrib["Caption"] == "Hub diameter outlet dH2":
+        if child.attrib["Caption"] == "Hub diameter":
+            child.text = str(mainDim.hub_diameter.Value)
+        if child.attrib["Caption"] == "Suction diameter":
+            child.text = str(mainDim.suction_diameter.Value)
+        if child.attrib["Caption"] == "Hub diameter outlet":
             child.text = str(mainDim.hub_diameter_outlet.Value)
-        if child.attrib["Caption"] == "Tip diameter outlet dS2":
+        if child.attrib["Caption"] == "Tip diameter outlet":
             child.text = str(mainDim.tip_diameter_outlet.Value)
 
         # properties for radial and mixed pumps
-        if child.attrib["Caption"] == "Hub diameter":
-            child.text = str(mainDim.hub_diameter.Value)
-        if child.attrib["Caption"] == "Suction diameter dS":
-            child.text = str(mainDim.suction_diameter.Value)
-        if child.attrib["Caption"] == "Impeller diameter d2":
+        if child.attrib["Caption"] == "Impeller diameter":
             child.text = str(mainDim.impeller_diameter.Value)
-        if child.attrib["Caption"] == "Impeller outlet width b2":
+        if child.attrib["Caption"] == "Outlet width":
             child.text = str(mainDim.impeller_outlet_width.Value)
 
     target_dir = copy_cft_file(task)

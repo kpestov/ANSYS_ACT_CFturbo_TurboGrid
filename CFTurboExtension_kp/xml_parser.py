@@ -45,8 +45,6 @@ class MainDimensions(Impeller):
         self.impeller_outlet_width = self.group.Properties["ImpellerOutletWidth"]
 
         # properties for axial pump
-        self.hub_diameter_inlet = self.group.Properties["HubDiameterInlet"]
-        self.tip_diameter_inlet = self.group.Properties["TipDiameterInlet"]
         self.hub_diameter_outlet = self.group.Properties["HubDiameterOutlet"]
         self.tip_diameter_outlet = self.group.Properties["TipDiameterOutlet"]
 
@@ -71,10 +69,6 @@ class MainDimensions(Impeller):
         for child in main_dimensions_element:
 
             # properties for axial pump
-            if child.attrib["Caption"] == "Hub diameter":
-                self.hub_diameter_inlet.Value = child.text
-            if child.attrib["Caption"] == "Suction diameter":
-                self.tip_diameter_inlet.Value = child.text
             if child.attrib["Caption"] == "Hub diameter outlet":
                 self.hub_diameter_outlet.Value = child.text
             if child.attrib["Caption"] == "Tip diameter outlet":
