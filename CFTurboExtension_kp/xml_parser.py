@@ -398,14 +398,13 @@ class Meridian(Impeller):
         else:
             return 1
 
-    def writes_positions(self, task, numCurve, posParam, HubOrShroud):
+    def writes_positions(self, task, posParam, HubOrShroud):
         impeller = Impeller(task)
         tree = impeller.get_xml_tree(task)
         root = tree.getroot()
         meridian_element = root[0][0][0][0][1]
 
-        pos_elements = meridian_element[0][numCurve]
-        pos_elements.find('{}'.format(HubOrShroud)).text = str(posParam)
+        meridian_element.find('{}'.format(HubOrShroud)).text = str(posParam)
 
         target_dir = copy_cft_file(task)
         tree.write(target_dir + '-batch')

@@ -389,21 +389,20 @@ def update_skeletonLines(task):
 
 def update_meridian(task):
     meridian = Meridian(task)
-    meridian_properties = meridian.join_positions(task)
-    bezierCurvesList = meridian.get_bezierCurvesList(task)
+    meridian_properties = meridian.get_positions(task)
 
     if 'LePosHub' in meridian_properties:
-        meridian.writes_positions(task, 0, meridian.LePosHub.Value, 'u-Hub')
+        meridian.writes_positions(task, meridian.LePosHub.Value, 'GeoLeadingEdge_u-Hub')
     if 'LePosShroud' in meridian_properties:
-        meridian.writes_positions(task, 0, meridian.LePosShroud.Value, 'u-Shroud')
+        meridian.writes_positions(task, meridian.LePosShroud.Value, 'GeoLeadingEdge_u-Shroud')
     if 'TePosHub' in meridian_properties:
-        meridian.writes_positions(task, 1, meridian.TePosHub.Value, 'u-Hub')
+        meridian.writes_positions(task, meridian.TePosHub.Value, 'GeoTrailingEdge_u-Hub')
     if 'TePosShroud' in meridian_properties:
-        meridian.writes_positions(task, 1, meridian.TePosShroud.Value, 'u-Shroud')
+        meridian.writes_positions(task, meridian.TePosShroud.Value, 'GeoTrailingEdge_u-Shroud')
     if 'LePosHubSplitter' in meridian_properties:
-        meridian.writes_positions(task, len(bezierCurvesList) - 1, meridian.LePosHubSplitter.Value, 'u-Hub')
+        meridian.writes_positions(task, meridian.LePosHubSplitter.Value, 'GeoSplitLeadingEdge_u-Hub')
     if 'LePosShroudSplitter' in meridian_properties:
-        meridian.writes_positions(task, len(bezierCurvesList) - 1, meridian.LePosShroudSplitter.Value, 'u-Shroud')
+        meridian.writes_positions(task, meridian.LePosShroudSplitter.Value, 'GeoSplitLeadingEdge_u-Shroud')
 
 
 def update_blade_profiles(task):
