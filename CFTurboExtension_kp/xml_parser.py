@@ -119,21 +119,6 @@ class BladeProperties(Impeller):
         else:
             return 1
 
-    # def get_blade_thickness(self, task, node, thickness_hub, thickness_shroud):
-    #     '''
-    #     Get blade properties of impeller from BladeProperties element and push it to dict
-    #     :param task:
-    #     :return: dict, e.g. blade_properties
-    #     '''
-    #     blade_thickness = {}
-    #
-    #     for child in node:
-    #         if child.attrib["Index"] == "0":
-    #             blade_thickness["{}".format(thickness_hub)] = child.text
-    #         if child.attrib["Index"] == "1":
-    #             blade_thickness["{}".format(thickness_shroud)] = child.text
-    #
-    #     return blade_thickness
 
     def getNumSpans(self, task):
 
@@ -161,13 +146,8 @@ class BladeProperties(Impeller):
         :param task:
         :return: blade_properties dict
         '''
-        blade_properties_element = self.get_blade_properties_element(task)
         main_blade_element = self.get_main_blade_element(task)
         blade_properties = {}
-
-        # for child in blade_properties_element:
-        #     if child.attrib["Caption"] == "Number of blades":
-        #         blade_properties[child.attrib['Caption']] = child.text
 
         # try to extract blade angles from .cft-batch file. Check existence of Beta1 node
         try:
@@ -182,17 +162,7 @@ class BladeProperties(Impeller):
             beta_2_angles = self.get_blade_angles(task, beta2_node, 'beta2h', 'beta2s')
             blade_properties.update(beta_1_angles)
             blade_properties.update(beta_2_angles)
-        # finally:
-        #
-        #     le_thickness_node = blade_properties_element[3][0][0]
-        #     te_thickness_node = blade_properties_element[3][0][1]
-        #
-        #     blade_thickness_le = self.get_blade_thickness(task, le_thickness_node, 'BladeThicknessLeHub',
-        #                                                   'BladeThicknessLeShroud')
-        #     blade_thickness_te = self.get_blade_thickness(task, te_thickness_node, 'BladeThicknessTeHub',
-        #                                                   'BladeThicknessTeShroud')
-        #     blade_properties.update(blade_thickness_le)
-        #     blade_properties.update(blade_thickness_te)
+
         return blade_properties
 
     def insert_blade_properties(self, task):
@@ -201,10 +171,6 @@ class BladeProperties(Impeller):
 
         number_of_blades = blade_properties_element.find('nBl').text
         self.number_blades.Value = number_of_blades
-
-        # for child in blade_properties_element:
-        #     if child.attrib["Caption"] == "Number of blades":
-        #         self.number_blades.Value = child.text
 
         for child in main_blade_element:
             if child.attrib["Caption"] == "Thickness LE@hub":
@@ -226,11 +192,9 @@ class BladeProperties(Impeller):
             self.beta_2_h.Value = round((float(blade_properties['beta2h']) * 180/math.pi), 1)
             self.beta_2_s.Value = round((float(blade_properties['beta2s']) * 180/math.pi), 1)
 
+    def writeThickness(self, main_blade_element, paramValue, HubOrShroud):
+        main_blade_element.find('{}'.format(HubOrShroud)).text = str(paramValue)
 
-    # def writeThickness(self, node, indexValue, paramValue):
-    #     for child in node:
-    #         if child.attrib["Index"] == "{}".format(indexValue):
-    #             child.text = str(paramValue)
 
     def writeBladeAngles(self, node, indexValue, paramValue):
         for child in node:
@@ -243,14 +207,18 @@ class BladeProperties(Impeller):
         '''
         spans = int(self.getNumSpans(task))
 
-        for i in range(spans):
+        main_blade_element = self.get_main_blade_element(task)
+        beta_node = main_blade_element.find('Beta1')
+        angles_quantity = len([i for i in beta_node])
+
+        for i in range(angles_quantity):
             # if beta angles from hub and shroud are equal, writes all values = value of angles from hub side
             if betah == betas:
                 node[i].text = str(round(((float(betah) / 180) * math.pi), 7))
             else:
                 # make linear interpolation from beta hub angle to shroud angle
                 node[i].text = str(
-                    float(node[0].text) - i * (float(node[0].text) - float(node[spans - 1].text)) / (spans - 1))
+                    float(node[0].text) - i * (float(node[0].text) - float(node[angles_quantity - 1].text)) / (angles_quantity - 1))
 
 
 class SkeletonLines(Impeller):

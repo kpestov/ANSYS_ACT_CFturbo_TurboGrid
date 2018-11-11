@@ -338,34 +338,31 @@ def update_blade_properties(task):
 
     # get blade properties element
     blade_properties_element = root[0][0][0][0][2]
-    le_thickness_node = blade_properties_element[3][0][0]
-    te_thickness_node = blade_properties_element[3][0][1]
 
     spans = bladeProp.getNumSpans(task)
-    check_node = blade_properties_element[3][0]
+    check_node = blade_properties_element[1][0]
 
     # the code bellow writes new values of parameter when update cell#2
     blade_properties_element.find('nBl').text = str(bladeProp.number_blades.Value)
 
-    bladeProp.writeThickness(le_thickness_node, '0', bladeProp.le_thickness_hub.Value)
-    bladeProp.writeThickness(le_thickness_node, '1', bladeProp.le_thickness_shroud.Value)
-    bladeProp.writeThickness(te_thickness_node, '0', bladeProp.te_thickness_hub.Value)
-    bladeProp.writeThickness(te_thickness_node, '1', bladeProp.te_thickness_shroud.Value)
+    # bladeProp.writeThickness(le_thickness_node, '0', bladeProp.le_thickness_hub.Value)
+    bladeProp.writeThickness(check_node, bladeProp.le_thickness_hub.Value, 'sLEH')
+    bladeProp.writeThickness(check_node, bladeProp.le_thickness_shroud.Value, 'sLES')
+    bladeProp.writeThickness(check_node, bladeProp.te_thickness_hub.Value, 'sTEH')
+    bladeProp.writeThickness(check_node, bladeProp.te_thickness_shroud.Value, 'sTES')
 
-    beta1 = check_node.find('Beta1')
-    if beta1 is None:
+    beta1_node = check_node.find('Beta1')
+    if beta1_node is None:
         pass
     else:
-        beta1_node = blade_properties_element[3][0][2]
         bladeProp.writeBladeAngles(beta1_node, '0', bladeProp.beta_1_h.Value)
         bladeProp.writeBladeAngles(beta1_node, (int(spans) - 1), bladeProp.beta_1_s.Value)
         bladeProp.writeInterpolatedBladeAngles(task, beta1_node, bladeProp.beta_1_h.Value, bladeProp.beta_1_s.Value)
 
-    beta2 = check_node.find('Beta2')
-    if beta2 is None:
+    beta2_node = check_node.find('Beta2')
+    if beta2_node is None:
         pass
     else:
-        beta2_node = blade_properties_element[3][0][3]
         bladeProp.writeBladeAngles(beta2_node, '0', bladeProp.beta_2_h.Value)
         bladeProp.writeBladeAngles(beta2_node, (int(spans) - 1), bladeProp.beta_2_s.Value)
         bladeProp.writeInterpolatedBladeAngles(task, beta2_node, bladeProp.beta_2_h.Value, bladeProp.beta_2_s.Value)
