@@ -3,12 +3,12 @@ import os
 import math
 import clr
 clr.AddReference("Ans.UI.Toolkit")
-# from Ansys.UI.Toolkit import *
 
 
 class Impeller:
     def __init__(self, task):
         self.task = task
+
 
     def get_cft_batch_path(self, task):
         for cft_file in os.listdir(task.ActiveDirectory):
@@ -16,15 +16,18 @@ class Impeller:
                 cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
                 return cft_file_path
 
+
     def get_xml_tree(self, task):
         cft_batch_file_path = self.get_cft_batch_path(task)
         tree = ET.parse(cft_batch_file_path)
         return tree
 
+
     def get_xml_root(self, task):
         tree = self.get_xml_tree(task)
         root = tree.getroot()
         return root
+
 
     def get_main_element(self, task, node=0):
         root = self.get_xml_root(task)
@@ -33,7 +36,6 @@ class Impeller:
 
 
 class MainDimensions(Impeller):
-
     def __init__(self, task):
         Impeller.__init__(self, task)
         self.group = task.Properties["MainDimensions"]
@@ -54,6 +56,7 @@ class MainDimensions(Impeller):
         main_dimensions_element = main_element[0]
         return main_dimensions_element
 
+
     def mainDimExist(self, task, tag, attrib, attribValue):
         main_dimensions_element = MainDimensions(task).get_main_dimensions_element(task)
         try:
@@ -62,6 +65,7 @@ class MainDimensions(Impeller):
                 return 1
         except AttributeError:
             pass
+
 
     def insert_main_dimensions(self, task):
         main_dimensions_element = MainDimensions(task).get_main_dimensions_element(task)
@@ -85,15 +89,11 @@ class MainDimensions(Impeller):
                 self.impeller_outlet_width.Value = child.text
 
 
-
-
-
     def write_main_dimensions(self, task):
         '''
-        Updates parameters of main dimensions property group when user changes values in table and writes new .cft-batch file
+        Updates parameters of main dimensions property group when user changes values in table and writes
+        new .cft-batch file
         :param task:
-        Improvements: maybe it is better add separated functions for updating main dimensions, blade profiles, etc and write
-        classes, e.g. class MainDimensions, class BladeProfiles.
         :return: refreshed .cft-batch file
         '''
 
@@ -172,6 +172,7 @@ class BladeProperties(Impeller):
 
         return spans
 
+
     def get_blade_angles(self, task, node, betah, betas):
 
         spans = self.getNumSpans(task)
@@ -184,6 +185,7 @@ class BladeProperties(Impeller):
                 blade_angles["{}".format(betas)] = child.text
 
         return blade_angles
+
 
     def join_blade_properties(self, task):
         '''
@@ -209,6 +211,7 @@ class BladeProperties(Impeller):
             blade_properties.update(beta_2_angles)
 
         return blade_properties
+
 
     def insert_blade_properties(self, task):
         blade_properties_element = self.get_blade_properties_element(task)
@@ -237,6 +240,7 @@ class BladeProperties(Impeller):
             self.beta_2_h.Value = round((float(blade_properties['beta2h']) * 180/math.pi), 1)
             self.beta_2_s.Value = round((float(blade_properties['beta2s']) * 180/math.pi), 1)
 
+
     def writeThickness(self, main_blade_element, paramValue, HubOrShroud):
         main_blade_element.find('{}'.format(HubOrShroud)).text = str(paramValue)
 
@@ -245,6 +249,7 @@ class BladeProperties(Impeller):
         for child in node:
             if child.attrib["Index"] == "{}".format(indexValue):
                 child.text = str(round(((float(paramValue) / 180) * math.pi), 7))
+
 
     def writeInterpolatedBladeAngles(self, task, node, betah, betas):
         '''
@@ -275,14 +280,13 @@ class SkeletonLines(Impeller):
         self.phiTEhub = self.group.Properties['phiTEhub']
         self.phiTEshroud = self.group.Properties['phiTEshroud']
 
+
     def get_skeletonLines_element(self, task):
-
         main_element = Impeller(task).get_main_element(task, node=3)
-
         return main_element
 
-    def get_phi_angles(self, task, number, phiLE, phiTE):
 
+    def get_phi_angles(self, task, number, phiLE, phiTE):
         phi_node = self.get_skeletonLines_element(task)[0][0][0][0]
 
         phi_angles = {}
@@ -290,8 +294,8 @@ class SkeletonLines(Impeller):
         phi_angles[phiLE] = phi_node[number].find('lePos').text
         return phi_angles
 
-    def join_phi_angles(self, task):
 
+    def join_phi_angles(self, task):
         skeletonLinesProp = {}
         phi_hub = self.get_phi_angles(task, 0, 'phiLEhub', 'phiTEhub')
         phi_shroud = self.get_phi_angles(task, - 1, 'phiLEshroud', 'phiTEshroud')
@@ -301,8 +305,8 @@ class SkeletonLines(Impeller):
 
         return skeletonLinesProp
 
-    def insert_skeletonLines_properties(self, task):
 
+    def insert_skeletonLines_properties(self, task):
         skeletonLinesProp = self.join_phi_angles(task)
 
         # convert from radians to degree
@@ -310,6 +314,7 @@ class SkeletonLines(Impeller):
         self.phiLEshroud.Value = round((float(skeletonLinesProp["phiLEshroud"]) * 180/math.pi), 1)
         self.phiTEhub.Value = round((float(skeletonLinesProp["phiTEhub"]) * 180/math.pi), 1)
         self.phiTEshroud.Value = round((float(skeletonLinesProp["phiTEshroud"]) * 180/math.pi), 1)
+
 
     def writes_phi_angles(self, task, number, phiLEValue, phiTEValue):
         impeller = Impeller(task)
@@ -336,11 +341,11 @@ class Meridian(Impeller):
         self.LePosHubSplitter = self.group.Properties['LePosHubSplitter']
         self.LePosShroudSplitter = self.group.Properties['LePosShroudSplitter']
 
+
     def get_meridian_element(self, task):
-
         main_element = Impeller(task).get_main_element(task, node=1)
-
         return main_element
+
 
     def get_positions(self, task):
 
@@ -372,8 +377,8 @@ class Meridian(Impeller):
                 positions[key] = main_element.find(value).text
         return positions
 
-    def insert_meridian_properties(self, task):
 
+    def insert_meridian_properties(self, task):
         meridian_properties = self.get_positions(task)
 
         if 'LePosHub' in meridian_properties:
@@ -389,14 +394,14 @@ class Meridian(Impeller):
         if 'LePosShroudSplitter' in meridian_properties:
             self.LePosShroudSplitter.Value = meridian_properties['LePosShroudSplitter']
 
+
     def positionExist(self, task, key):
-
         meridian_properties = self.get_positions(task)
-
         if key not in meridian_properties:
             return
         else:
             return 1
+
 
     def writes_positions(self, task, posParam, HubOrShroud):
         impeller = Impeller(task)
@@ -423,9 +428,11 @@ class BladeProfiles(Impeller):
         self.DstPresSideShroud_3 = self.group.Properties['DstPresSideShroud_3']
         self.DstPresSideShroud_4 = self.group.Properties['DstPresSideShroud_4']
 
+
     def get_blade_profiles_element(self, task):
         main_element = Impeller(task).get_main_element(task, node=4)
         return main_element
+
 
     def get_distances(self, task, HubShroud, DstPresSideHubShroud ):
         distances = {}
@@ -479,21 +486,17 @@ class BladeProfiles(Impeller):
         else:
             return 1
 
-    def write_blade_thickness(self, task, HubShroud, indexValue, paramValue):
+
+    def write_blade_distances(self, task, HubShroud, indexValue, paramValue):
         impeller = Impeller(task)
         tree = impeller.get_xml_tree(task)
         root = tree.getroot()
         blade_profiles_element = root[0][0][0][0][4]
+        pressure_side_node = blade_profiles_element[HubShroud]
 
-        node = blade_profiles_element[0][HubShroud]
-        for i in range(2):
-            points_nodes = node[i][0]
-            for child in points_nodes:
-                if child.attrib["Index"] == "{}".format(indexValue):
-                    if i == 1:
-                        child[1].text = str(-float(paramValue) / 2)
-                    else:
-                        child[1].text = str(float(paramValue) / 2)
+        for child in pressure_side_node:
+            if child.attrib["Index"] == "{}".format(indexValue):
+                child.text = str(paramValue)
 
         target_dir = copy_cft_file(task)
         tree.write(target_dir + '-batch')

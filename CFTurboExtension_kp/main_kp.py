@@ -363,25 +363,25 @@ def update_meridian(task):
 def update_blade_profiles(task):
 
     blProf = BladeProfiles(task)
-    blade_thickness = blProf.join_blade_thickness(task)
+    blade_thickness = blProf.join_distances_to_pres_side(task)
 
-    if 'BladeThickHub_1' in blade_thickness:
-        blProf.write_blade_thickness(task, 0, 1, blProf.BladeThickHub_1.Value)
-    if 'BladeThickHub_2' in blade_thickness:
-        blProf.write_blade_thickness(task, 0, 2, blProf.BladeThickHub_2.Value)
-    if 'BladeThickHub_3' in blade_thickness:
-        blProf.write_blade_thickness(task, 0, 3, blProf.BladeThickHub_3.Value)
-    if 'BladeThickHub_4' in blade_thickness:
-        blProf.write_blade_thickness(task, 0, 4, blProf.BladeThickHub_4.Value)
+    if 'DstPresSideHub_1' in blade_thickness:
+        blProf.write_blade_distances(task, 0, 0, blProf.DstPresSideHub_1.Value)
+    if 'DstPresSideHub_2' in blade_thickness:
+        blProf.write_blade_distances(task, 0, 1, blProf.DstPresSideHub_2.Value)
+    if 'DstPresSideHub_3' in blade_thickness:
+        blProf.write_blade_distances(task, 0, 2, blProf.DstPresSideHub_3.Value)
+    if 'DstPresSideHub_4' in blade_thickness:
+        blProf.write_blade_distances(task, 0, 3, blProf.DstPresSideHub_4.Value)
 
-    if 'BladeThickShroud_1' in blade_thickness:
-        blProf.write_blade_thickness(task, 1, 1, blProf.BladeThickShroud_1.Value)
-    if 'BladeThickShroud_2' in blade_thickness:
-        blProf.write_blade_thickness(task, 1, 2, blProf.BladeThickShroud_2.Value)
-    if 'BladeThickShroud_3' in blade_thickness:
-        blProf.write_blade_thickness(task, 1, 3, blProf.BladeThickShroud_3.Value)
-    if 'BladeThickShroud_4' in blade_thickness:
-        blProf.write_blade_thickness(task, 1, 4, blProf.BladeThickShroud_4.Value)
+    if 'DstPresSideShroud_1' in blade_thickness:
+        blProf.write_blade_distances(task, 1, 0, blProf.DstPresSideShroud_1.Value)
+    if 'DstPresSideShroud_2' in blade_thickness:
+        blProf.write_blade_distances(task, 1, 1, blProf.DstPresSideShroud_2.Value)
+    if 'DstPresSideShroud_3' in blade_thickness:
+        blProf.write_blade_distances(task, 1, 2, blProf.DstPresSideShroud_3.Value)
+    if 'DstPresSideShroud_4' in blade_thickness:
+        blProf.write_blade_distances(task, 1, 3, blProf.DstPresSideShroud_4.Value)
 
 
 def getDPName():

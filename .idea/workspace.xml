@@ -48,7 +48,7 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="gitignore" value="15" />
-          <entry key="py" value="3226" />
+          <entry key="py" value="3686" />
           <entry key="txt" value="4" />
           <entry key="xml" value="120" />
         </counts>
@@ -56,7 +56,7 @@
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="PLAIN_TEXT" value="19" />
-          <entry key="Python" value="3226" />
+          <entry key="Python" value="3686" />
           <entry key="XML" value="120" />
         </counts>
       </usages-collector>
@@ -67,11 +67,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/xml_parser.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="34" column="20" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="20" />
+            <state relative-caret-position="379">
+              <caret line="440" column="74" selection-start-line="440" selection-start-column="57" selection-end-line="440" selection-end-column="74" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
-                <marker date="1542013004179" expanded="true" signature="105:135" ph="..." />
+                <marker date="1542019979312" expanded="true" signature="105:135" ph="..." />
+                <marker date="1542019979312" expanded="true" signature="3164:3169" ph="..." />
               </folding>
             </state>
           </provider>
@@ -80,11 +81,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="111">
-              <caret line="290" column="8" selection-start-line="290" selection-start-column="8" selection-end-line="290" selection-end-column="8" />
+            <state relative-caret-position="321">
+              <caret line="375" lean-forward="true" selection-start-line="375" selection-end-line="375" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
-                <marker date="1542013004164" expanded="true" signature="9874:9976" ph="..." />
+                <marker date="1542020301633" expanded="true" signature="9874:9968" ph="..." />
               </folding>
             </state>
           </provider>
@@ -93,7 +94,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-320">
+            <state relative-caret-position="-2432">
               <caret line="70" column="43" selection-start-line="70" selection-start-column="39" selection-end-line="70" selection-end-column="62" />
             </state>
           </provider>
@@ -111,12 +112,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/test/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+            <state relative-caret-position="228">
+              <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="17" selection-end-column="44" />
               <folding>
                 <element signature="e#0#34#0" expanded="true" />
-                <marker date="1542008200768" expanded="true" signature="293:372" ph="..." />
-                <marker date="1542008200768" expanded="true" signature="901:902" ph="..." />
+                <marker date="1542019977274" expanded="true" signature="617:618" ph="..." />
+                <marker date="1542019977274" expanded="true" signature="633:634" ph="..." />
               </folding>
             </state>
           </provider>
@@ -125,8 +126,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/test/radial_pump_10_3.cft-batch">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="109">
-              <caret line="88" column="28" lean-forward="true" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
+            <state relative-caret-position="611">
+              <caret line="119" column="14" selection-start-line="119" selection-start-column="14" selection-end-line="119" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -203,6 +204,7 @@
         <option value="$PROJECT_DIR$/CFTurboExtension_kp/tse_parser.py" />
         <option value="$PROJECT_DIR$/CFTurboExtension_kp.xml" />
         <option value="$PROJECT_DIR$/CFTurboExtension_kp/visibility.py" />
+        <option value="$PROJECT_DIR$/CFTurboExtension_kp/test/radial_pump_10_3.cft-batch" />
         <option value="$PROJECT_DIR$/CFTurboExtension_kp/test/test.py" />
         <option value="$PROJECT_DIR$/CFTurboExtension_kp/xml_parser.py" />
         <option value="$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py" />
@@ -644,13 +646,13 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3275488" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.18655097" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.18655097" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.21216217" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.23210412" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.21149674" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.21149674" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Python Console" order="10" weight="0.3286334" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
@@ -717,11 +719,6 @@
           <url>file://$PROJECT_DIR$/CFTurboExtension_kp/old_modules/new_tse_parser_with_classes.py</url>
           <line>62</line>
           <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py</url>
-          <line>428</line>
-          <option name="timeStamp" value="39" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -814,20 +811,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/visibility.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="608">
-          <caret line="38" selection-start-line="38" selection-end-line="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-320">
-          <caret line="70" column="43" selection-start-line="70" selection-start-column="39" selection-end-line="70" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/test/axial_pump_10_3.cft">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1539" />
@@ -845,43 +828,58 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/visibility.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="608">
+          <caret line="38" selection-start-line="38" selection-end-line="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2432">
+          <caret line="70" column="43" selection-start-line="70" selection-start-column="39" selection-end-line="70" selection-end-column="62" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/test/radial_pump_10_3.cft-batch">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="109">
-          <caret line="88" column="28" lean-forward="true" selection-start-line="88" selection-start-column="28" selection-end-line="88" selection-end-column="28" />
+        <state relative-caret-position="611">
+          <caret line="119" column="14" selection-start-line="119" selection-start-column="14" selection-end-line="119" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/test/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        <state relative-caret-position="228">
+          <caret line="12" column="8" selection-start-line="12" selection-start-column="8" selection-end-line="17" selection-end-column="44" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
-            <marker date="1542008200768" expanded="true" signature="293:372" ph="..." />
-            <marker date="1542008200768" expanded="true" signature="901:902" ph="..." />
+            <marker date="1542019977274" expanded="true" signature="617:618" ph="..." />
+            <marker date="1542019977274" expanded="true" signature="633:634" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/xml_parser.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="34" column="20" selection-start-line="34" selection-start-column="6" selection-end-line="34" selection-end-column="20" />
+        <state relative-caret-position="379">
+          <caret line="440" column="74" selection-start-line="440" selection-start-column="57" selection-end-line="440" selection-end-column="74" />
           <folding>
             <element signature="e#0#34#0" expanded="true" />
-            <marker date="1542013004179" expanded="true" signature="105:135" ph="..." />
+            <marker date="1542019979312" expanded="true" signature="105:135" ph="..." />
+            <marker date="1542019979312" expanded="true" signature="3164:3169" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CFTurboExtension_kp/main_kp.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="111">
-          <caret line="290" column="8" selection-start-line="290" selection-start-column="8" selection-end-line="290" selection-end-column="8" />
+        <state relative-caret-position="321">
+          <caret line="375" lean-forward="true" selection-start-line="375" selection-end-line="375" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
-            <marker date="1542013004164" expanded="true" signature="9874:9976" ph="..." />
+            <marker date="1542020301633" expanded="true" signature="9874:9968" ph="..." />
           </folding>
         </state>
       </provider>

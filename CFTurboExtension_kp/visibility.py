@@ -1,10 +1,3 @@
-# I've commented it because it is possible to parameterized tip clearance in TurboGrid
-# def tipClearanceVisible(task, property):
-#     tipClearance = MainDimensions(task).tipClearanceExist(task)
-#     if tipClearance == '0':
-#         return False
-#     return True
-
 def GroupsVisible(task, property):
     '''
     Hide groups of properties if file no chosen
@@ -133,12 +126,3 @@ def DstPresSideShroud4Visible(task, property):
     if BladeThickShroud4 is None:
         return False
     return True
-
-# I've commented it because BladeProfiles group is hidden when all properties are absent. No need to write a separate
-# function.
-# def BladeProfilesVisible(task, property):
-#     num_points = BladeProfiles(task).BladeProfilesExist(task)
-#
-#     if num_points == 1:
-#         return False
-#     return True
