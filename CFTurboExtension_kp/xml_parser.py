@@ -85,6 +85,51 @@ class MainDimensions(Impeller):
                 self.impeller_outlet_width.Value = child.text
 
 
+
+
+
+    def write_main_dimensions(self, task):
+        '''
+        Updates parameters of main dimensions property group when user changes values in table and writes new .cft-batch file
+        :param task:
+        Improvements: maybe it is better add separated functions for updating main dimensions, blade profiles, etc and write
+        classes, e.g. class MainDimensions, class BladeProfiles.
+        :return: refreshed .cft-batch file
+        '''
+
+        # MainDimensions and Impeller classes from xml_parser.py module
+        mainDim = MainDimensions(task)
+        impeller = Impeller(task)
+
+        tree = impeller.get_xml_tree(task)
+        root = tree.getroot()
+
+        # get main dimensions element
+        main_dimensions_element = root[0][0][0][0][0][0]
+
+        # the code bellow writes new values of parameter when update cell#2
+        for child in main_dimensions_element:
+
+            # properties for axial pump
+            if child.attrib["Caption"] == "Hub diameter":
+                child.text = str(mainDim.hub_diameter.Value)
+            if child.attrib["Caption"] == "Suction diameter":
+                child.text = str(mainDim.suction_diameter.Value)
+            if child.attrib["Caption"] == "Hub diameter outlet":
+                child.text = str(mainDim.hub_diameter_outlet.Value)
+            if child.attrib["Caption"] == "Tip diameter outlet":
+                child.text = str(mainDim.tip_diameter_outlet.Value)
+
+            # properties for radial and mixed pumps
+            if child.attrib["Caption"] == "Impeller diameter":
+                child.text = str(mainDim.impeller_diameter.Value)
+            if child.attrib["Caption"] == "Outlet width":
+                child.text = str(mainDim.impeller_outlet_width.Value)
+
+        target_dir = copy_cft_file(task)
+        tree.write(target_dir + '-batch')
+
+
 class BladeProperties(Impeller):
     def __init__(self, task):
         Impeller.__init__(self, task)
