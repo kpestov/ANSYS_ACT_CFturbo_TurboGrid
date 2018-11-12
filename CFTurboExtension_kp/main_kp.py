@@ -374,15 +374,10 @@ def update_blade_properties(task):
 def update_skeletonLines(task):
 
     skeletonLines = SkeletonLines(task)
-    impeller = Impeller(task)
-
-    tree = impeller.get_xml_tree(task)
-    root = tree.getroot()
-    skeletonlines_element = root[0][0][0][0][3]
-    num_of_bezier_curves = len(skeletonlines_element[0][0])
-
     skeletonLines.writes_phi_angles(task, 0, skeletonLines.phiLEhub.Value, skeletonLines.phiTEhub.Value)
-    skeletonLines.writes_phi_angles(task, num_of_bezier_curves - 1, skeletonLines.phiLEshroud.Value, skeletonLines.phiTEshroud.Value)
+    skeletonLines.writes_phi_angles(task, - 1, skeletonLines.phiLEshroud.Value, skeletonLines.phiTEshroud.Value)\
+
+
 
 def update_meridian(task):
     meridian = Meridian(task)

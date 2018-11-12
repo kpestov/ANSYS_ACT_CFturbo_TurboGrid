@@ -3,7 +3,7 @@ import os
 import math
 import clr
 clr.AddReference("Ans.UI.Toolkit")
-from Ansys.UI.Toolkit import *
+# from Ansys.UI.Toolkit import *
 
 
 class Impeller:
@@ -268,26 +268,13 @@ class SkeletonLines(Impeller):
 
     def writes_phi_angles(self, task, number, phiLEValue, phiTEValue):
         impeller = Impeller(task)
-
         tree = impeller.get_xml_tree(task)
         root = tree.getroot()
-
-        check_node = self.get_skeletonLines_element(task)[0]
-        splitter_node = check_node.find('RelativeSplitterPosition')
-
-        if splitter_node is None:
-            index = 0
-        else:
-            index = 1
-
         skeletonlines_element = root[0][0][0][0][3]
-        Bezier3SL_element = skeletonlines_element[0][index][number]
-        num_of_points = Bezier3SL_element[0].attrib['Count']
-        anglesLe = Bezier3SL_element[0][0]
-        anglesTe = Bezier3SL_element[0][int(num_of_points) - 1]
+        phi_node = skeletonlines_element[0][0][0][0]
 
-        anglesLe[0].text = str(round(((float(phiLEValue) / 180) * math.pi), 7))
-        anglesTe[0].text = str(round(((float(phiTEValue) / 180) * math.pi), 7))
+        phi_node[number].find('lePos').text = str(round(((float(phiLEValue) / 180) * math.pi), 7))
+        phi_node[number].find('tePos').text = str(round(((float(phiTEValue) / 180) * math.pi), 7))
 
         target_dir = copy_cft_file(task)
         tree.write(target_dir + '-batch')
@@ -446,18 +433,6 @@ class BladeProfiles(Impeller):
             return
         else:
             return 1
-
-    # def BladeProfilesExist(self, task):
-    #     '''
-    #     Visibility of all property group BladeProfiles
-    #     :param task:
-    #     :return:
-    #     '''
-    #     num_points = self.get_blade_profiles_element(task)
-    #     if num_points == 2:
-    #         return
-    #     else:
-    #         return 1
 
     def write_blade_thickness(self, task, HubShroud, indexValue, paramValue):
         impeller = Impeller(task)
