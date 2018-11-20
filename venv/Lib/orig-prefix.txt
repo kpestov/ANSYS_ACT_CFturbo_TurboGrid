@@ -1,1 +1,0 @@
-C:\Program Files\ANSYS Inc\v190\commonfiles\CPython\2_7_13\winx64\Release\python
