@@ -1,13 +1,9 @@
 <extension version="1" name="CFTurboExtension" icon="images\plm_ural.png">
     <guid shortid="CFTurbo">69f95f34-a323-4d7b-9324-00d6c9ebec27</guid>
-
-    <script src="main_kp.py" compiled="True" />
+    <script src="main.py" compiled="True" />
     <script src="xml_parser.py" compiled="True" />
     <script src="tse_parser.py" compiled="True" />
     <script src="visibility.py" compiled="True" />
-
-   <!-- <script src="test.py" compiled="True" /> !-->
-
     <interface context="Project">
         <images>images</images>
     </interface>
@@ -29,51 +25,38 @@
 						</callbacks>
 					</entry>
 				</contextmenus>
-
 				<outputs>
                     <output format="" type="TurboGeometry"/>
                 </outputs>
-
                 <propertygroup name="CFTurbo batch file" caption="CFTurbo batch input file" display="caption">
                     <property name="InputFileName" caption="Input File Name" control="string" default="No file chosen!" needupdate="True" parameterizable="False" persistent="True" readonly="True" visible="True">
 						<callbacks>
-							<!--onadd>onAdd</onadd!-->
 							<IsValid>input_file_valid</IsValid>
 						</callbacks>
                     </property>
                 </propertygroup>
                 <propertygroup name="MainDimensions" caption="Main dimensions of Impeller" display="caption">
-
 					<callbacks>
-							<isvisible>GroupsVisible</isvisible>
+							<isvisible>groups_visible</isvisible>
 					</callbacks>
-
-
-					<!-- I've commented it because it is possible to parameterized tip clearance in TurboGrid !-->
-					<!--<property name="TipClearance" caption="Tip clearance" control="double" default="0.0" parameterizable="True">
-						<callbacks>
-							<isvisible>tipClearanceVisible</isvisible>
-						</callbacks>
-					</property> !-->
-
                     <property name="HubDiameter" caption="Hub diameter" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>HubDiameterVisible</isvisible>
+							<isvisible>hub_diameter_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="SuctionDiameter" caption="Suction diameter" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>SuctionDiameterVisible</isvisible>
+							<isvisible>suction_diameter_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="ImpellerDiameter" caption="Impeller diameter" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>ImpellerDiameterVisible</isvisible>
+							<isvisible>impeller_diameter_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="ImpellerOutletWidth" caption="Impeller outlet width" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>ImpellerOutWidthVisible</isvisible>
+							<isvisible>impeller_out_width_visible</isvisible>
 						</callbacks>
 					</property>
 
@@ -81,23 +64,21 @@
 
 					<property name="HubDiameterOutlet" caption="Hub diameter outlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>HubDiameterOutVisible</isvisible>
+							<isvisible>hub_diameter_out_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="TipDiameterOutlet" caption="Tip diameter outlet" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>TipDiameterOutVisible</isvisible>
+							<isvisible>tip_diameter_out_visible</isvisible>
 						</callbacks>
 					</property>
-
 				</propertygroup>
 
 				<!-- Blade Properties of Radial Pump !-->
 
 				<propertygroup name="BladeProperties" caption="Blade properties" display="caption">
-
 					<callbacks>
-							<isvisible>GroupsVisible</isvisible>
+							<isvisible>groups_visible</isvisible>
 					</callbacks>
 
 					<!-- Blade thicknesses !-->
@@ -127,35 +108,32 @@
 
 					<property name="beta1h" caption="Blade angle leading edge at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>beta1Visible</isvisible>
+							<isvisible>beta1_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="beta1s" caption="Blade angle leading edge at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>beta1Visible</isvisible>
+							<isvisible>beta1_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="beta2h" caption="Blade angle trailing edge at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>beta2Visible</isvisible>
+							<isvisible>beta2_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="beta2s" caption="Blade angle trailing edge at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>beta2Visible</isvisible>
+							<isvisible>beta2_visible</isvisible>
 						</callbacks>
 					</property>
-
 				</propertygroup>
 
 				<!-- wrap angles !-->
 
 				<propertygroup name="BladeMeanLines" caption="Blade mean lines" display="caption">
-
 					<callbacks>
-							<isvisible>GroupsVisible</isvisible>
+							<isvisible>groups_visible</isvisible>
 					</callbacks>
-
 					<property name="phiLE" caption="Leading edge angle" control="float" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
@@ -164,109 +142,99 @@
 						<callbacks>
 						</callbacks>
 					</property>
-
 				</propertygroup>
 
 				<!-- Meridional contour !-->
 
 				<propertygroup name="Meridian" caption="Meridional contour" display="caption">
-
 					<callbacks>
-							<isvisible>GroupsVisible</isvisible>
+							<isvisible>groups_visible</isvisible>
 					</callbacks>
-
 					<property name="LePosHub" caption="Leading edge position at hub [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>LePosHubVisible</isvisible>s
+							<isvisible>le_pos_hub_visible</isvisible>s
 						</callbacks>
 					</property>
 					<property name="LePosShroud" caption="Leading edge position at shroud [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>LePosHubVisible</isvisible>
+							<isvisible>le_pos_hub_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="TePosHub" caption="Trailing edge position at hub [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>TePosHubVisible</isvisible>
+							<isvisible>te_pos_hub_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="TePosShroud" caption="Trailing edge position at shroud [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>TePosHubVisible</isvisible>
+							<isvisible>te_pos_hub_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="LePosHubSplitter" caption="Leading edge position at hub (splitter blade) [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>LePosHubSplitterVisible</isvisible>
+							<isvisible>le_pos_hub_splitter_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="LePosShroudSplitter" caption="Leading edge position at shroud (splitter blade) [relative]" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>LePosHubSplitterVisible</isvisible>
+							<isvisible>le_pos_hub_splitter_visible</isvisible>
 						</callbacks>
 					</property>
-
 				</propertygroup>
 
 				<!-- Blade profiles !-->
 
 				<propertygroup name="BladeProfiles" caption="Blade profiles" display="caption">
-
 					<callbacks>
-							<isvisible>GroupsVisible</isvisible>
+							<isvisible>groups_visible</isvisible>
 					</callbacks>
-
 					<property name="DstPresSideHub_1" caption="Distance to pressure side at hub (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideHub1Visible</isvisible>
+							<isvisible>dst_pres_side_hub1_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="DstPresSideShroud_1" caption="Distance to pressure side at Shroud (point 1)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideShroud1Visible</isvisible>
+							<isvisible>dst_pres_side_shroud1_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="DstPresSideHub_2" caption="Distance to pressure side at hub (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideHub2Visible</isvisible>
+							<isvisible>dst_pres_side_hub2_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="DstPresSideShroud_2" caption="Distance to pressure side at Shroud (point 2)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideShroud2Visible</isvisible>
+							<isvisible>dst_pres_side_shroud2_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="DstPresSideHub_3" caption="Distance to pressure side at hub (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideHub3Visible</isvisible>
+							<isvisible>dst_pres_side_hub3_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="DstPresSideShroud_3" caption="Distance to pressure side at Shroud (point 3)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideShroud3Visible</isvisible>
+							<isvisible>dst_pres_side_shroud3_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="DstPresSideHub_4" caption="Distance to pressure side at hub (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideHub4Visible</isvisible>
+							<isvisible>dst_pres_side_hub4_visible</isvisible>
 						</callbacks>
 					</property>
 					<property name="DstPresSideShroud_4" caption="Distance to pressure side at Shroud (point 4)" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
-							<isvisible>DstPresSideShroud4Visible</isvisible>
+							<isvisible>dst_pres_side_shroud4_visible</isvisible>
 						</callbacks>
 					</property>
-
 				</propertygroup>
             </task>
         </tasks>
-
         <taskgroups>
-
             <taskgroup name="CFTurbo" caption="CFTurbo Interface" icon="taskgroup" category="ACT Custom Workflows" abbreviation="CFT" version="1">
                 <includeTask name="CFTurboImport" caption="CFTurbo Import"/>
             </taskgroup>
-
         </taskgroups>
     </workflow>
 </extension>
