@@ -36,7 +36,6 @@ def cleanDir(task):
 
 def delCFturboFiles(task):
     for file in os.listdir(task.ActiveDirectory):
-        # if file.endswith('.inf'):
         if file.endswith('.curve') or file.endswith('.log') or file.endswith('.tse'):
             os.remove(os.path.join(task.ActiveDirectory, file))
 
@@ -76,23 +75,18 @@ def reset(task):
         os.remove(os.path.join(task.ActiveDirectory, file))
 
     cleanDir(task)
-
     InputFileName.Value = "No file chosen!"
-
     resetParameters(task)
 
 
 def status(task):
     '''
     Changes status of the cell if there is no .cft-file in the working directory
-    :param task:
-    :return: status of the cell = Unfulfilled
     '''
     dir_list = os.listdir(task.ActiveDirectory)
 
     # write a more relible condition in the future
     if len(dir_list) < 2:
-        # status = [Ansys.ACT.Interfaces.Common.State.Unfulfilled, 'cannot copy .cft file']
         status = Ansys.ProjectSchematic.Queries.ComponentState(Ansys.ProjectSchematic.State.Unfulfilled,
                                                                "cannot copy .cft file")
         return status
@@ -123,7 +117,6 @@ def copy_cft_file(task):
 
     # obtain user_files directory
     start_dir = GetUserFilesDirectory()
-
     filePath = get_cft_batch_path(task)
 
     # get_xml_root
@@ -146,7 +139,7 @@ def copy_cft_file(task):
                         'Failed to copy .cft file to the working directory! Please place the .cft file '
                         'in the user_files directory', 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
 
-        # remain yellow color in Input File Name field
+        # remained yellow color in Input File Name field
         group = task.Properties["CFTurbo batch file"]
         file_path = group.Properties["InputFileName"]
         file_path.Value = "No file chosen!"
@@ -165,7 +158,6 @@ def copy_cft_file(task):
     batch_action_2nd_node.attrib['OutputFile'] = ""
 
     # check if ExportComponents element exist in .cft-batch file in parent element BatchAction
-    # (element 'BatchAction' = root[0][1])
     if list(root[0][1]) == []:
         pass
     else:
@@ -173,7 +165,6 @@ def copy_cft_file(task):
         root[0][1].remove(export_components_node)
 
     tree.write(target_dir + '-batch')
-
     return target_dir
 
 
@@ -213,10 +204,6 @@ def edit(task):
                                 'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                 return
 
-            # filePath.Value = dest
-            # fileRef = RegisterFile(FilePath=filePath.Value)
-            # AssociateFileWithContainer(fileRef, container)
-
         # if file already chosen
         else:
 
@@ -245,13 +232,8 @@ def edit(task):
                                     'Warning', MessageBoxType.Error, MessageBoxButtons.OK)
                     return
 
-                # filePath.Value = dest
-                # fileRef = RegisterFile(FilePath=filePath.Value)
-                # AssociateFileWithContainer(fileRef, container)
-
     cft_batch_file_path = get_cft_batch_path(task)
     cft_file_name = get_cft_file_name(task)
-    # MessageBox.Show(cft_batch_file_path.Value)
 
     task.UnregisterFile(cft_batch_file_path.Value)
     task.UnregisterFile(path.join(task.ActiveDirectory, cft_file_name + '.inf'))
@@ -335,11 +317,8 @@ def update_blade_properties(task):
 
 
 def update_skeletonLines(task):
-
     skeletonLines = SkeletonLines(task)
-    skeletonLines.writes_phi_angles(task, 0, skeletonLines.phiLEhub.Value, skeletonLines.phiTEhub.Value)
-    skeletonLines.writes_phi_angles(task, - 1, skeletonLines.phiLEshroud.Value, skeletonLines.phiTEshroud.Value)\
-
+    skeletonLines.writes_phi_angles(task, skeletonLines.phiLE.Value, skeletonLines.phiTE.Value)
 
 
 def update_meridian(task):
@@ -361,7 +340,6 @@ def update_meridian(task):
 
 
 def update_blade_profiles(task):
-
     blProf = BladeProfiles(task)
     blade_thickness = blProf.join_distances_to_pres_side(task)
 
@@ -433,7 +411,6 @@ def update(task):
 def get_exe_cft_path(func):
     """
         Extract release number and find path to cfturbo.exe
-        :param func:
         :return: path to cfturbo.exe
     """
     def wrapper():
@@ -472,8 +449,6 @@ def launch_cfturbo(task):
 def cfturbo_start(task):
     '''
     Main function for starting CFturbo and writing .inf file.
-    :param task:
-    :return:
     '''
     launch_cfturbo(task)
 
@@ -502,44 +477,3 @@ def cfturbo_start(task):
     outputSet = outputRefs["TurboGeometry"]
     myData = outputSet[0]
     myData.INFFilename = fileRef
-
-# def dummy_copying(task):
-#
-# # this is dummy function which copies .curve and .tse files from act directory to task.ActiveDirectory
-#
-#     container = task.InternalObject
-#     fileRef = None
-#
-#     cft_file_name = obtain_cft_file_name(task)
-#     inf_file = cft_file_name + '.inf'
-#     inf_file_dir = os.path.join(task.ActiveDirectory, inf_file)
-#
-#     extensionDir = ExtAPI.ExtensionManager.CurrentExtension.InstallDir
-#
-#     # obtain source and target directories for copy .curve, .tse files (this is dummy code)
-#     for TurboGridFiles in os.listdir(extensionDir):
-#         if TurboGridFiles.endswith(".curve") or TurboGridFiles.endswith(".tse"):
-#             source_files = os.path.join(extensionDir, TurboGridFiles)
-#             target_files = os.path.join(task.ActiveDirectory, TurboGridFiles)
-#
-#             # copy .curve, .tse files from act directory to task.ActiveDirectory (this is dummy code)
-#             copy(source_files, target_files)
-#
-#     # here will be function which extract information from .tse file and create .inf file
-#     create_inf_file(task)
-#
-#     # here wiil be name of .inf file for registration
-#     TurboGridInputFiles = inf_file_dir
-#
-#     # check if the .inf file is associated with WB project
-#     isRegistered = IsFileRegistered(FilePath=TurboGridInputFiles)
-#     if isRegistered == True:
-#         fileRef = GetRegisteredFile(FilePath=TurboGridInputFiles)
-#     else:
-#         fileRef = RegisterFile(FilePath=TurboGridInputFiles)
-#         AssociateFileWithContainer(fileRef, container)
-#
-#     outputRefs = container.GetOutputData()
-#     outputSet = outputRefs["TurboGeometry"]
-#     myData = outputSet[0]
-#     myData.INFFilename = fileRef

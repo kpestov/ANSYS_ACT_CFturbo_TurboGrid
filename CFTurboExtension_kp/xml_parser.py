@@ -275,10 +275,8 @@ class SkeletonLines(Impeller):
     def __init__(self, task):
         Impeller.__init__(self, task)
         self.group = task.Properties["BladeMeanLines"]
-        self.phiLEhub = self.group.Properties['phiLEhub']
-        self.phiLEshroud = self.group.Properties['phiLEshroud']
-        self.phiTEhub = self.group.Properties['phiTEhub']
-        self.phiTEshroud = self.group.Properties['phiTEshroud']
+        self.phiLE = self.group.Properties['phiLE']
+        self.phiTE = self.group.Properties['phiTE']
 
 
     def get_skeletonLines_element(self, task):
@@ -286,23 +284,19 @@ class SkeletonLines(Impeller):
         return main_element
 
 
-    def get_phi_angles(self, task, number, phiLE, phiTE):
+    def get_phi_angles(self, task, phiLE, phiTE):
         phi_node = self.get_skeletonLines_element(task)[0][0][0][0]
 
         phi_angles = {}
-        phi_angles[phiTE] = phi_node[number].find('tePos').text
-        phi_angles[phiLE] = phi_node[number].find('lePos').text
+        phi_angles[phiTE] = phi_node[0].find('tePos').text
+        phi_angles[phiLE] = phi_node[0].find('lePos').text
         return phi_angles
 
 
     def join_phi_angles(self, task):
         skeletonLinesProp = {}
-        phi_hub = self.get_phi_angles(task, 0, 'phiLEhub', 'phiTEhub')
-        phi_shroud = self.get_phi_angles(task, - 1, 'phiLEshroud', 'phiTEshroud')
-
-        skeletonLinesProp.update(phi_hub)
-        skeletonLinesProp.update(phi_shroud)
-
+        phi = self.get_phi_angles(task, 'phiLE', 'phiTE')
+        skeletonLinesProp.update(phi)
         return skeletonLinesProp
 
 
@@ -310,21 +304,20 @@ class SkeletonLines(Impeller):
         skeletonLinesProp = self.join_phi_angles(task)
 
         # convert from radians to degree
-        self.phiLEhub.Value = round((float(skeletonLinesProp["phiLEhub"]) * 180/math.pi), 1)
-        self.phiLEshroud.Value = round((float(skeletonLinesProp["phiLEshroud"]) * 180/math.pi), 1)
-        self.phiTEhub.Value = round((float(skeletonLinesProp["phiTEhub"]) * 180/math.pi), 1)
-        self.phiTEshroud.Value = round((float(skeletonLinesProp["phiTEshroud"]) * 180/math.pi), 1)
+        self.phiLE.Value = round((float(skeletonLinesProp["phiLE"]) * 180/math.pi), 1)
+        self.phiTE.Value = round((float(skeletonLinesProp["phiTE"]) * 180/math.pi), 1)
 
 
-    def writes_phi_angles(self, task, number, phiLEValue, phiTEValue):
+    def writes_phi_angles( self, task, phiLEValue, phiTEValue ):
         impeller = Impeller(task)
         tree = impeller.get_xml_tree(task)
         root = tree.getroot()
         skeletonlines_element = root[0][0][0][0][3]
         phi_node = skeletonlines_element[0][0][0][0]
 
-        phi_node[number].find('lePos').text = str(round(((float(phiLEValue) / 180) * math.pi), 7))
-        phi_node[number].find('tePos').text = str(round(((float(phiTEValue) / 180) * math.pi), 7))
+        for i in phi_node:
+            i.find('lePos').text = str(round(((float(phiLEValue) / 180) * math.pi), 15))
+            i.find('tePos').text = str(round(((float(phiTEValue) / 180) * math.pi), 15))
 
         target_dir = copy_cft_file(task)
         tree.write(target_dir + '-batch')
