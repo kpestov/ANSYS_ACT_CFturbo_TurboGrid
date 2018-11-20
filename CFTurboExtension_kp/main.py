@@ -276,7 +276,7 @@ def update_blade_properties(task):
     # get blade properties element
     blade_properties_element = root[0][0][0][0][2]
 
-    spans = bladeProp.getNumSpans(task)
+    spans = bladeProp.get_num_spans(task)
     check_node = blade_properties_element[1][0]
 
     # the code bellow writes new values of parameter when update cell#2
