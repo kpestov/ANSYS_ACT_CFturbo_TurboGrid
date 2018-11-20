@@ -15,26 +15,24 @@ from System.IO import Path
 import Ansys.ProjectSchematic
 
 
-def resetParameters(task):
+def reset_parameters(task):
     '''
     Called when try to replace .cft-batch file and resets all parameters to the 0.0 from right table of properties
     Improvements: add ability to work with rest parameters in the table, not only for Main Dimensions
-    :param task:
-    :return:
     '''
-    propGroupList = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
-    for group in propGroupList:
-        Group = task.Properties["{}".format(group)].Properties
-        for i in range(len(Group)):
-            Group[i].Value = 0.0
+    prop_group_list = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
+    for i in prop_group_list:
+        group = task.Properties["{}".format(i)].Properties
+        for j in range(len(group)):
+            group[j].Value = 0.0
 
 
-def cleanDir(task):
+def clean_dir(task):
     for file in os.listdir(task.ActiveDirectory):
         os.remove(os.path.join(task.ActiveDirectory, file))
 
 
-def delCFturboFiles(task):
+def del_cfturbo_files(task):
     for file in os.listdir(task.ActiveDirectory):
         if file.endswith('.curve') or file.endswith('.log') or file.endswith('.tse'):
             os.remove(os.path.join(task.ActiveDirectory, file))
@@ -43,24 +41,20 @@ def delCFturboFiles(task):
 def get_cft_batch_path(task):
     '''
     Extract .cft-batch file path from property 'Input File Name'
-    :param task:
     :return: file path ..\*.cft-batch
     '''
     group = task.Properties["CFTurbo batch file"]
     cft_batch_file_path = group.Properties["InputFileName"]
-
     return cft_batch_file_path
 
 
 def get_cft_file_name(task):
     cft_batch_file_path = get_cft_batch_path(task)
     cft_file_name = basename(cft_batch_file_path.Value).split('.cft')[0]
-
     return cft_file_name
 
 
 def reset(task):
-
     InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
 
     cft_batch_file_path = get_cft_batch_path(task)
@@ -74,9 +68,9 @@ def reset(task):
     for file in os.listdir(task.ActiveDirectory):
         os.remove(os.path.join(task.ActiveDirectory, file))
 
-    cleanDir(task)
+    clean_dir(task)
     InputFileName.Value = "No file chosen!"
-    resetParameters(task)
+    reset_parameters(task)
 
 
 def status(task):
@@ -94,11 +88,9 @@ def status(task):
         return None
 
 
-def InFileValid(task, property):
+def input_file_valid(task, property):
     '''
     Check whether the file path exists in the cell property 'Input File Name'
-    :param task:
-    :param property:
     :return: bool
     '''
     if path.exists(property.Value):
@@ -109,8 +101,6 @@ def InFileValid(task, property):
 def copy_cft_file(task):
     '''
     Copy .cft file from user_files dir to .\ACT dir of the project. If there is no .cft file if use_files dir raises
-    :except IOError
-    :param task:
     :return: working directory of the task group
     '''
     container = task.InternalObject
@@ -171,10 +161,7 @@ def copy_cft_file(task):
 def edit(task):
     '''
     Called when click RMB on the cell 'CFTurbo Design'. User selects file .cft-batch in opened window and if attempt is
-    successful copies .cft-batch file from user_files dir to .\ACT dir of the project. If there is an error raises
-    :except IOError
-    :param task:
-    :return:
+    successful copies .cft-batch file from user_files dir to .\ACT dir of the project.
     '''
     fileRef = None
 
@@ -220,7 +207,7 @@ def edit(task):
                 task.UnregisterFile(cft_file_path)
 
                 # reset parameters in propertygroups
-                resetParameters(task)
+                reset_parameters(task)
 
                 dest = Path.Combine(task.ActiveDirectory, path.basename(diagResult[1]))
                 source = diagResult[1]
@@ -362,7 +349,7 @@ def update_blade_profiles(task):
         blProf.write_blade_distances(task, 1, 3, blProf.DstPresSideShroud_4.Value)
 
 
-def getDPName():
+def get_dp_name():
     """
         Method to get current design point name
     """
@@ -370,13 +357,13 @@ def getDPName():
     return "dp"+currDP.Name
 
 
-def isDP0():
-    name = getDPName()
+def is_dp0():
+    name = get_dp_name()
     return name == "dp0"
 
 
 def change_dp_name(*args):
-    dp_dir = re.sub(r'dp\d+', getDPName(), r'{}'.format(*args))
+    dp_dir = re.sub(r'dp\d+', get_dp_name(), r'{}'.format(*args))
     return dp_dir
 
 
@@ -393,13 +380,13 @@ def change_path_in_cft_batch(*args):
 def update(task):
     InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
 
-    if isDP0() == True:
+    if is_dp0() == True:
         pass
     else:
         InputFileName.Value = change_dp_name(InputFileName.Value)
         change_path_in_cft_batch(InputFileName.Value)
 
-    delCFturboFiles(task)
+    del_cfturbo_files(task)
     update_main_dimensions(task)
     update_meridian(task)
     update_blade_properties(task)
