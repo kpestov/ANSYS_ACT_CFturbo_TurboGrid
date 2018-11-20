@@ -1,7 +1,11 @@
-import xml.etree.ElementTree as ET
+"""This module parses .cft-batch file (.xml), pulls parameters from it and inserts them to properties table in WB.
+
+"""
+
 import os
 import math
 import clr
+import xml.etree.ElementTree as ET
 clr.AddReference("Ans.UI.Toolkit")
 
 
@@ -9,25 +13,21 @@ class Impeller:
     def __init__(self, task):
         self.task = task
 
-
     def get_cft_batch_path(self, task):
         for cft_file in os.listdir(task.ActiveDirectory):
             if cft_file.endswith(".cft-batch"):
                 cft_file_path = os.path.join(task.ActiveDirectory, cft_file)
                 return cft_file_path
 
-
     def get_xml_tree(self, task):
         cft_batch_file_path = self.get_cft_batch_path(task)
         tree = ET.parse(cft_batch_file_path)
         return tree
 
-
     def get_xml_root(self, task):
         tree = self.get_xml_tree(task)
         root = tree.getroot()
         return root
-
 
     def get_main_element(self, task, node=0):
         root = self.get_xml_root(task)
@@ -56,8 +56,7 @@ class MainDimensions(Impeller):
         main_dimensions_element = main_element[0]
         return main_dimensions_element
 
-
-    def mainDimExist(self, task, tag, attrib, attribValue):
+    def main_dim_exist(self, task, tag, attrib, attribValue):
         main_dimensions_element = MainDimensions(task).get_main_dimensions_element(task)
         try:
             ds = main_dimensions_element.find(tag).attrib[attrib]
@@ -65,7 +64,6 @@ class MainDimensions(Impeller):
                 return 1
         except AttributeError:
             pass
-
 
     def insert_main_dimensions(self, task):
         main_dimensions_element = MainDimensions(task).get_main_dimensions_element(task)
@@ -88,12 +86,10 @@ class MainDimensions(Impeller):
             if child.attrib["Caption"] == "Outlet width":
                 self.impeller_outlet_width.Value = child.text
 
-
     def write_main_dimensions(self, task):
         '''
         Updates parameters of main dimensions property group when user changes values in table and writes
         new .cft-batch file
-        :param task:
         :return: refreshed .cft-batch file
         '''
 
@@ -144,19 +140,16 @@ class BladeProperties(Impeller):
         self.beta_2_h = self.group.Properties['beta2h']
         self.beta_2_s = self.group.Properties['beta2s']
 
-
     def get_blade_properties_element(self, task):
         main_element = Impeller(task).get_main_element(task, node=2)
         return main_element
-
 
     def get_main_blade_element(self, task):
         tread_array = self.get_blade_properties_element(task).find('TReadWriteArray_TBladeProps')
         main_blade_element = tread_array[0]
         return main_blade_element
 
-
-    def betaExist(self, task, tag):
+    def beta_exist(self, task, tag):
         main_blade_element = self.get_main_blade_element(task)
         beta = main_blade_element.find(tag)
         if beta is None:
@@ -165,7 +158,7 @@ class BladeProperties(Impeller):
             return 1
 
 
-    def getNumSpans(self, task):
+    def get_num_spans(self, task):
 
         main_blade_element = self.get_main_blade_element(task)
         spans = main_blade_element.find('Beta1').attrib['Count']
@@ -175,7 +168,7 @@ class BladeProperties(Impeller):
 
     def get_blade_angles(self, task, node, betah, betas):
 
-        spans = self.getNumSpans(task)
+        spans = self.get_num_spans(task)
 
         blade_angles = {}
         for child in node:
@@ -241,21 +234,21 @@ class BladeProperties(Impeller):
             self.beta_2_s.Value = round((float(blade_properties['beta2s']) * 180/math.pi), 1)
 
 
-    def writeThickness(self, main_blade_element, paramValue, HubOrShroud):
+    def write_thickness(self, main_blade_element, paramValue, HubOrShroud):
         main_blade_element.find('{}'.format(HubOrShroud)).text = str(paramValue)
 
 
-    def writeBladeAngles(self, node, indexValue, paramValue):
+    def write_blade_angles(self, node, indexValue, paramValue):
         for child in node:
             if child.attrib["Index"] == "{}".format(indexValue):
                 child.text = str(round(((float(paramValue) / 180) * math.pi), 7))
 
 
-    def writeInterpolatedBladeAngles(self, task, node, betah, betas):
+    def write_interpolated_blade_angles(self, task, node, betah, betas):
         '''
         Writes interpolated values of angles to the Beta1 and Beta2 nodes. By default linear interpolation works
         '''
-        spans = int(self.getNumSpans(task))
+        spans = int(self.get_num_spans(task))
 
         main_blade_element = self.get_main_blade_element(task)
         beta_node = main_blade_element.find('Beta1')
@@ -388,7 +381,7 @@ class Meridian(Impeller):
             self.LePosShroudSplitter.Value = meridian_properties['LePosShroudSplitter']
 
 
-    def positionExist(self, task, key):
+    def position_exist(self, task, key):
         meridian_properties = self.get_positions(task)
         if key not in meridian_properties:
             return
@@ -472,7 +465,7 @@ class BladeProfiles(Impeller):
             self.DstPresSideShroud_4.Value = distances_to_pres_side['DstPresSideShroud_4']
 
 
-    def dstToPressSideExist(self, task, key):
+    def dst_to_press_side_exist(self, task, key):
         distances = self.join_distances_to_pres_side(task)
         if key not in distances:
             return

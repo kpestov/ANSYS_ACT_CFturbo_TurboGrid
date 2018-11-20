@@ -282,27 +282,26 @@ def update_blade_properties(task):
     # the code bellow writes new values of parameter when update cell#2
     blade_properties_element.find('nBl').text = str(bladeProp.number_blades.Value)
 
-    # bladeProp.writeThickness(le_thickness_node, '0', bladeProp.le_thickness_hub.Value)
-    bladeProp.writeThickness(check_node, bladeProp.le_thickness_hub.Value, 'sLEH')
-    bladeProp.writeThickness(check_node, bladeProp.le_thickness_shroud.Value, 'sLES')
-    bladeProp.writeThickness(check_node, bladeProp.te_thickness_hub.Value, 'sTEH')
-    bladeProp.writeThickness(check_node, bladeProp.te_thickness_shroud.Value, 'sTES')
+    bladeProp.write_thickness(check_node, bladeProp.le_thickness_hub.Value, 'sLEH')
+    bladeProp.write_thickness(check_node, bladeProp.le_thickness_shroud.Value, 'sLES')
+    bladeProp.write_thickness(check_node, bladeProp.te_thickness_hub.Value, 'sTEH')
+    bladeProp.write_thickness(check_node, bladeProp.te_thickness_shroud.Value, 'sTES')
 
     beta1_node = check_node.find('Beta1')
     if beta1_node is None:
         pass
     else:
-        bladeProp.writeBladeAngles(beta1_node, '0', bladeProp.beta_1_h.Value)
-        bladeProp.writeBladeAngles(beta1_node, (int(spans) - 1), bladeProp.beta_1_s.Value)
-        bladeProp.writeInterpolatedBladeAngles(task, beta1_node, bladeProp.beta_1_h.Value, bladeProp.beta_1_s.Value)
+        bladeProp.write_blade_angles(beta1_node, '0', bladeProp.beta_1_h.Value)
+        bladeProp.write_blade_angles(beta1_node, (int(spans) - 1), bladeProp.beta_1_s.Value)
+        bladeProp.write_interpolated_blade_angles(task, beta1_node, bladeProp.beta_1_h.Value, bladeProp.beta_1_s.Value)
 
     beta2_node = check_node.find('Beta2')
     if beta2_node is None:
         pass
     else:
-        bladeProp.writeBladeAngles(beta2_node, '0', bladeProp.beta_2_h.Value)
-        bladeProp.writeBladeAngles(beta2_node, (int(spans) - 1), bladeProp.beta_2_s.Value)
-        bladeProp.writeInterpolatedBladeAngles(task, beta2_node, bladeProp.beta_2_h.Value, bladeProp.beta_2_s.Value)
+        bladeProp.write_blade_angles(beta2_node, '0', bladeProp.beta_2_h.Value)
+        bladeProp.write_blade_angles(beta2_node, (int(spans) - 1), bladeProp.beta_2_s.Value)
+        bladeProp.write_interpolated_blade_angles(task, beta2_node, bladeProp.beta_2_h.Value, bladeProp.beta_2_s.Value)
 
     target_dir = copy_cft_file(task)
     tree.write(target_dir + '-batch')
