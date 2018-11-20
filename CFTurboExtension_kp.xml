@@ -38,7 +38,7 @@
                     <property name="InputFileName" caption="Input File Name" control="string" default="No file chosen!" needupdate="True" parameterizable="False" persistent="True" readonly="True" visible="True">
 						<callbacks>
 							<!--onadd>onAdd</onadd!-->
-							<IsValid>InFileValid</IsValid>
+							<IsValid>input_file_valid</IsValid>
 						</callbacks>
                     </property>
                 </propertygroup>
@@ -156,19 +156,11 @@
 							<isvisible>GroupsVisible</isvisible>
 					</callbacks>
 
-					<property name="phiLEhub" caption="Leading edge angle at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="phiLE" caption="Leading edge angle" control="float" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
-					<property name="phiLEshroud" caption="Leading edge angle at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
-						<callbacks>
-						</callbacks>
-					</property>
-					<property name="phiTEhub" caption="Trailing edge angle at hub" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
-						<callbacks>
-						</callbacks>
-					</property>
-					<property name="phiTEshroud" caption="Trailing edge angle at shroud" control="double" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
+					<property name="phiTE" caption="Trailing edge angle" control="float" default="0.0" needupdate="true" parameterizable="True" persistent="True" readonly="False" visible="True">
 						<callbacks>
 						</callbacks>
 					</property>
