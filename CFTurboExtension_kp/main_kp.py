@@ -1,3 +1,7 @@
+"""This module contains main callbacks that are responsible for loading the input file, updating and resetting
+parameters.
+"""
+
 import re
 import clr
 import os
