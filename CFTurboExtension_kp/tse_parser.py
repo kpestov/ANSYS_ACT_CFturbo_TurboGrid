@@ -1,3 +1,7 @@
+"""This module parses .tse file from TG and create .inf file based on attributes from .tse file.
+
+"""
+
 import re
 from os import path
 from ntpath import basename
@@ -10,14 +14,12 @@ class Geometry:
     def obtain_cft_file_name(self, task):
         cft_file_path = Impeller(task).get_cft_batch_path(task)
         cft_file_name = basename(cft_file_path).split('.cft')[0]
-
         return cft_file_name
 
     def obtain_tse_file(self, task):
         cft_file_name = self.obtain_cft_file_name(task)
         file_name = cft_file_name + '.tse'
         tse_file = path.join(task.ActiveDirectory, file_name)
-
         return tse_file
 
     def extract_attribs(self, task, start, end):
@@ -37,7 +39,6 @@ class Geometry:
                 data = line.strip().split(' = ')
                 new_keys = re.sub(' ', '_', data[0])
                 attribs[new_keys] = data[1]
-
         return attribs
 
 
@@ -71,7 +72,6 @@ class FilesStrings(Geometry):
         self.s14 = 'Profile Data File: {}'.format(path.basename(Attribs(task).MainBlade.Input_Filename))
 
     def make_s4(self, task):
-
         if Attribs(task).splitter_blade_attribs == {}:
             blades_per_set = int(Attribs(task).MainBlade.Blade_Number)
             s4 = 'Number of Blades Per Set: {}'.format(blades_per_set + 1)
@@ -79,18 +79,15 @@ class FilesStrings(Geometry):
             SplitterBlade = type('SplitterBlade', (), Attribs(task).splitter_blade_attribs)
             blades_per_set = int(SplitterBlade.Blade_Number)
             s4 = 'Number of Blades Per Set: {}'.format(blades_per_set + 1)
-
         return s4
 
     def make_s8_s9(self, edgeType, LeTe):
-
         blade_type = edgeType
         if blade_type == 'Single':
             blade_type = 'EllipseEnd'
         else:
             blade_type = 'CutOffEnd'
         s8_s9 = 'Blade 0 {}: {}'.format(LeTe, blade_type)
-
         return s8_s9
 
     def make_s10(self, task):
@@ -104,7 +101,6 @@ class FilesStrings(Geometry):
             else:
                 blade_1_le_type = 'CutOffEnd'
             s10 = 'Blade 1 LE: {}'.format(blade_1_le_type)
-
         return s10
 
     def make_s11(self, task):
@@ -118,14 +114,12 @@ class FilesStrings(Geometry):
             else:
                 blade_1_te_type = 'CutOffEnd'
             s11 = 'Blade 1 TE: {}'.format(blade_1_te_type)
-
         return s11
 
     def create_inf_file(self, task):
         cft_file_name = Geometry(task).obtain_cft_file_name(task)
         inf_file = cft_file_name + '.inf'
         active_dir = path.join(task.ActiveDirectory, inf_file)
-
         mainBlade = Attribs(task).MainBlade
 
         with open(active_dir, 'w') as f:
