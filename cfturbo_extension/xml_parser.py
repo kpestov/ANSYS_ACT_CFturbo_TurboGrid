@@ -89,8 +89,9 @@ class MainDimensions(Impeller):
     def write_main_dimensions(self, task):
         '''
         Updates parameters of main dimensions property group when user changes values in table and writes
-        new .cft-batch file
+        new .cft-batch file.
         :return: refreshed .cft-batch file
+
         '''
 
         # MainDimensions and Impeller classes from xml_parser.py module
@@ -182,9 +183,9 @@ class BladeProperties(Impeller):
 
     def join_blade_properties(self, task):
         '''
-        Join beta_1_angles, beta_2_angles, blade_thickness_le and blade_thickness_te dicts
-        :param task:
+        Join beta_1_angles, beta_2_angles, blade_thickness_le and blade_thickness_te dicts.
         :return: blade_properties dict
+
         '''
         main_blade_element = self.get_main_blade_element(task)
         blade_properties = {}
@@ -246,7 +247,8 @@ class BladeProperties(Impeller):
 
     def write_interpolated_blade_angles(self, task, node, betah, betas):
         '''
-        Writes interpolated values of angles to the Beta1 and Beta2 nodes. By default linear interpolation works
+        Writes interpolated values of angles to the Beta1 and Beta2 nodes. By default linear interpolation works.
+
         '''
         spans = int(self.get_num_spans(task))
 

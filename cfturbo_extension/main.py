@@ -23,8 +23,8 @@ import Ansys.ProjectSchematic
 
 def reset_parameters(task):
     '''
-    Called when try to replace .cft-batch file and resets all parameters to the 0.0 from right table of properties
-    Improvements: add ability to work with rest parameters in the table, not only for Main Dimensions
+    Called when try to replace .cft-batch file and resets all parameters to the 0.0 from right table of properties.
+
     '''
     prop_group_list = ['MainDimensions', 'BladeProperties', 'BladeMeanLines', 'Meridian', 'BladeProfiles']
     for i in prop_group_list:
@@ -46,8 +46,9 @@ def del_cfturbo_files(task):
 
 def get_cft_batch_path(task):
     '''
-    Extract .cft-batch file path from property 'Input File Name'
+    Extract .cft-batch file path from property 'Input File Name'.
     :return: file path ..\*.cft-batch
+
     '''
     group = task.Properties["CFTurbo batch file"]
     cft_batch_file_path = group.Properties["InputFileName"]
@@ -81,7 +82,8 @@ def reset(task):
 
 def status(task):
     '''
-    Changes status of the cell if there is no .cft-file in the working directory
+    Changes status of the cell if there is no .cft-file in the working directory.
+
     '''
     dir_list = os.listdir(task.ActiveDirectory)
 
@@ -96,8 +98,9 @@ def status(task):
 
 def input_file_valid(task, property):
     '''
-    Check whether the file path exists in the cell property 'Input File Name'
+    Check whether the file path exists in the cell property 'Input File Name'.
     :return: bool
+
     '''
     if path.exists(property.Value):
         return True
@@ -106,8 +109,9 @@ def input_file_valid(task, property):
 
 def copy_cft_file(task):
     '''
-    Copy .cft file from user_files dir to .\ACT dir of the project. If there is no .cft file if use_files dir raises
+    Copy .cft file from user_files dir to .\ACT dir of the project. If there is no .cft file if use_files dir raises.
     :return: working directory of the task group
+
     '''
     container = task.InternalObject
 
@@ -168,6 +172,7 @@ def edit(task):
     '''
     Called when click RMB on the cell 'CFTurbo Design'. User selects file .cft-batch in opened window and if attempt is
     successful copies .cft-batch file from user_files dir to .\ACT dir of the project.
+
     '''
     fileRef = None
 
@@ -246,7 +251,8 @@ def edit(task):
 
 def insert_dimensions(task):
     '''
-    Insert main dimensions of impeller to the table of properties of cell#1
+    Insert main dimensions of impeller to the table of properties of cell#1.
+
     '''
     try:
         # if there is no .cft-file in user_files directory raise exception
@@ -356,7 +362,8 @@ def update_blade_profiles(task):
 
 def get_dp_name():
     """
-        Method to get current design point name
+        Method to get current design point name.
+
     """
     currDP = Parameters.GetActiveDesignPoint()
     return "dp"+currDP.Name
@@ -385,7 +392,7 @@ def change_path_in_cft_batch(*args):
 def update(task):
     InputFileName = task.Properties["CFTurbo batch file"].Properties["InputFileName"]
 
-    if is_dp0() == True:
+    if is_dp0():
         pass
     else:
         InputFileName.Value = change_dp_name(InputFileName.Value)
@@ -402,8 +409,9 @@ def update(task):
 
 def get_exe_cft_path(func):
     """
-        Extract release number and find path to cfturbo.exe
+        Extract release number and find path to cfturbo.exe.
         :return: path to cfturbo.exe
+
     """
     def wrapper():
         latest_release = 0
@@ -419,8 +427,9 @@ def get_exe_cft_path(func):
 @get_exe_cft_path
 def get_cft_var_list():
     """
-        Get list of system variables and find only CFTURBO vars
+        Get list of system variables and find only CFTURBO vars.
         :return: list of CFTURBO versions
+
     """
     var_list = [key for key in os.environ.keys() if re.findall(r'CFTURBO\d+_ROOT', key)]
     if not var_list:
@@ -441,6 +450,7 @@ def launch_cfturbo(task):
 def cfturbo_start(task):
     '''
     Main function for starting CFturbo and writing .inf file.
+
     '''
     launch_cfturbo(task)
 
@@ -459,7 +469,7 @@ def cfturbo_start(task):
 
     # check if the .inf file is associated with WB project
     isRegistered = IsFileRegistered(FilePath=TurboGridInputFiles)
-    if isRegistered == True:
+    if isRegistered:
         fileRef = GetRegisteredFile(FilePath=TurboGridInputFiles)
     else:
         fileRef = RegisterFile(FilePath=TurboGridInputFiles)
