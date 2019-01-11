@@ -1,0 +1,120 @@
+<CFturboFile Version="10.3">
+	<CFturboBatchProject InputFile=".\mixed_pump_10_3.cft">
+		<Updates>
+			<CFturboProject Type="Object" Version="10.3">
+				<CFturboDesign_RadialImpeller Info="TeAM SolidSQUAD-SSQ (3/4/4294967295)" Name="Radial Impeller" Type="Object">
+					<MainDimensions Type="Object">
+						<MainDimensionsElement Name="Version 1." Type="Object">
+							<dN Caption="Hub diameter" Desc="Inner diameter at inlet side" Type="Float">0.035</dN>
+							<dS Caption="Suction diameter" Desc="Outer diameter at inlet side" Type="Float">0.103</dS>
+							<b2 Caption="Outlet width" Desc="Distance between hub and shroud at outlet" Type="Float">0.0238</b2>
+							<d2 Caption="Impeller diameter" Desc="Defined at midline position" Type="Float">0.121</d2>
+						</MainDimensionsElement>
+					</MainDimensions>
+					<Meridian Type="Object">
+						<HUB_CtrlPntList Caption="Hub Contour Controls" Count="5" Desc="Contains all editable control points of this contour." Type="Array1">
+							<Value Index="0" Type="Vector2">
+								<x Type="Float">0</x>
+								<y Type="Float">0.0175</y>
+							</Value>
+							<Value Index="1" Type="Vector2">
+								<x Type="Float">0.0186369334346545</x>
+								<y Type="Float">0.0175</y>
+							</Value>
+							<Value Index="2" Type="Vector2">
+								<x Type="Float">0.0248492445795393</x>
+								<y Type="Float">0.0175</y>
+							</Value>
+							<Value Index="3" Type="Vector2">
+								<x Type="Float">0.0395231179690814</x>
+								<y Type="Float">0.0397299999207496</y>
+							</Value>
+							<Value Index="4" Type="Vector2">
+								<x Type="Float">0.0493057002287761</x>
+								<y Type="Float">0.054549999867916</y>
+							</Value>
+						</HUB_CtrlPntList>
+						<SHR_CtrlPntList Caption="Shroud Contour Controls" Count="5" Desc="Contains all editable control points of this contour." Type="Array1">
+							<Value Index="0" Type="Vector2">
+								<x Type="Float">0</x>
+								<y Type="Float">0.0515</y>
+							</Value>
+							<Value Index="1" Type="Vector2">
+								<x Type="Float">0.00910028528698741</x>
+								<y Type="Float">0.0515</y>
+							</Value>
+							<Value Index="2" Type="Vector2">
+								<x Type="Float">0.0166934890591137</x>
+								<y Type="Float">0.0515</y>
+							</Value>
+							<Value Index="3" Type="Vector2">
+								<x Type="Float">0.0238939730863798</x>
+								<y Type="Float">0.0604700000792504</y>
+							</Value>
+							<Value Index="4" Type="Vector2">
+								<x Type="Float">0.0286942957712239</x>
+								<y Type="Float">0.066450000132084</y>
+							</Value>
+						</SHR_CtrlPntList>
+						<GeoLeadingEdge_u-Hub Caption="Hub" Desc="relative position at hub" Type="Float">0.443233</GeoLeadingEdge_u-Hub>
+						<GeoLeadingEdge_u-Shroud Caption="Shroud" Desc="relative position at shroud" Type="Float">0.19019961</GeoLeadingEdge_u-Shroud>
+						<DeltaZ Caption="Axial extension" Desc="Extension from meridional inlet to outlet" Type="Float">0.038999998</DeltaZ>
+					</Meridian>
+					<BladeProperties Type="Object">
+						<nBl Caption="Number of blades" Desc="Number of blades (incl. splitter)" Type="Integer">6</nBl>
+						<TReadWriteArray_TBladeProps Name="BladeValues" Type="Object">
+							<TBladeProps Index="0" Name="Main blade" Type="Object">
+								<sLEH Caption="Thickness LE@hub" Desc="Blade thickness at leading edge hub" Type="Float">0.003</sLEH>
+								<sLES Caption="Thickness LE@shroud" Desc="Blade thickness at leading edge shroud" Type="Float">0.002</sLES>
+								<sTEH Caption="Thickness TE@hub" Desc="Blade thickness at trailing edge hub" Type="Float">0.003</sTEH>
+								<sTES Caption="Thickness TE@shroud" Desc="Blade thickness at trailing edge shroud" Type="Float">0.002</sTES>
+								<Beta1 Caption="Blade angle leading edge" Count="5" Desc="Blade angle at leading edge" Type="Array1">
+									<Value Index="0" Type="Float">0.6038839</Value>
+									<Value Index="4" Type="Float">0.30247625</Value>
+								</Beta1>
+								<Beta2 Caption="Blade angle trailing edge" Count="5" Desc="Blade angle at trailing edge" Type="Array1">
+									<Value Index="0" Type="Float">0.6254426</Value>
+									<Value Index="4" Type="Float">0.3407226</Value>
+								</Beta2>
+							</TBladeProps>
+						</TReadWriteArray_TBladeProps>
+					</BladeProperties>
+					<SkeletonLines Type="Object">
+						<TMeanSurfSet Type="Object">
+							<TReadWriteArray_MeanSurface Type="Object">
+								<MeanSurface Index="0" Name="Mean surface" Type="Object">
+									<TReadWriteArray_TMeanLine Type="Object">
+										<TMeanLine Index="0" Type="Object">
+											<lePos Caption="Leading edge position" Desc="LE circumferential angle" Type="Float">0</lePos>
+											<tePos Caption="Trailing edge position" Desc="TE circumferential angle" Type="Float">1.2217305</tePos>
+											<ParRel1 Caption="Point near LE@Blade angle" Desc="Relative m position" Type="Float">0.289641465997042</ParRel1>
+											<ParRel2 Caption="Point near TE@Blade angle" Desc="Relative m position" Type="Float">0.696792889076864</ParRel2>
+										</TMeanLine>
+										<TMeanLine Index="4" Type="Object">
+											<lePos Caption="Leading edge position" Desc="LE circumferential angle" Type="Float">0</lePos>
+											<tePos Caption="Trailing edge position" Desc="TE circumferential angle" Type="Float">1.2217305</tePos>
+											<ParRel1 Caption="Point near LE@Blade angle" Desc="Relative m position" Type="Float">0.263149436551892</ParRel1>
+											<ParRel2 Caption="Point near TE@Blade angle" Desc="Relative m position" Type="Float">0.701009818460714</ParRel2>
+										</TMeanLine>
+									</TReadWriteArray_TMeanLine>
+								</MeanSurface>
+							</TReadWriteArray_MeanSurface>
+						</TMeanSurfSet>
+					</SkeletonLines>
+					<BladeProfiles Type="Object">
+						<Main_Hub_PS Caption="Distance to pressure side @hub" Count="2" Desc="Inner control points distance to mean line" Type="Array1">
+							<Value Index="0" Type="Float">300</Value>
+							<Value Index="1" Type="Float">0.0015</Value>
+						</Main_Hub_PS>
+						<Main_Shr_PS Caption="Distance to pressure side @shroud" Count="2" Desc="Inner control points distance to mean line" Type="Array1">
+							<Value Index="0" Type="Float">0.001</Value>
+							<Value Index="1" Type="Float">0.001</Value>
+						</Main_Shr_PS>
+					</BladeProfiles>
+				</CFturboDesign_RadialImpeller>
+			</CFturboProject>
+		</Updates>
+		<BatchAction AllComponents="" BaseFileName="mixed_pump_10_3" ExportInterface="TurboGrid" Name="Export" WorkingDir=".\" />
+		<BatchAction Desc="CFT file name of modified project" Name="Save" OutputFile="mixed_pump_10_3_modified" />
+	</CFturboBatchProject>
+</CFturboFile>

@@ -1,6 +1,6 @@
 venv
 .idea
-cfturbo_extension/cfturbo_files/
-cfturbo_extension/old_modules/
-cfturbo_extension/test/
+CFturboAddOn/cfturbo_files/
+CFturboAddOn/old_modules/
+CFturboAddOn/test/
 
