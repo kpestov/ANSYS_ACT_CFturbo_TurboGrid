@@ -1,6 +1,11 @@
 """This module contains main callbacks that are responsible for loading the input file, updating and resetting
 parameters.
 
+Contacts:
+Kirill Pestov
+kpestov91@gmail.com
+https://github.com/kpestov
+
 """
 
 import re
