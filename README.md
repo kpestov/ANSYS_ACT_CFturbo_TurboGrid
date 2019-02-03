@@ -21,6 +21,6 @@ See it in doc/CFturbo_Add-on_v1.0.pdf on the last page of documentation
 - Errors and exceptions
 - Python decorators
 - OOP principles
-- Create classes on the fly with type()
+- Create classes on the fly with a type()
 - Run external programs
 
